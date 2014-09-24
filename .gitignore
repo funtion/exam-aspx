@@ -181,3 +181,4 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+/exam-aspx/exam-aspx/exam_aspx.csproj
