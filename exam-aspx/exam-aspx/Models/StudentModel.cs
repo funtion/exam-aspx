@@ -7,8 +7,10 @@ using System.Data.Odbc;
 
 namespace exam_aspx.Models
 {
+    
     public class StudentModel:BaseModel
     {
+        
         public bool login(string sid,string password)
         {
 
