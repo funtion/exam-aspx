@@ -11,24 +11,22 @@ namespace exam_aspx.Tests
     public class ResultTest
     {
         [TestMethod]
-        public void TestgetResultById()
+        public void TestGetResultById()
         {
             
             ResultModel model = new ResultModel();
             ResultEntity result = model.getResultById(1);
             Assert.IsNotNull(result);
+            //[{"test":"test","name":"medition"},{"test":"test1","name":"medition1"}]
             Console.WriteLine(result.id);
-            JArray resArray =(JArray) JsonConvert.DeserializeObject(result.mQuestion);
+            JArray resArray =(JArray) JsonConvert.DeserializeObject(result.sQuestion);
             for (int i = 0; i < resArray.Count; i++)
             {
                 Console.WriteLine(resArray[i]["test"].ToString());
                 Console.WriteLine(resArray[i]["name"].ToString());
 
-            }
-            
-            
-            
-            
+            }           
         }
+       
     }
 }
