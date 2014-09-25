@@ -111,6 +111,6 @@ CREATE TABLE `teacher` (
   `password` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_UNIQUE` (`user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
+) ENGINE=InnoDB DEFAULT CHARSET=utf8$$student
 
 
