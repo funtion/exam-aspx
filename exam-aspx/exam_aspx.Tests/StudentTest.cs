@@ -13,7 +13,7 @@ namespace exam_aspx.Tests
         {
             StudentModel model = new StudentModel();
             Assert.IsTrue(model.login("12345678", "abc"));
-            Assert.IsFalse(model.login(" Or 1 -- ;", "nonono"));
+            Assert.IsFalse(model.login(" Or 1=1 -- ;", "nonono"));
         }
         
     }
