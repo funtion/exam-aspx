@@ -13,9 +13,9 @@ namespace exam_aspx.Entity
         public string sQuestion  { get; set; }
         public string mQuestion  { get; set; }
         public string tQuestion  { get; set; }
-        public float sScore { get; set; }
-        public float mScore  { get; set; }
-        public float tScore  { get; set; }
+        public double sScore { get; set; }
+        public double mScore  { get; set; }
+        public double tScore  { get; set; }
 
     }
 }
