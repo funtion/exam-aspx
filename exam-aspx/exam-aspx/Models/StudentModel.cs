@@ -11,13 +11,14 @@ namespace exam_aspx.Models
     public class StudentModel:BaseModel
     {
         
+        
         public bool login(string sid,string password)
         {
 
             OdbcCommand command = new OdbcCommand("select * from student where sid = ? and password = ?",connection);
-            command.Parameters.Add(new OdbcParameter("sid", OdbcType.VarChar)).Value = sid;
-            command.Parameters.Add(new OdbcParameter("password", OdbcType.VarChar)).Value = password;
-            command.Prepare();
+            
+            command.AddParam("sid",OdbcType.VarChar,sid);
+            command.AddParam("password",OdbcType.VarChar,password);
             OdbcDataReader reader =  command.ExecuteReader();
             return reader.HasRows;
         }
@@ -30,5 +31,6 @@ namespace exam_aspx.Models
             command.Parameters.Add(new OdbcParameter("password", OdbcType.VarChar)).Value = student.password;
             command.ExecuteNonQuery();
         }
+
     }
 }
