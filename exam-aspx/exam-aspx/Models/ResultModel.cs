@@ -9,11 +9,60 @@ namespace exam_aspx.Models
 {
     public class ResultModel : BaseModel
     {
-        public ResultEntity getResultById(int uid)
+        public List<ResultEntity> getResultByStudentId(int studentId)
+        {
+            List<ResultEntity> resultList = new List<ResultEntity>();
+            OdbcCommand command = new OdbcCommand("select * from result where studentId=?", connection);
+            command.Parameters.Add(new OdbcParameter("studentId", OdbcType.Int)).Value = studentId;
+            command.Prepare();
+            OdbcDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                ResultEntity result = new ResultEntity();
+                result.id = reader.GetInt32(0);
+                result.studentId = reader.GetInt32(1);
+                result.examinationId = reader.GetInt32(2);
+                result.sQuestion = reader.GetString(3);
+                result.mQuestion = reader.GetString(4);
+                result.tQuestion = reader.GetString(5);
+                result.sScore = reader.GetDouble(6);
+                result.mScore = reader.GetDouble(7);
+                result.tScore = reader.GetDouble(8);
+                resultList.Add(result);
+            }
+            return resultList;
+        }
+
+
+        public List<ResultEntity> getResultByExaminationId(int examinationId)
+        {
+            List<ResultEntity> resultList = new List<ResultEntity>();
+            OdbcCommand command = new OdbcCommand("select * from result where examinationId=?", connection);
+            command.Parameters.Add(new OdbcParameter("examinationId", OdbcType.Int)).Value = examinationId;
+            command.Prepare();
+            OdbcDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                ResultEntity result = new ResultEntity();
+                result.id = reader.GetInt32(0);
+                result.studentId = reader.GetInt32(1);
+                result.examinationId = reader.GetInt32(2);
+                result.sQuestion = reader.GetString(3);
+                result.mQuestion = reader.GetString(4);
+                result.tQuestion = reader.GetString(5);
+                result.sScore = reader.GetDouble(6);
+                result.mScore = reader.GetDouble(7);
+                result.tScore = reader.GetDouble(8);
+                resultList.Add(result);
+            }
+            return resultList;
+
+        }
+        public ResultEntity getResultById(int id)
         {
             ResultEntity result = null;
             OdbcCommand command = new OdbcCommand("select * from result where id=?", connection);
-            command.Parameters.Add(new OdbcParameter("id", OdbcType.Int)).Value = uid;
+            command.Parameters.Add(new OdbcParameter("id", OdbcType.Int)).Value = id;
             command.Prepare();
             OdbcDataReader reader = command.ExecuteReader();
             if (reader.Read())
@@ -25,12 +74,34 @@ namespace exam_aspx.Models
                 result.sQuestion = reader.GetString(3);
                 result.mQuestion = reader.GetString(4);
                 result.tQuestion = reader.GetString(5);
-                result.sScore = reader.GetInt32(6);
-                result.mScore = reader.GetInt32(7);
-                result.tScore = reader.GetInt32(8);
-          
+                result.sScore = reader.GetDouble(6);
+                result.mScore = reader.GetDouble(7);
+                result.tScore = reader.GetDouble(8);
+                
             }
             return result;
         }
+        
+        public int insertResult(int studentId,int examinationId,string sQuestion,string mQuestion,string tQuestion,double sScore,double mScore,double tScore)
+        {
+            OdbcCommand command = new OdbcCommand("insert into result(studentId,examinationId,sQuestion,mQuestion,tQuestion,sScore,mScore,tScore) values (?,?,?,?,?,?,?,?)", connection);
+            command.Parameters.Add(new OdbcParameter("studentId", OdbcType.Int)).Value = studentId;
+            command.Parameters.Add(new OdbcParameter("examinationId", OdbcType.Int)).Value = examinationId;
+            command.Parameters.Add(new OdbcParameter("sQuestion", OdbcType.VarChar)).Value = sQuestion;
+            command.Parameters.Add(new OdbcParameter("mQuestion", OdbcType.VarChar)).Value = mQuestion;
+            command.Parameters.Add(new OdbcParameter("tQuestion", OdbcType.VarChar)).Value = tQuestion;
+            command.Parameters.Add(new OdbcParameter("sScore", OdbcType.Double)).Value = sScore;
+            command.Parameters.Add(new OdbcParameter("mScore", OdbcType.Double)).Value = mScore;
+            command.Parameters.Add(new OdbcParameter("tScore", OdbcType.Double)).Value = tScore;
+            return command.ExecuteNonQuery();
+
+        }
+        public int deleteResultById(int id)
+        {
+            OdbcCommand command = new OdbcCommand("delete from result where id=?", connection);
+            command.Parameters.Add(new OdbcParameter("id", OdbcType.Int)).Value = id;
+            return command.ExecuteNonQuery();
+        }
+        
     }
 }
