@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Odbc;
 using System.Linq;
 using System.Web;
+using exam_aspx.Entity;
 
 namespace exam_aspx.Models
 {
