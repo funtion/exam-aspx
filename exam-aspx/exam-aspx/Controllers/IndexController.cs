@@ -29,7 +29,7 @@ namespace exam_aspx.Controllers
             {
                 Session["student"] = studentID;
                 Session.Timeout = 300;
-                return View();
+                return Redirect("/Student");
             }
             else
             {
