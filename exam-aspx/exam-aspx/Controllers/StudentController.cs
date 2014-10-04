@@ -31,6 +31,24 @@ namespace exam_aspx.Controllers
             ViewData["announcement"]=data;
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Announcement(int id)
+        {
+            int sid = getSid();
+            if (sid == -1)
+            {
+                return Redirect("/Index/Index");
+            }
+            AnnouncementModel model = new AnnouncementModel();
+            var data = model.getAnnouncementByID(id);
+            if (data == null)
+                return Redirect("/Student/Index");
+            ViewBag.data = data;
+            return View();
+        }
+
+
         [HttpGet]
         public ActionResult Exam()
         {

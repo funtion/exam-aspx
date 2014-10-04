@@ -17,6 +17,7 @@ namespace exam_aspx.Models
             while(reader.Read())
             {
                 AnnouncementEntity tmp = new AnnouncementEntity();
+                tmp.id      = reader.GetInt32(0);
                 tmp.content = reader.GetString(1);
                 tmp.title   = reader.GetString(2);
                 tmp.display = reader.GetInt32(3);
@@ -40,6 +41,22 @@ namespace exam_aspx.Models
             var cmd = buildCommand("delete from announcement where id = ?");
             cmd.AddParam("id", System.Data.Odbc.OdbcType.Int,id);
             return cmd.ExecuteNonQuery();
+        }
+        public AnnouncementEntity getAnnouncementByID(int id)
+        {
+            var cmd = buildCommand("select * from announcement where id=?");
+            cmd.AddIntParam("id", id);
+            var reader = cmd.ExecuteReader();
+            if (!reader.HasRows)
+                return null;
+            reader.Read();
+            AnnouncementEntity tmp = new AnnouncementEntity();
+            tmp.id = reader.GetInt32(0);
+            tmp.content = reader.GetString(1);
+            tmp.title = reader.GetString(2);
+            tmp.display = reader.GetInt32(3);
+            tmp.time = reader.GetDateTime(4);
+            return tmp;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace exam_aspx.Entity
     public class AnnouncementEntity
     {
         public string title,content;
-        public int display;
+        public int display,id;
         public DateTime time;
     }
 }

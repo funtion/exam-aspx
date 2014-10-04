@@ -41,8 +41,9 @@
                     @foreach(var announce in (AnnouncementEntity[])ViewData["announcement"])
                     {
                         <tr>
-                            <td>
-                                @announce.title
+                            <td >
+                                <a href="/Student/Announcement/@announce.id">@announce.title</a>
+                                
                             </td>
                             <td>
                                 @announce.time
