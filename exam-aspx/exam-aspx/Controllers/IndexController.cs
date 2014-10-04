@@ -34,7 +34,8 @@ namespace exam_aspx.Controllers
             else
             {
                 ViewBag.login_failed = true ;
-                return View("Index");
+                //return Redirect("index");
+                return View("index");
             }
 
         }
