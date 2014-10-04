@@ -13,6 +13,15 @@ namespace exam_aspx.Models
         {
             cmd.Parameters.Add(new OdbcParameter(name, type)).Value = value;
         }
+        public static void AddVarcharParam(this OdbcCommand cmd, string name, string value)
+        {
+            cmd.Parameters.Add(new OdbcParameter(name, OdbcType.VarChar)).Value = value;
+        }
+        public static void AddIntParam(this OdbcCommand cmd, string name, int value)
+        {
+            cmd.Parameters.Add(new OdbcParameter(name, OdbcType.Int)).Value = value;
+        }
+
     }
 
     public class BaseModel

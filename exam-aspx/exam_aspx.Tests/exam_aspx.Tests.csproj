@@ -102,8 +102,10 @@
     <Compile Include="dbTest.cs" />
     <Compile Include="StudentTest.cs" />
     <Compile Include="ResultTest.cs" />
-    <Compile Include="ExamTest1.cs" />
-    <Compile Include="LimitUserTest1.cs" />
+    <Compile Include="ExamTest.cs" />
+    <Compile Include="LimitUserTest.cs" />
+    <Compile Include="AnnouncementTest.cs" />
+    <Compile Include="FileTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

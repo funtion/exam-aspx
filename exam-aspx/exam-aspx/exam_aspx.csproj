@@ -136,14 +136,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Entity\AnnouncementEntity.cs" />
     <Compile Include="Entity\ExamEntity.cs" />
+    <Compile Include="Entity\FileEntity.cs" />
     <Compile Include="Entity\ResultEntity.cs" />
     <Compile Include="Entity\StudentEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AnnouncementModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\ExamModel.cs" />
+    <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\LimitUserModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StudentModel.cs" />
