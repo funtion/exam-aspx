@@ -14,6 +14,7 @@ namespace exam_aspx.Models
             cmd.Parameters.Add(new OdbcParameter(name, type)).Value = value;
         }
     }
+
     public class BaseModel
     {
         protected OdbcConnection connection { get; set; }
@@ -23,6 +24,10 @@ namespace exam_aspx.Models
             String connectStr = "DRIVER={MySQL ODBC 5.2 Unicode Driver};Database=exam;Server=localhost;UID=user08;PWD=user08;";
             connection = new OdbcConnection(connectStr);
             connection.Open();
+        }
+        public OdbcCommand buildCommand(string sql)
+        {
+            return new OdbcCommand(sql, connection);
         }
     }
 }

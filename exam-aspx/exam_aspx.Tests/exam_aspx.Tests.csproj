@@ -103,6 +103,7 @@
     <Compile Include="StudentTest.cs" />
     <Compile Include="ResultTest.cs" />
     <Compile Include="ExamTest1.cs" />
+    <Compile Include="LimitUserTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

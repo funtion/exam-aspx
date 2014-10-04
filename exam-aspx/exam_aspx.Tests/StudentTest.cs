@@ -13,8 +13,8 @@ namespace exam_aspx.Tests
         public void TestLogin()
         {
             
-            Assert.IsTrue(model.login("12345678", "abc"));
-            Assert.IsFalse(model.login(" Or 1=1 -- ;", "nonono"));
+            Assert.AreEqual (model.login("12345678", "abc"),1);
+            Assert.AreEqual(model.login(" Or 1=1 -- ;", "nonono"),-1);
         }
 
         [TestMethod]
@@ -23,8 +23,13 @@ namespace exam_aspx.Tests
             string sid = "123", name = "aaa", password = "bbbb";
             StudentEntity student = new StudentEntity(sid,name,password);
             model.register(student);
-            Assert.IsTrue(model.login(sid, password));
-
+            Assert.AreEqual( model.login(sid, password) ,2);
+        }
+        [TestMethod]
+        public void TestIsRegisted()
+        {
+            Assert.IsTrue(model.isRegisted("12345678"));
+            Assert.IsFalse(model.isRegisted("987654321"));
         }
         
     }

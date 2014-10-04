@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "首页";
+}
+
+@section script{
+    @if (ViewBag.login_failed != null)
+    {
+        <script type="text/javascript">
+               alert( '学号或密码错误' );
+        </script>
+    }
+
+}
+
+<h1>学生登陆</h1>
+<form action="/Index/Login" method="post">
+    <label>学号</label><input type="text" name="sid"/><br />
+    <label>密码</label><input type="password" name="password"/><br />
+    <input type="submit" value="登录"/><br />
+</form>
+
+
+
