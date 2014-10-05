@@ -67,6 +67,22 @@ namespace exam_aspx.Controllers
             {
                 return Redirect("/Index/Index");
             }
+            var model = new ResultModel();
+            var data = model.getResultByStudentId(sid);
+            ViewBag.data = data;
+            return View();
+        }
+        [HttpGet]
+        public ActionResult ResultDetail(int id)
+        {
+            int sid = getSid();
+            if (sid == -1)
+            {
+                return Redirect("/Index/Index");
+            }
+            var model = new ResultModel();
+            var data = model.getResultById(id);
+            ViewBag.data = data;
             return View();
         }
         [HttpGet]
@@ -77,6 +93,8 @@ namespace exam_aspx.Controllers
             {
                 return Redirect("/Index/Index");
             }
+            var model = new FileModel();
+            ViewBag.data = model.getFiles();
             return View();
         }
         [HttpGet]

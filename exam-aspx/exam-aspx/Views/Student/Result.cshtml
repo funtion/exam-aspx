@@ -23,3 +23,58 @@
         </div>
     </div>
 </nav>
+
+<div class="container" role="main">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            判断题得分
+                        </th>
+                        <th>
+                            多选题得分
+                        </th>
+                        <th>
+                            单选题得分
+                        </th>
+                        <th>
+                            总分
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var result in ViewBag.data)
+                    {
+                        <tr>
+                            <td>
+                                @result.id
+
+                            </td>
+                            <td>
+                                @Math.Round(@result.tScore,1)
+                                
+                            </td>
+                            <td>
+                                @Math.Round(@result.mScore,1)
+                               
+                            </td>
+                            <td>
+                                @Math.Round(@result.sScore,1)
+                            </td>
+                            <td>
+                                @Math.Round(@result.sScore + @result.tScore + @result.mScore, 1)
+                            </td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

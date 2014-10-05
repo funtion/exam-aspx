@@ -23,3 +23,43 @@
         </div>
     </div>
 </nav>
+
+<div class="container" role="main">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            文件名
+                        </th>
+                        <th>
+                            时间
+                        </th>
+                        <th>
+                            大小
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var file in ViewBag.data)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@file.path">@file.name</a>
+                            </td>
+                            <td>
+                                @file.time
+                            </td>
+                            <td>
+                                @file.size KB
+                            </td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
