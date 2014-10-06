@@ -29,5 +29,10 @@ namespace exam_aspx.Tests
         {
             Assert.AreEqual(1, model.deleFile(2));
         }
+        [TestMethod]
+        public void TestGetNumberOfFile()
+        {
+            Assert.AreEqual(1, model.getTheNumberOfFile());
+        }
     }
 }

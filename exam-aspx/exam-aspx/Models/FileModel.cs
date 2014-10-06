@@ -10,9 +10,11 @@ namespace exam_aspx.Models
 {
     public class FileModel:BaseModel
     {
-        public FileEntity[] getFiles()
+        public FileEntity[] getFiles(int start=0,int end=10)
         {
-            var cmd = buildCommand("select * from file order by time desc");
+            var cmd = buildCommand("select * from file order by time desc limit ?,?");
+            cmd.AddIntParam("strat", start);
+            cmd.AddIntParam("end", end);
             var result = new List<FileEntity>();
             var reader = cmd.ExecuteReader();
             while(reader.Read())
@@ -38,9 +40,17 @@ namespace exam_aspx.Models
 
         public int deleFile(int id)
         {
-            var cmd = buildCommand("delete from file where id-?");
+            var cmd = buildCommand("delete from file where id=?");
             cmd.AddIntParam("id", id);
             return cmd.ExecuteNonQuery();
+        }
+
+        public int getTheNumberOfFile()
+        {
+            var cmd = buildCommand("select count(*) from file");
+            var reader = cmd.ExecuteReader();
+            reader.Read();
+            return reader.GetInt32(0);
         }
     }
 }

@@ -89,7 +89,7 @@ namespace exam_aspx.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult File()
+        public ActionResult File(int start=0,int size=10)
         {
             int sid = getSid();
             if (sid == -1)
@@ -97,7 +97,10 @@ namespace exam_aspx.Controllers
                 return Redirect("/Index/Index");
             }
             var model = new FileModel();
-            ViewBag.data = model.getFiles();
+            ViewBag.data = model.getFiles(start, start + size);
+            ViewBag.count = model.getTheNumberOfFile();
+            ViewBag.size = size;
+
             return View();
         }
         [HttpGet]
