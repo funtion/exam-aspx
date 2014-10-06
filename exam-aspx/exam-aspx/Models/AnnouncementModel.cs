@@ -9,9 +9,11 @@ namespace exam_aspx.Models
 {
     public class AnnouncementModel:BaseModel
     {
-        public AnnouncementEntity[] getAnnouncements(int limit=5)
+        public AnnouncementEntity[] getAnnouncements(int start,int end)
         {
-            var cmd = buildCommand("select * from announcement where display=1 order by time desc");
+            var cmd = buildCommand("select * from announcement where display=1 order by time desc limit ?,?");
+            cmd.AddIntParam("start", start);
+            cmd.AddIntParam("end", end);
             var reader = cmd.ExecuteReader();
             var result = new List<AnnouncementEntity>();
             while(reader.Read())
@@ -25,6 +27,14 @@ namespace exam_aspx.Models
                 result.Add(tmp);
             }
             return result.ToArray();
+        }
+
+        public int getNumberOfDisplayAnnouncement()
+        {
+            var cmd = buildCommand("select count(*) from announcement where display = 1");
+            var reader = cmd.ExecuteReader();
+            reader.Read();
+            return reader.GetInt32(0);
         }
 
         public int addAnnouncement(string title,string content,int display=1)

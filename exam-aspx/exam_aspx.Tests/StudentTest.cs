@@ -21,7 +21,7 @@ namespace exam_aspx.Tests
         public void TestRegister()
         {
             string sid = "123", name = "aaa", password = "bbbb";
-            StudentEntity student = new StudentEntity(sid,name,password);
+            StudentEntity student = new StudentEntity() { sid=sid,name=name,password=password};
             model.register(student);
             Assert.AreEqual( model.login(sid, password) ,2);
         }

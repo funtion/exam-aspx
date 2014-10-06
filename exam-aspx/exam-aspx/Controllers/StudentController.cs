@@ -19,7 +19,7 @@ namespace exam_aspx.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index()//公告
+        public ActionResult Index(int start=0,int size=10)//公告
         {
             int sid = getSid();
             if (sid == -1)
@@ -27,8 +27,11 @@ namespace exam_aspx.Controllers
                 return Redirect("/Index/Index");
             }
             AnnouncementModel model = new AnnouncementModel();
-            var data = model.getAnnouncements();
-            ViewData["announcement"]=data;
+            int count = model.getNumberOfDisplayAnnouncement();
+            var data = model.getAnnouncements(start,start+size);
+            ViewBag.announcement=data;
+            ViewBag.count = count;
+            ViewBag.size = size;
             return View();
         }
 

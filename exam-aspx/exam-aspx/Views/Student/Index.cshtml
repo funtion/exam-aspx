@@ -38,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(var announce in (AnnouncementEntity[])ViewData["announcement"])
+                    @foreach(var announce in ViewBag.announcement)
                     {
                         <tr>
                             <td >
@@ -54,6 +54,25 @@
                     
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="pagination">
+                <li><a href="/Student/Index/">&laquo;</a></li>
+                @{
+                    int num = (@ViewBag.count / @ViewBag.size);
+                    for (int i = 0; i <= num; i++)
+                    {
+                        int start = @i * @ViewBag.size;
+                        int tag = @i + 1;
+                        <li><a href="/Student/Index/?start=@start&size=@ViewBag.size">@tag</a></li>
+                    }
+                    int last = num * @ViewBag.size;
+                    <li><a href="/Student/Index/?start=@last&size=@ViewBag.size">&raquo;</a></li>
+                }
+
+            </ul>
         </div>
     </div>
 </div>

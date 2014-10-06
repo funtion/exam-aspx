@@ -12,12 +12,12 @@ namespace exam_aspx.Tests
         [TestMethod]
         public void TestGetAnnouncement()
         {
-            var res = model.getAnnouncements();
-            Assert.AreEqual(1, res.Length);
-            Assert.AreEqual("tit", res[0].title);
-            Assert.AreEqual("announce", res[0].content);
+            var res = model.getAnnouncements(0,5);
+            Assert.AreEqual(2, res.Length);
+            Assert.AreEqual("test", res[0].title);
+            Assert.AreEqual("test", res[0].content);
             Assert.AreEqual(1, res[0].display);
-            Assert.AreEqual(new DateTime(2014, 10, 4, 15, 45, 41), res[0].time);
+            Assert.AreEqual(new DateTime(2014, 10, 6, 14, 5, 35), res[0].time);
         }
         [TestMethod]
         public void TestAddAnouncement()
@@ -29,6 +29,11 @@ namespace exam_aspx.Tests
         public void TestDelAnnouncement()
         {
             Assert.AreEqual(1,model.delAnnouncement(3));
+        }
+        [TestMethod]
+        public void TestAnnouncementNumber()
+        {
+            Assert.AreEqual(2, model.getNumberOfDisplayAnnouncement());
         }
 
     }
