@@ -103,5 +103,46 @@ namespace exam_aspx.Controllers
             Session["student"] = null;
             return Redirect("/Index/Index");
         }
+
+        [HttpPost]
+        public ActionResult Register()
+        {
+            StudentModel studentModel = new StudentModel();
+            LimitUserModel limituserModel = new LimitUserModel();
+            try
+            {
+                var name = Request.Form["name"];
+                var sid = Request.Form["sid"];
+                var password = Request.Form["password"];
+                if (name == "" || sid == "" || password == "")
+                {
+                    ViewBag.err = "请完整填写信息";
+                    return View("~/Views/Index/Register.cshtml");
+                }
+                if (!limituserModel.isAllowed(sid))
+                {
+                    ViewBag.err = "学号被禁止注册";
+                    return View("~/Views/Index/Register.cshtml");
+                }
+
+                var student = new StudentEntity() {sid=sid,name=name,password=password };
+                var res = studentModel.register(student);
+                if (res != 1)
+                {
+                    ViewBag.err = "注册失败，请检查所填信息";
+                    return View("~/Views/Index/Register.cshtml");
+                }
+                else
+                {
+                    return View("~/Views/Index/Index.cshtml");
+                }
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.err = "注册失败，请检查所填信息";
+                return View("~/Views/Index/Register.cshtml");
+            }
+        }
     }
 }

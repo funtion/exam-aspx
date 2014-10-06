@@ -35,9 +35,14 @@ namespace exam_aspx.Controllers
             {
                 ViewBag.login_failed = true ;
                 //return Redirect("index");
-                return View("index");
+                return View("Index");
             }
 
+        }
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
         }
 
     }

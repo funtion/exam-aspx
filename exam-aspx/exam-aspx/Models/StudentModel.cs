@@ -25,13 +25,13 @@ namespace exam_aspx.Models
             return reader.GetInt32(0);
         }
 
-        public void register(StudentEntity student)
+        public int register(StudentEntity student)
         {
             OdbcCommand command = new OdbcCommand("insert into student(sid,name,password) values(?,?,?)",connection);
             command.Parameters.Add(new OdbcParameter("sid", OdbcType.VarChar)).Value = student.sid ;
             command.Parameters.Add(new OdbcParameter("name", OdbcType.VarChar)).Value = student.name;
             command.Parameters.Add(new OdbcParameter("password", OdbcType.VarChar)).Value = student.password;
-            command.ExecuteNonQuery();
+            return command.ExecuteNonQuery();
         }
 
         public bool isRegisted(string sid)
