@@ -9,7 +9,7 @@ using Spire.Doc.Core;
 using Spire.Doc.Collections;
 using Spire.Doc.Converters;
 using Spire.Doc.Fields;
-
+using System.Data.Odbc;
 namespace exam_aspx.Models
 {
     public class ExamModel:BaseModel
@@ -147,6 +147,45 @@ namespace exam_aspx.Models
             }
             return exam;
         }
-        
+        /// <summary>
+        ///    插入考试
+        /// </summary>
+        /// <param name="time">考试时间</param>
+        /// <param name="sNum">单选数量</param>
+        /// <param name="mNum">多选数量</param>
+        /// <param name="tfNum">判断数量</param>
+        /// <param name="sScore">单选分数</param>
+        /// <param name="mScore">多选分数</param>
+        /// <param name="tfScore">判断分数</param>
+        /// <param name="ready">时候可见，0为不可见，1为课件，默认为0</param>
+        /// <returns>插入成功返回插入的id，-1插入失败，-2获取last_insert_id失败</returns>
+        public int addExam(int time, int sNum, int mNum, int tfNum, double sScore, double mScore, double tfScore, int ready = 0)//ready 初始默认为0
+        {
+            
+            OdbcCommand command = new OdbcCommand("insert into examination(time,sNumber,mNumber,tNumber,sQuestion,mQuestion,tQuestion,ready) values (?,?,?,?,?,?,?,?)", connection);
+            command.Parameters.Add(new OdbcParameter("time", OdbcType.Int)).Value = time;
+            command.Parameters.Add(new OdbcParameter("sNumber", OdbcType.Int)).Value = sNum;
+            command.Parameters.Add(new OdbcParameter("mNumber", OdbcType.Int)).Value = mNum;
+            command.Parameters.Add(new OdbcParameter("tNumber", OdbcType.Int)).Value = tfNum;
+            command.Parameters.Add(new OdbcParameter("sQuestion", OdbcType.Double)).Value = sScore;
+            command.Parameters.Add(new OdbcParameter("mQuestion", OdbcType.Double)).Value = mScore;
+            command.Parameters.Add(new OdbcParameter("tQuestion", OdbcType.Double)).Value = tfScore;
+            command.Parameters.Add(new OdbcParameter("ready", OdbcType.Int)).Value = ready;
+            command.Prepare();
+
+            if (command.ExecuteNonQuery() > 0)
+            {
+                command = new OdbcCommand("select last_insert_id()",connection);
+                command.Prepare();
+                var reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    return reader.GetInt32(0);
+                }
+                return -2;
+            }
+            return -1;
+
+        }
     }
 }

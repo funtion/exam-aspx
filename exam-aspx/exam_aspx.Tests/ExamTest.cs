@@ -8,6 +8,16 @@ namespace exam_aspx.Tests
     [TestClass]
     public class ExamTest
     {
+
+        [TestMethod]
+        public void TestAddExam()
+        {
+            ExamModel model = new ExamModel();
+            int i = model.addExam(20, 3, 3, 3, 2.0, 9.0, 10);
+            Assert.IsTrue(i >  0);
+            Console.WriteLine(i);
+
+        }
         [TestMethod]
         public void TestParse()
         {
@@ -41,6 +51,7 @@ namespace exam_aspx.Tests
             Assert.IsNull(tf0.image);
             Assert.IsNotNull(tf1.image);
             Assert.IsNull(tf2.image);
+            
 
             
 

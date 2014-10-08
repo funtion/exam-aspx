@@ -137,6 +137,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Entity\AnnouncementEntity.cs" />
     <Compile Include="Entity\ExamEntity.cs" />
     <Compile Include="Entity\FileEntity.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Models\ExamModel.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\LimitUserModel.cs" />
+    <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StudentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -292,9 +294,11 @@
     <Content Include="Views\Student\File.cshtml" />
     <Content Include="Views\Student\Announcement.cshtml" />
     <Content Include="Views\Index\Register.cshtml" />
+    <Content Include="Views\Teacher\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="upload\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>

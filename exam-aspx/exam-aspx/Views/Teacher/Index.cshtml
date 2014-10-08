@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+}
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">教师中心</a>
+        </div>
+
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/Teacher/Index">考试管理</a></li>
+                <li><a href="/Teacher/Exam">公告管理</a></li>
+                <li><a href="/Teacher/Result">学生管理</a></li>
+                <li><a href="/Teacher/File">文件管理</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/Teacher/Logout">退出登录</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+       <div class="row">
+          <div class="col-md-4">
+           <form action="/Teacher/AddExam" method="post" enctype="multipart/form-data">
+               <div class="form-group">
+                   <div class="input-group">
+
+                       <input type="file" name="doc">
+                   </div>
+                   <div class="input-group">
+                       <input type="submit" value="submit">
+                   </div>
+               </div>
+            </form>
+          </div>
+    </div>
+</div>
