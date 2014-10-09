@@ -17,8 +17,10 @@ namespace exam_aspx.Entity
     }
     public class ExamEntity
     {
+        public int id;
         public int time;
         public int ready;
+        public string name;
         public int sNumber, tNumber, mNumber;
         public float sScore, tScore, mScore;
         public ArrayList tf, mc, sc;

@@ -18,7 +18,9 @@ namespace exam_aspx.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            
+            ExamModel model = new ExamModel();
+            List<ExamEntity> list = model.getAllExam();
+            ViewBag.examList = list;
             return View();
         }
 
