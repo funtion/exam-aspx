@@ -22,6 +22,8 @@ namespace exam_aspx.Entity
         public int sNumber, tNumber, mNumber;
         public float sScore, tScore, mScore;
         public ArrayList tf, mc, sc;
+        public string name;
+        public int id;
         public ExamEntity() 
         {
             tf = new ArrayList();

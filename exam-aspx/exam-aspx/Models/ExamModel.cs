@@ -185,7 +185,22 @@ namespace exam_aspx.Models
                 return -2;
             }
             return -1;
-
+        }
+        public List<ExamEntity> getAvailableExam()
+        {
+            var cmd = buildCommand("select * from examination where ready = 1");
+            var reader = cmd.ExecuteReader();
+            
+            List<ExamEntity> ans = new List<ExamEntity>();
+            while(reader.Read())
+            {
+                ans.Add(new ExamEntity() {
+                    id = reader.GetInt32(0),
+                    name = reader.GetString(9),
+                    time = reader.GetInt32(1) 
+                });
+            }
+            return ans;
         }
     }
 }

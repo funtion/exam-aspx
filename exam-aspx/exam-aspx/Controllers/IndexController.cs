@@ -28,7 +28,10 @@ namespace exam_aspx.Controllers
             if( studentID != -1)
             {
                 Session["student"] = studentID;
-                Session.Timeout = 300;
+                if (Request.Params["rememberme"] != null && Request.Params["rememberme"] != "")
+                    Session.Timeout = 60 * 24 * 7;// one week
+                else
+                    Session.Timeout = 300; // 5 hours
                 return Redirect("/Student");
             }
             else

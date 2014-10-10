@@ -8,11 +8,11 @@ namespace exam_aspx.Tests
     [TestClass]
     public class ExamTest
     {
-
+        ExamModel model = new ExamModel();
         [TestMethod]
         public void TestAddExam()
         {
-            ExamModel model = new ExamModel();
+            
             int i = model.addExam(20, 3, 3, 3, 2.0, 9.0, 10);
             Assert.IsTrue(i >  0);
             Console.WriteLine(i);
@@ -64,6 +64,15 @@ namespace exam_aspx.Tests
                 System.Console.WriteLine(choice);
             }
 
+        }
+        [TestMethod]
+        public void TestGetAvaliableExam()
+        {
+            var res = model.getAvailableExam();
+            Assert.AreEqual(1, res.Count);
+            Assert.AreEqual("test", res[0].name);
+            Assert.AreEqual(60, res[0].time);
+            Assert.AreEqual(1, res[0].id);
         }
     }
 }
