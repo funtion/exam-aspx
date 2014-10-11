@@ -3,11 +3,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using exam_aspx.Models;
 using exam_aspx.Entity;
 using System.Drawing;
+using System.Collections.Generic;
 namespace exam_aspx.Tests
 {
     [TestClass]
     public class ExamTest
     {
+
         ExamModel model = new ExamModel();
         [TestMethod]
         public void TestAddExam()
@@ -16,6 +18,38 @@ namespace exam_aspx.Tests
             int i = model.addExam(20, 3, 3, 3, 2.0, 9.0, 10);
             Assert.IsTrue(i >  0);
             Console.WriteLine(i);
+
+        }
+        [TestMethod]
+        public void TestGetAllExam()
+        {
+            ExamModel model = new ExamModel();
+            List<ExamEntity> list = model.getAllExam();
+            Assert.IsNotNull(list);
+            
+            foreach (ExamEntity exam in list)
+            {
+                Console.WriteLine(string.Format("id：{0},name:{1}",exam.id,exam.name));
+            }
+
+
+        }
+        [TestMethod]
+        public void TestSetExamName() //注，当更新的值一样时不会执行更新操作，所以此测试只能通过一次
+        {
+            ExamModel model = new ExamModel();
+            int i = model.setExamName(4, "第一单元测试");
+            Console.WriteLine(i);
+            Assert.IsTrue(i == 1);
+
+        }
+        [TestMethod]
+        public void TestModifyStatus()//注，当更新的值一样时不会执行更新操作，所以此测试只能通过一次
+        {
+            ExamModel model = new ExamModel();
+            int i = model.modifyStatus(2, 1);
+            Console.WriteLine(i);
+            Assert.IsTrue(i == 1);
 
         }
         [TestMethod]

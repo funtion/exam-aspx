@@ -17,6 +17,7 @@ namespace exam_aspx.Entity
     }
     public class ExamEntity
     {
+        public int id;
         public int time;
         public int ready;
         public int sNumber, tNumber, mNumber;

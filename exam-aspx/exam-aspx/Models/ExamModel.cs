@@ -157,20 +157,22 @@ namespace exam_aspx.Models
         /// <param name="sScore">单选分数</param>
         /// <param name="mScore">多选分数</param>
         /// <param name="tfScore">判断分数</param>
-        /// <param name="ready">时候可见，0为不可见，1为课件，默认为0</param>
+        /// <param name="ready">是否可见，0为不可见，1为课件，默认为0</param>
+        /// <param name="name">课程名字</param>
         /// <returns>插入成功返回插入的id，-1插入失败，-2获取last_insert_id失败</returns>
-        public int addExam(int time, int sNum, int mNum, int tfNum, double sScore, double mScore, double tfScore, int ready = 0)//ready 初始默认为0
+        public int addExam(int time, int sNum, int mNum, int tfNum, double sScore, double mScore, double tfScore, int ready = 0,string name="")//ready 初始默认为0
         {
             
-            OdbcCommand command = new OdbcCommand("insert into examination(time,sNumber,mNumber,tNumber,sQuestion,mQuestion,tQuestion,ready) values (?,?,?,?,?,?,?,?)", connection);
+            OdbcCommand command = new OdbcCommand("insert into examination(time,sNumber,mNumber,tNumber,sScore,mScore,tScore,ready,name) values (?,?,?,?,?,?,?,?,?)", connection);
             command.Parameters.Add(new OdbcParameter("time", OdbcType.Int)).Value = time;
             command.Parameters.Add(new OdbcParameter("sNumber", OdbcType.Int)).Value = sNum;
             command.Parameters.Add(new OdbcParameter("mNumber", OdbcType.Int)).Value = mNum;
             command.Parameters.Add(new OdbcParameter("tNumber", OdbcType.Int)).Value = tfNum;
-            command.Parameters.Add(new OdbcParameter("sQuestion", OdbcType.Double)).Value = sScore;
-            command.Parameters.Add(new OdbcParameter("mQuestion", OdbcType.Double)).Value = mScore;
-            command.Parameters.Add(new OdbcParameter("tQuestion", OdbcType.Double)).Value = tfScore;
+            command.Parameters.Add(new OdbcParameter("sScore", OdbcType.Double)).Value = sScore;
+            command.Parameters.Add(new OdbcParameter("mScore", OdbcType.Double)).Value = mScore;
+            command.Parameters.Add(new OdbcParameter("tScore", OdbcType.Double)).Value = tfScore;
             command.Parameters.Add(new OdbcParameter("ready", OdbcType.Int)).Value = ready;
+            command.Parameters.Add(new OdbcParameter("name", OdbcType.VarChar)).Value = name;
             command.Prepare();
 
             if (command.ExecuteNonQuery() > 0)
@@ -201,6 +203,47 @@ namespace exam_aspx.Models
                 });
             }
             return ans;
+
+        public int setExamName(int id,string name)
+        {
+            OdbcCommand command = new OdbcCommand("update examination set name=? where id=?",connection);
+            command.Parameters.Add(new OdbcParameter("name", OdbcType.VarChar)).Value = name;
+            command.Parameters.Add(new OdbcParameter("id", OdbcType.Int)).Value = id;
+            command.Prepare();
+            return command.ExecuteNonQuery();
+
+        }
+
+        public int modifyStatus(int id, int status)
+        {
+            OdbcCommand command = new OdbcCommand("update examination set ready=? where id=?", connection);
+            command.Parameters.Add(new OdbcParameter("name", OdbcType.Int)).Value = status;
+            command.Parameters.Add(new OdbcParameter("id", OdbcType.Int)).Value = id;
+            command.Prepare();
+            return command.ExecuteNonQuery();
+        }
+        public List<ExamEntity> getAllExam()
+        {
+            List<ExamEntity> list = new List<ExamEntity>();
+            OdbcCommand command = new OdbcCommand("select * from examination order by id desc", connection);
+            command.Prepare();
+            OdbcDataReader reader =  command.ExecuteReader();
+            while (reader.Read())
+            {
+                ExamEntity exam = new ExamEntity();
+                exam.id = reader.GetInt32(0);
+                exam.time = reader.GetInt32(1);
+                exam.sNumber = reader.GetInt32(2);
+                exam.mNumber = reader.GetInt32(3);
+                exam.tNumber = reader.GetInt32(4);
+                exam.sScore = reader.GetFloat(5);
+                exam.mScore = reader.GetFloat(6);
+                exam.tScore = reader.GetFloat(7);
+                exam.ready = reader.GetInt32(8);
+                exam.name = reader.GetString(9);
+                list.Add(exam);
+            }
+            return list;
         }
     }
 }

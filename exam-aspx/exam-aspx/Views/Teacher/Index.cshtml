@@ -1,6 +1,6 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+    ViewBag.Title = "Teacher";
 }
 
 <nav class="navbar navbar-default" role="navigation">
@@ -25,20 +25,92 @@
         </div>
     </div>
 </nav>
-<div class="container">
-       <div class="row">
-          <div class="col-md-4">
-           <form action="/Teacher/AddExam" method="post" enctype="multipart/form-data">
-               <div class="form-group">
-                   <div class="input-group">
 
-                       <input type="file" name="doc">
-                   </div>
-                   <div class="input-group">
-                       <input type="submit" value="submit">
-                   </div>
-               </div>
-            </form>
-          </div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="Product">
+                <table id="product_info">
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>单选数量</th>
+                            <th>多选数量</th>
+                            <th>判断数量</th>
+                            <th>单选分数</th>
+                            <th>多选分数</th>                      
+                            <th>判断分数</th>
+                            <th>考试时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                 @foreach(var exam in ViewBag.examList){
+                        <tr>
+                            <td class="center">@exam.name</td>
+                            <td class="center">@exam.sNumber</td>
+                            <td class="center">@exam.mNumber</td>
+                            <td class="center">@exam.tNumber</td>
+                            <td class="center">@exam.sScore</td>
+                            <td class="center">@exam.mScore</td>
+                            <td class="center">@exam.tScore</td>
+                            <td class="center">@exam.time</td>
+                            @if(exam.ready==0){
+                                <td class="center">可见</td>}
+                             else
+                                {<td class="center">不可见</td>}
+                            <td>
+                                 <a class="btn btn-info">修改
+                                     <i class="halflings-icon white edit"></i>
+                                 </a>
+                                 <a class="btn btn-danger"> 删除
+                                     <i class="halflings-icon white trash"></i>
+                                 </a>
+                            </td>
+                        </tr>
+                 }
+
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
 </div>
+<!-- script for datatable -->
+<script type="text/javascript">
+
+	$(function(){
+		var oTable = $("#product_info").dataTable(
+		{
+"bProcessing" : true,//加载数据时候是否显示进度条
+
+"sPaginationType" : "full_numbers",
+"oLanguage" : { //主要用于设置各种提示文本
+"sProcessing" : "正在处理...", //设置进度条显示文本
+"sLengthMenu" : "每页_MENU_行",//显示每页多少条记录
+"sEmptyTable" : "没有找到记录",//没有记录时显示的文本
+"sZeroRecords" : "没有找到记录",//没有记录时显示的文本
+"sInfo" : "总数:_TOTAL_  当前:_START_至_END_",
+/* "sInfo" : "当前页  _START_/_END_" , */
+"sInfoEmpty" : "",//没记录时,关于记录数的显示文本
+"sSearch" : "search:",//搜索框前的文本设置
+"oPaginate" : {
+	"sFirst" : "First",
+	"sLast" : "Last",
+	"sNext" : "Next",
+	"sPrevious" : "Pre "
+}
+}//用于设置提示文本
+
+});
+oTable.css("font-size","12px");//设置文本的样式；
+})
+</script>
+
