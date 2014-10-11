@@ -192,18 +192,19 @@ namespace exam_aspx.Models
         {
             var cmd = buildCommand("select * from examination where ready = 1");
             var reader = cmd.ExecuteReader();
-            
+
             List<ExamEntity> ans = new List<ExamEntity>();
-            while(reader.Read())
+            while (reader.Read())
             {
-                ans.Add(new ExamEntity() {
+                ans.Add(new ExamEntity()
+                {
                     id = reader.GetInt32(0),
                     name = reader.GetString(9),
-                    time = reader.GetInt32(1) 
+                    time = reader.GetInt32(1)
                 });
             }
             return ans;
-
+        }
         public int setExamName(int id,string name)
         {
             OdbcCommand command = new OdbcCommand("update examination set name=? where id=?",connection);
