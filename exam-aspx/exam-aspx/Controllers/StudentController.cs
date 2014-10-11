@@ -58,6 +58,9 @@ namespace exam_aspx.Controllers
             {
                 return Redirect("/Index/Index");
             }
+            ExamModel model = new ExamModel();
+            ViewBag.data = model.getAvailableExam();
+
             return View();
         }
         [HttpGet]
