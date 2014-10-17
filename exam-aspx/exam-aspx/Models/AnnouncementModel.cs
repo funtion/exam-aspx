@@ -9,7 +9,7 @@ namespace exam_aspx.Models
 {
     public class AnnouncementModel:BaseModel
     {
-        public AnnouncementEntity[] getAnnouncements(int start=0,int end=5)
+        public AnnouncementEntity[] getAnnouncements(int start,int end)
         {
             var cmd = buildCommand("select * from announcement where display=1 order by time desc limit ?,?");
             cmd.AddIntParam("start", start);

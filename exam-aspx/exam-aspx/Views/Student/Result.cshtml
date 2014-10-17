@@ -1,45 +1,80 @@
 ﻿@{
-    ViewBag.Title = "score";
+    ViewBag.Title = "成绩查询";
 }
-@section css{
-    @Styles.Render("~/Content/css/layout.css")
-}
-@section js{
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
 
-    @Scripts.Render("~/Content/js/jquery.wysiwyg.js")
-    @Scripts.Render("~/Content/js/superfish.js")
-}
-<div id="container">
-    @Html.Partial("student_header")
-    <div id="content">
-        <div style="padding-left:160px;padding-right:160px">
-            <div id="pad20">
-                <div class="cols3 column">
-                    <table class="fullwidth" cellpadding="0" cellspacing="0" border="0">
-                        <thead>
-                            <tr>
-                                <td>id</td>
-                                <td>多选</td>
-                                <td>单选</td>
-                                <td>判断</td>
-                                <td>总分</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (ResultEntity data in ViewBag.data)
-                            {
-                                <tr>
-                                    <td>@data.id</td>
-                                    <td>@Math.Round( @data.mScore,1) </td>
-                                    <td>@Math.Round(@data.sScore,1)</td>
-                                    <td>@Math.Round(@data.tScore,1)</td>
-                                    <td>@Math.Round(@data.mScore+@data.sScore+@data.tScore,1)</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">学生中心</a>
+        </div>
+
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/Student/Index">信息公告</a></li>
+                <li><a href="/Student/Exam">参加考试</a></li>
+                <li class="active"><a href="Result">成绩查询</a></li>
+                <li><a href="/Student/File">文件下载</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/Student/Logout">退出登录</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" role="main">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            判断题得分
+                        </th>
+                        <th>
+                            多选题得分
+                        </th>
+                        <th>
+                            单选题得分
+                        </th>
+                        <th>
+                            总分
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var result in ViewBag.data)
+                    {
+                        <tr>
+                            <td>
+                                @result.id
+
+                            </td>
+                            <td>
+                                @Math.Round(@result.tScore,1)
+                                
+                            </td>
+                            <td>
+                                @Math.Round(@result.mScore,1)
+                               
+                            </td>
+                            <td>
+                                @Math.Round(@result.sScore,1)
+                            </td>
+                            <td>
+                                @Math.Round(@result.sScore + @result.tScore + @result.mScore, 1)
+                            </td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

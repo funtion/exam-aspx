@@ -4,24 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    @RenderSection("css", false)
 
-    @Scripts.Render("~/Content/js/jquery-1.3.2.min.js")
-    @Scripts.Render("~/Content/js/easyTooltip.js")
-    @Scripts.Render("~/Content/js/jquery-ui-1.7.2.custom.min.js")
-    @Scripts.Render("~/Content/js/hoverIntent.js")
-    @Scripts.Render("~/Content/js/custom.js")
+    @Styles.Render("~/Content/css/bootstrap.min.css")
+    @Scripts.Render("~/Content/js/jquery.min.js")
+    @Scripts.Render("~/Content/js/bootstrap.min.js")
     
-    
-    
-
-
-    
-    @RenderSection("js", false)
    
 </head>
 <body>
     @RenderBody()
 </body>
 </html>
-

@@ -16,9 +16,20 @@ namespace exam_aspx.Tests
 
         }
         [TestMethod]
-        public void testxxx()
+        public void testDeleteQuestion()
         {
+            QuestionModel model = new QuestionModel();
+            Assert.IsTrue(model.deleteQuestion(1)==1);
+            
           
+        }
+        [TestMethod]
+        public void testDeleteQuestionByExamId()
+        {
+            QuestionModel model = new QuestionModel();
+            Assert.IsTrue(model.deleteQuestionByExamId(10)>0);
+
+
         }
 
     }
