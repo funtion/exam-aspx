@@ -1,84 +1,43 @@
 ﻿@{
-    ViewBag.Title = "文件下载";
+    ViewBag.Title = "下载";
 }
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
+@section css{
+    @Styles.Render("~/Content/css/layout.css")
+}
+@section js{
 
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">学生中心</a>
+    @Scripts.Render("~/Content/js/jquery.wysiwyg.js")
+    @Scripts.Render("~/Content/js/superfish.js")
+}
+
+<div id="container">
+    @Html.Partial("student_header")
+    <div id="content">
+        <div style="padding-left:160px;padding-right:160px">
+            <div id="pad20">
+                <div class="cols3 column">
+                    <table class="fullwidth" cellpadding="0" cellspacing="0" border="0">
+                        <thead>
+                            <tr>
+                                <td>Name</td>
+                                <td>size</td>
+                                <td>date</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (FileEntity data in ViewBag.data)
+                            {
+                                <tr >
+                                    <td><a href="@data.path" style="color:#999">@data.name</a></td>
+                                    <td>@data.size KB</td>
+                                    <td>@data.time</td>
+                                    
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
         </div>
-
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="/Student/Index">信息公告</a></li>
-                <li><a href="/Student/Exam">参加考试</a></li>
-                <li><a href="Result">成绩查询</a></li>
-                <li class="active"><a href="/Student/File">文件下载</a></li>
-
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/Student/Logout">退出登录</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container" role="main">
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            文件名
-                        </th>
-                        <th>
-                            时间
-                        </th>
-                        <th>
-                            大小
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var file in ViewBag.data)
-                    {
-                        <tr>
-                            <td>
-                                <a href="@file.path">@file.name</a>
-                            </td>
-                            <td>
-                                @file.time
-                            </td>
-                            <td>
-                                @file.size KB
-                            </td>
-                        </tr>
-
-                    }
-
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <ul class="pagination">
-                <li><a href="/Student/File/">&laquo;</a></li>
-                @{
-                    int num = (@ViewBag.count / @ViewBag.size);
-                    for (int i = 0; i <= num; i++)
-                    {
-                        int start = @i * @ViewBag.size;
-                        int tag = @i + 1;
-                        <li><a href="/Student/File/?start=@start&size=@ViewBag.size">@tag</a></li>
-                    }
-                    int last = num * @ViewBag.size;
-                    <li><a href="/Student/File/?start=@last&size=@ViewBag.size">&raquo;</a></li>
-                }
-
-            </ul>
-        </div>
-    </div>
 </div>

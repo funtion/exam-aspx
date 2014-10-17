@@ -19,7 +19,24 @@ namespace exam_aspx.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(int start=0,int size=10)//公告
+        public ActionResult Index()
+        {
+            int sid = getSid();
+            if (sid == -1)
+            {
+                return Redirect("/Index/Index");
+            }
+            AnnouncementModel announceModel = new AnnouncementModel();
+            ExamModel examModel = new ExamModel();
+            FileModel fileModel = new FileModel();
+
+            ViewBag.announcement = announceModel.getAnnouncements(0, 3);
+            ViewBag.exam = examModel.getAvailableExam().Take(3);
+            ViewBag.file = fileModel.getFiles(0, 3);
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Announcement()
         {
             int sid = getSid();
             if (sid == -1)
@@ -27,29 +44,10 @@ namespace exam_aspx.Controllers
                 return Redirect("/Index/Index");
             }
             AnnouncementModel model = new AnnouncementModel();
-            int count = model.getNumberOfDisplayAnnouncement();
-            var data = model.getAnnouncements(start,start+size);
-            ViewBag.announcement=data;
-            ViewBag.count = count;
-            ViewBag.size = size;
+            ViewBag.data = model.getAnnouncements(0, model.getNumberOfDisplayAnnouncement()); //get all
             return View();
         }
 
-        [HttpGet]
-        public ActionResult Announcement(int id)
-        {
-            int sid = getSid();
-            if (sid == -1)
-            {
-                return Redirect("/Index/Index");
-            }
-            AnnouncementModel model = new AnnouncementModel();
-            var data = model.getAnnouncementByID(id);
-            if (data == null)
-                return Redirect("/Student/Index");
-            ViewBag.data = data;
-            return View();
-        }
 
 
         [HttpGet]
@@ -60,6 +58,9 @@ namespace exam_aspx.Controllers
             {
                 return Redirect("/Index/Index");
             }
+            ExamModel model = new ExamModel();
+            ViewBag.data = model.getAvailableExam();
+
             return View();
         }
         [HttpGet]
@@ -97,8 +98,8 @@ namespace exam_aspx.Controllers
                 return Redirect("/Index/Index");
             }
             var model = new FileModel();
-            ViewBag.data = model.getFiles(start, start + size);
             ViewBag.count = model.getTheNumberOfFile();
+            ViewBag.data = model.getFiles(0, ViewBag.count);
             ViewBag.size = size;
 
             return View();

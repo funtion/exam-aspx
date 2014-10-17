@@ -1,44 +1,36 @@
 ﻿@{
     ViewBag.Title = "公告";
 }
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
+@section css{
+    @Styles.Render("~/Content/css/layout.css")
+}
+@section js{
 
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">学生中心</a>
-        </div>
+    @Scripts.Render("~/Content/js/jquery.wysiwyg.js")
+    @Scripts.Render("~/Content/js/superfish.js")
+}
 
+<div id="container">
+    @Html.Partial("student_header")
+    <div id="content">
+        <div style="padding-left:160px;padding-right:160px">
+            <div id="pad20">
+                <div class="cols3 column">
+                    <div id="accordion">
+                        @foreach (AnnouncementEntity data in ViewBag.data)
+                        {
 
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="/Student/Index">信息公告</a></li>
-                <li><a href="/Student/Exam">参加考试</a></li>
-                <li><a href="Result">成绩查询</a></li>
-                <li><a href="/Student/File">文件下载</a></li>
-
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/Student/Logout">退出登录</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="container" role="main">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title" style="text-align:center">@ViewBag.data.title</h3>
-                    
+                            <div>
+                                <h3><a href="#" title="@data.title" class="tooltip">@data.title</a></h3>
+                                <div>
+                                    <p>@data.time</p>
+                                    <p>@data.content</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
-                
-                <div class="panel-body">
-                   @ViewBag.data.content
-                </div>
-                
             </div>
         </div>
     </div>
-    
 </div>
-

@@ -23,64 +23,7 @@ namespace exam_aspx.Controllers
             ViewBag.examList = list;
             return View();
         }
-        [HttpPost]
-        public ActionResult ModifyExamStatus()
-        {
-            Dictionary<string, string> response = new Dictionary<string, string>();
-            ExamModel examModel = new ExamModel();
-            int id, status;
-            try
-            {
-                id = int.Parse(Request["id"]);
-                status = int.Parse(Request["status"]);
-                int tmp = examModel.modifyStatus(id, status);
-                if (tmp > 0)
-                {
-                    response.Add("status", "success");
 
-                }
-                else
-                {
-                    response.Add("status", "failed");
-                    response.Add("error", "something wrong!");
-                }
-            }
-            catch
-            {
-                response.Add("status", "failed");
-                response.Add("error", "bad param!");
-            }
-            return Json(response);
-        }
-        [HttpPost]
-        public ActionResult DeleteExam()
-        {
-            Dictionary<string,string> response = new Dictionary<string,string>();
-            ExamModel examModel = new ExamModel();
-            QuestionModel questionModel = new QuestionModel();
-            int id;
-            try
-            {
-                id = int.Parse(Request["id"]);
-                int questionCol = questionModel.deleteQuestionByExamId(id);
-                int examCol = examModel.deleteExam(id);
-                if (questionCol > 0 && examCol > 0)
-                {
-                    response.Add("status", "success");
-                }
-                else
-                {
-                    response.Add("status", "failed");
-                    response.Add("error", "something wrong when delete the record from database!");
-                }
-            }
-            catch 
-            {
-                response.Add("status", "failed");
-                response.Add("error", "bad id!");
-            }
-            return Json(response);
-        }
         [HttpPost]
         public ActionResult AddExam()
         {

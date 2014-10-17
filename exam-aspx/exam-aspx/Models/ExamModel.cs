@@ -157,12 +157,12 @@ namespace exam_aspx.Models
         /// <param name="sScore">单选分数</param>
         /// <param name="mScore">多选分数</param>
         /// <param name="tfScore">判断分数</param>
-        /// <param name="ready">是否可见，0为不可见，1为可见，默认为0</param>
+        /// <param name="ready">是否可见，0为不可见，1为课件，默认为0</param>
         /// <param name="name">课程名字</param>
         /// <returns>插入成功返回插入的id，-1插入失败，-2获取last_insert_id失败</returns>
         public int addExam(int time, int sNum, int mNum, int tfNum, double sScore, double mScore, double tfScore, int ready = 0,string name="")//ready 初始默认为0
         {
-
+            
             OdbcCommand command = new OdbcCommand("insert into examination(time,sNumber,mNumber,tNumber,sScore,mScore,tScore,ready,name) values (?,?,?,?,?,?,?,?,?)", connection);
             command.Parameters.Add(new OdbcParameter("time", OdbcType.Int)).Value = time;
             command.Parameters.Add(new OdbcParameter("sNumber", OdbcType.Int)).Value = sNum;
@@ -187,9 +187,24 @@ namespace exam_aspx.Models
                 return -2;
             }
             return -1;
-
         }
+        public List<ExamEntity> getAvailableExam()
+        {
+            var cmd = buildCommand("select * from examination where ready = 1");
+            var reader = cmd.ExecuteReader();
 
+            List<ExamEntity> ans = new List<ExamEntity>();
+            while (reader.Read())
+            {
+                ans.Add(new ExamEntity()
+                {
+                    id = reader.GetInt32(0),
+                    name = reader.GetString(9),
+                    time = reader.GetInt32(1)
+                });
+            }
+            return ans;
+        }
         public int setExamName(int id,string name)
         {
             OdbcCommand command = new OdbcCommand("update examination set name=? where id=?",connection);
@@ -208,15 +223,6 @@ namespace exam_aspx.Models
             command.Prepare();
             return command.ExecuteNonQuery();
         }
-
-        public int deleteExam(int id)
-        {
-            OdbcCommand command = new OdbcCommand("delete from examination where id=?", connection);
-            command.Parameters.Add(new OdbcParameter("id", OdbcType.Int)).Value = id;
-            command.Prepare();
-            return command.ExecuteNonQuery();
-        }
-
         public List<ExamEntity> getAllExam()
         {
             List<ExamEntity> list = new List<ExamEntity>();
