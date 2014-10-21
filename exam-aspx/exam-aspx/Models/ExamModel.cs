@@ -246,6 +246,13 @@ namespace exam_aspx.Models
             }
             return list;
         }
+        public int deleteExam(int id)
+        {
+            OdbcCommand command = new OdbcCommand("delete from examination where id=?", connection);
+            command.Parameters.Add(new OdbcParameter("id", OdbcType.Int)).Value = id;
+            command.Prepare();
+            return command.ExecuteNonQuery();
+        }
         public ExamEntity getExamById(int id) 
         {
             var cmd = buildCommand("select * from examination where id =? limit 1");
