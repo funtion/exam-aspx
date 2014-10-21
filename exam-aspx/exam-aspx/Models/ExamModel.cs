@@ -10,6 +10,8 @@ using Spire.Doc.Collections;
 using Spire.Doc.Converters;
 using Spire.Doc.Fields;
 using System.Data.Odbc;
+
+
 namespace exam_aspx.Models
 {
     public class ExamModel:BaseModel
@@ -271,13 +273,41 @@ namespace exam_aspx.Models
 
         }
 
+        private List<QuestionEntity> randSelect(List<QuestionEntity> list, int requireNumber)
+        {
+            var r = new Random();
+            QuestionEntity[] tmp = list.ToArray();
+            for (int i = tmp.Length - 1; i > 0; i--)
+            {
+                int swap = r.Next(i+1);
+                var s = tmp[swap];
+                tmp[swap] = tmp[i];
+                tmp[i] = s;
+            }
+            var res = new List<QuestionEntity>();
+            for (int i = 0; i < requireNumber; ++i)
+            {
+                res.Add(tmp[i]);
+            }
+            return res;
+
+
+        }
+
+
+
         public List<QuestionEntity> genExam(int id)
         {
+            var questionModel = new QuestionModel();
             var exam = getExamById(id);
-
-
-
-            return null;
+            var sc = randSelect( questionModel.getSCQuestionByExam(id) , exam.sNumber);
+            var mc = randSelect( questionModel.getMCQuestionByExam(id) , exam.mNumber);
+            var tf = randSelect( questionModel.getTFQuestionByExam(id) , exam.tNumber);
+            var res = new List<QuestionEntity>();
+            res.AddRange(sc);
+            res.AddRange(mc);
+            res.AddRange(tf);
+            return res;
         }
 
 

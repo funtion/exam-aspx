@@ -14,5 +14,6 @@ namespace exam_aspx.Entity
         public ArrayList choices = new ArrayList();
         public string type;
         public Image image;
+        public String imageURL;
     }
 }
