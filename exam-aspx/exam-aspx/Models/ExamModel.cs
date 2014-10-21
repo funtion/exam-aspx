@@ -18,7 +18,7 @@ namespace exam_aspx.Models
         {
             ExamEntity exam = new ExamEntity();
             Document doc = new Document(filePath);
-            Question currentQuestion=null;
+            QuestionEntity currentQuestion=null;
             foreach(Section section in doc.Sections)
             {
                 foreach(Paragraph paragraph in section.Paragraphs)
@@ -54,7 +54,7 @@ namespace exam_aspx.Models
                         var list = text.Substring(3, text.Length - 4).Split(':');
                         string problemType = list[0];
                         string ans = list[2];
-                        currentQuestion = new Question();
+                        currentQuestion = new QuestionEntity();
                         currentQuestion.type = problemType;
                         currentQuestion.ans = ans;
                         
@@ -246,35 +246,40 @@ namespace exam_aspx.Models
             }
             return list;
         }
-
-        public int deleteExam(int id)
+        public ExamEntity getExamById(int id) 
         {
-            OdbcCommand command = new OdbcCommand("delete from examination where id=?", connection);
-            command.Parameters.Add(new OdbcParameter("id", OdbcType.Int)).Value = id;
-            command.Prepare();
-            return command.ExecuteNonQuery();
-        }
-        public ExamEntity getExamById(int id)
-        {
-            ExamEntity exam = null;
-            var cmd = buildCommand("select * from examination where id=?");
+            var cmd = buildCommand("select * from examination where id =? limit 1");
             cmd.AddIntParam("id", id);
             var reader = cmd.ExecuteReader();
-            if (reader.Read())
+            if (!reader.HasRows)
             {
-                exam = new ExamEntity();
-                exam.id = reader.GetInt32(0);
-                exam.time = reader.GetInt32(1);
-                exam.sNumber = reader.GetInt32(2);
-                exam.mNumber = reader.GetInt32(3);
-                exam.tNumber = reader.GetInt32(4);
-                exam.sScore = reader.GetFloat(5);
-                exam.mScore = reader.GetFloat(6);
-                exam.tScore = reader.GetFloat(7);
-                exam.ready = reader.GetInt32(8);
-                exam.name = reader.GetString(9);
+                return null;
             }
+            reader.Read();
+            ExamEntity exam = new ExamEntity();
+            exam.id = reader.GetInt32(0);
+            exam.time = reader.GetInt32(1);
+            exam.sNumber = reader.GetInt32(2);
+            exam.mNumber = reader.GetInt32(3);
+            exam.tNumber = reader.GetInt32(4);
+            exam.sScore = reader.GetFloat(5);
+            exam.mScore = reader.GetFloat(6);
+            exam.tScore = reader.GetFloat(7);
+            exam.ready = reader.GetInt32(8);
+            exam.name = reader.GetString(9);
             return exam;
+
         }
+
+        public List<QuestionEntity> genExam(int id)
+        {
+            var exam = getExamById(id);
+
+
+
+            return null;
+        }
+
+
     }
 }

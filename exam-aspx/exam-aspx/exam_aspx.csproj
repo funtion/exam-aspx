@@ -135,15 +135,16 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ExamController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Entity\AnnouncementEntity.cs" />
     <Compile Include="Entity\ExamEntity.cs" />
     <Compile Include="Entity\FileEntity.cs" />
+    <Compile Include="Entity\QuestionEntity.cs" />
     <Compile Include="Entity\ResultEntity.cs" />
     <Compile Include="Entity\StudentEntity.cs" />
-    <Compile Include="Entity\TeacherEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -154,8 +155,7 @@
     <Compile Include="Models\LimitUserModel.cs" />
     <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
-    <Compile Include="Models\StudentModel.cs" />
-    <Compile Include="Models\TeacherModel.cs" />
+    <Compile Include="obj\StudentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -299,11 +299,6 @@
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Shared\_TeacherLayout.cshtml" />
     <Content Include="Views\Shared\student_header.cshtml" />
-    <Content Include="Views\Teacher\Announcement.cshtml" />
-    <Content Include="Views\Teacher\File.cshtml" />
-    <Content Include="Views\Teacher\Student.cshtml" />
-    <Content Include="Views\Teacher\Result.cshtml" />
-    <Content Include="Views\Teacher\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

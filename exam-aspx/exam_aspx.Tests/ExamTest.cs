@@ -4,7 +4,6 @@ using exam_aspx.Models;
 using exam_aspx.Entity;
 using System.Drawing;
 using System.Collections.Generic;
-using System.IO;
 namespace exam_aspx.Tests
 {
     [TestClass]
@@ -71,9 +70,9 @@ namespace exam_aspx.Tests
             Assert.AreEqual(1, exam.sc.Count);
             Assert.AreEqual(0, exam.mc.Count);
 
-            Question tf0 = exam.tf[0] as Question;
-            Question tf1 = exam.tf[1] as Question;
-            Question tf2 = exam.tf[2] as Question;
+            QuestionEntity tf0 = exam.tf[0] as QuestionEntity;
+            QuestionEntity tf1 = exam.tf[1] as QuestionEntity;
+            QuestionEntity tf2 = exam.tf[2] as QuestionEntity;
 
             
             Assert.AreEqual(tf0.ans, "F");
@@ -91,7 +90,7 @@ namespace exam_aspx.Tests
             
 
 
-            Question sc0 = exam.sc[0] as Question;
+            QuestionEntity sc0 = exam.sc[0] as QuestionEntity;
             Assert.AreEqual(sc0.ans, "A");
             System.Console.WriteLine(sc0.statement);
             foreach(String choice in sc0.choices)
@@ -110,18 +109,12 @@ namespace exam_aspx.Tests
             Assert.AreEqual(1, res[0].id);
         }
 
-         [TestMethod]
-        public void TestDeleteExam()
-        {
-            ExamModel model = new ExamModel();
-            int i = model.deleteExam(17);
-            Assert.IsTrue(i == 1);
-
-        }
         [TestMethod]
-         public void TestGetExamById()
-         {
-             Assert.IsNotNull(model.getExamById(19));
-         }
+        public void testGetExamById()
+        {
+            Assert.IsNull(model.getExamById(233));
+            var exam = model.getExamById(1);
+            Assert.AreEqual("test",exam.name);
+        }
     }
 }
