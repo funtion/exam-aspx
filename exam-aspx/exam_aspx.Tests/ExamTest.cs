@@ -108,5 +108,13 @@ namespace exam_aspx.Tests
             Assert.AreEqual(60, res[0].time);
             Assert.AreEqual(1, res[0].id);
         }
+
+        [TestMethod]
+        public void testGetExamById()
+        {
+            Assert.IsNull(model.getExamById(233));
+            var exam = model.getExamById(1);
+            Assert.AreEqual("test",exam.name);
+        }
     }
 }

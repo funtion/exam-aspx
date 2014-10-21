@@ -135,6 +135,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ExamController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
@@ -153,7 +154,7 @@
     <Compile Include="Models\LimitUserModel.cs" />
     <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
-    <Compile Include="Models\StudentModel.cs" />
+    <Compile Include="obj\StudentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
