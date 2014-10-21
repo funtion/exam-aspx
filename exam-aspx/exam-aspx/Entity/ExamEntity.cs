@@ -7,14 +7,7 @@ using System.Drawing;
 
 namespace exam_aspx.Entity
 {
-    public class Question
-    {
-        public string statement;
-        public string ans;
-        public ArrayList choices = new ArrayList();
-        public string type;
-        public Image image;
-    }
+    
     public class ExamEntity
     {
         public int id;

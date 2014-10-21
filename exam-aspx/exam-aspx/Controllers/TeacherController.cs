@@ -43,7 +43,7 @@ namespace exam_aspx.Controllers
                         int examId = examModel.addExam(examEntity.time, examEntity.sNumber, examEntity.mNumber, examEntity.tNumber, examEntity.sScore, examEntity.mScore, examEntity.tScore);
                         int type = -1;
                         int count = 1;
-                        foreach (Question q in examEntity.sc)
+                        foreach (QuestionEntity q in examEntity.sc)
                         {
                             
                             switch (q.type)
@@ -77,7 +77,7 @@ namespace exam_aspx.Controllers
                             questionModel.addQuesiton(type, q.ans, choiceJson, imageDir+imageName, q.statement, examId);
                         }
                         count = 1;
-                        foreach (Question q in examEntity.mc)
+                        foreach (QuestionEntity q in examEntity.mc)
                         {
 
                             switch (q.type)
@@ -111,7 +111,7 @@ namespace exam_aspx.Controllers
                             questionModel.addQuesiton(type, q.ans, choiceJson, imageDir+imageName, q.statement, examId);
                         }
                         count = 1;
-                        foreach (Question q in examEntity.tf)
+                        foreach (QuestionEntity q in examEntity.tf)
                         {
 
                             switch (q.type)

@@ -70,9 +70,9 @@ namespace exam_aspx.Tests
             Assert.AreEqual(1, exam.sc.Count);
             Assert.AreEqual(0, exam.mc.Count);
 
-            Question tf0 = exam.tf[0] as Question;
-            Question tf1 = exam.tf[1] as Question;
-            Question tf2 = exam.tf[2] as Question;
+            QuestionEntity tf0 = exam.tf[0] as QuestionEntity;
+            QuestionEntity tf1 = exam.tf[1] as QuestionEntity;
+            QuestionEntity tf2 = exam.tf[2] as QuestionEntity;
 
             
             Assert.AreEqual(tf0.ans, "F");
@@ -90,7 +90,7 @@ namespace exam_aspx.Tests
             
 
 
-            Question sc0 = exam.sc[0] as Question;
+            QuestionEntity sc0 = exam.sc[0] as QuestionEntity;
             Assert.AreEqual(sc0.ans, "A");
             System.Console.WriteLine(sc0.statement);
             foreach(String choice in sc0.choices)

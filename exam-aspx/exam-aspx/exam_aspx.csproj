@@ -142,6 +142,7 @@
     <Compile Include="Entity\AnnouncementEntity.cs" />
     <Compile Include="Entity\ExamEntity.cs" />
     <Compile Include="Entity\FileEntity.cs" />
+    <Compile Include="Entity\QuestionEntity.cs" />
     <Compile Include="Entity\ResultEntity.cs" />
     <Compile Include="Entity\StudentEntity.cs" />
     <Compile Include="Global.asax.cs">

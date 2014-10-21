@@ -18,7 +18,7 @@ namespace exam_aspx.Models
         {
             ExamEntity exam = new ExamEntity();
             Document doc = new Document(filePath);
-            Question currentQuestion=null;
+            QuestionEntity currentQuestion=null;
             foreach(Section section in doc.Sections)
             {
                 foreach(Paragraph paragraph in section.Paragraphs)
@@ -54,7 +54,7 @@ namespace exam_aspx.Models
                         var list = text.Substring(3, text.Length - 4).Split(':');
                         string problemType = list[0];
                         string ans = list[2];
-                        currentQuestion = new Question();
+                        currentQuestion = new QuestionEntity();
                         currentQuestion.type = problemType;
                         currentQuestion.ans = ans;
                         
@@ -271,7 +271,7 @@ namespace exam_aspx.Models
 
         }
 
-        public List<Question> genExam(int id)
+        public List<QuestionEntity> genExam(int id)
         {
             var exam = getExamById(id);
 
