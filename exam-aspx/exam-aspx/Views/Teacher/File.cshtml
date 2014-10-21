@@ -1,0 +1,201 @@
+﻿@{
+    ViewBag.Title = "File";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">教师中心</a>
+        </div>
+
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/Teacher/Index">考试管理</a></li>
+                <li><a href="/Teacher/Announcement">公告管理</a></li>
+                <li><a href="/Teacher/Student">学生管理</a></li>
+                <li class="active"><a href="/Teacher/File">文件管理</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/Teacher/Logout">退出登录</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="Product">
+                <table id="product_info">
+                    <thead>
+                        <tr>
+                            <th>time</th>
+                            <th>name</th>
+                            <th>path</th>
+                            <th>size</th>
+                            <th>
+                                操作
+                                <a class="btn btn-info" data-toggle="modal"
+                                   data-target="#myModal">
+                                    上传文件
+                                    <i class="halflings-icon white edit"></i>
+                                </a>
+                               
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var file in ViewBag.fileList)
+                        {
+                            <tr>
+                                <td class="center">@file.time</td>
+                                <td class="center">@file.name</td>
+                                <td class="center">@file.path</td>
+                                <td class="center">@file.size</td>
+                
+                               
+                                <td>
+                                    
+                                    <a class="btn btn-danger" onclick="deleteFile(@file.id)">
+                                        删除
+                                        <i class="halflings-icon white trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    上传文件
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="upload-form" method="post">
+                    <label>选择一个文件</label><input type="file" name="file">
+                </form>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="40"
+                         aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="UploadFile()">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<script type="text/javascript">
+
+    $(function () {
+        var oTable = $("#product_info").dataTable(
+		{
+		    "bProcessing": true,//加载数据时候是否显示进度条
+
+		    "sPaginationType": "full_numbers",
+		    "oLanguage": { //主要用于设置各种提示文本
+		        "sProcessing": "正在处理...", //设置进度条显示文本
+		        "sLengthMenu": "每页_MENU_行",//显示每页多少条记录
+		        "sEmptyTable": "没有找到记录",//没有记录时显示的文本
+		        "sZeroRecords": "没有找到记录",//没有记录时显示的文本
+		        "sInfo": "总数:_TOTAL_  当前:_START_至_END_",
+		        /* "sInfo" : "当前页  _START_/_END_" , */
+		        "sInfoEmpty": "",//没记录时,关于记录数的显示文本
+		        "sSearch": "search:",//搜索框前的文本设置
+		        "oPaginate": {
+		            "sFirst": "First",
+		            "sLast": "Last",
+		            "sNext": "Next",
+		            "sPrevious": "Pre "
+		        }
+		    }//用于设置提示文本
+
+		});
+        oTable.css("font-size", "12px");//设置文本的样式；
+    })
+</script>
+
+<script>
+    function UploadFile() {
+
+        $(".upload-form").ajaxSubmit({
+            url: "AddFile",
+            type: "post",
+            dataType: "json",
+            beforeSend: function () {
+
+            },
+            uploadProgress: function (event, position, total, percent) {
+                console.log(percent);
+                $("div.progress-bar").css("width", percent + "%");
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.status != "success") {
+                    $("div.progress-bar").css("width", "0%");;
+                    alert("upload failed." + data.error);
+                    location.reload();
+                }
+                else {
+
+                    alert("upload success.");
+                    location.reload();
+                }
+
+            },
+            error: function () {
+
+                alert("network error.");
+                location.reload();
+            }
+        });
+
+    }
+
+
+    function deleteFile(id) {
+        $.post(
+            "delFile",
+            "id="+id,
+            success = function (data) {
+                if (data.status == "success") {
+                    alert("upload success!");
+                    location.reload();
+                }
+                else {
+                    alert("upload failed!" + data.error);
+                }
+            })
+    }
+
+</script>

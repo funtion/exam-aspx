@@ -18,4 +18,16 @@ namespace exam_aspx.Entity
         public double tScore  { get; set; }
 
     }
+
+    public class ExamResultEntity
+    {
+        public string sid;
+        public string name;
+        public double sScore;
+        public double mScore;
+        public double tfScore;
+        public double totalScore;
+
+    }
+
 }

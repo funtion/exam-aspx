@@ -18,16 +18,418 @@ namespace exam_aspx.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
             ExamModel model = new ExamModel();
             List<ExamEntity> list = model.getAllExam();
             ViewBag.examList = list;
             return View();
         }
+        [HttpGet]
+        public ActionResult Announcement()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            AnnouncementModel model = new AnnouncementModel();
+            List<AnnouncementEntity> list = model.getAllAnnouncements();
+            ViewBag.AnnouncementList = list;
+            return View();
+        }
+        [HttpGet]
+        public ActionResult File()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+           FileModel model = new FileModel();
+           FileEntity[] fArray = model.getFiles(0, model.getTheNumberOfFile());
+           ViewBag.fileList = fArray;
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Student()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            StudentModel model = new StudentModel();
+            ViewBag.studentList =  model.getAllStudents();
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Result()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            ViewBag.resultList = new List<ResultEntity>();
+            try
+            {
+                int examid = int.Parse(Request["exam"]);
+                ResultModel model = new ResultModel();
+                ExamModel examModel = new ExamModel();
+                ViewBag.resultList = model.getExamResultByExamId(examid);
+                ViewBag.examInfo = examModel.getExamById(examid);
+                
+            }
+            catch
+            {
+
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Login()
+        {
+           
+             return View();
+           
+            
+        }
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            Session["teacher"] = null;
+            return Redirect("Login");
+        }
+        [HttpPost]
+        public ActionResult CheckLogin()
+        {
+           
+                var user = Request["user"];
+                var pass = Request["pass"];
+                TeacherModel model = new TeacherModel();
+                TeacherEntity teacher = model.getTeacher(user, pass);
+                if (teacher != null)
+                {
+                    Session["teacher"] = teacher;
+                    Session.Timeout = 60 * 5;
+                    return Redirect("Index");
+                }
+                return Redirect("Login");
+
+
+        }
+        [HttpPost]
+        public ActionResult AddLimitUser()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string, String> ret = new Dictionary<string, string>();
+            try
+            {
+                string sid = Request["sid"];
+                LimitUserModel model = new LimitUserModel();
+                int row = model.addLimitUser(sid);
+                if (row > 0)
+                {
+                    ret.Add("status", "success");
+
+                }
+                else
+                {
+                    ret.Add("status", "failed");
+                    ret.Add("error", "add error");
+                }
+            }
+            catch (Exception e)
+            {
+                ret.Add("status", "failed");
+                ret.Add("error", "bad param!");
+            }
+            return Json(ret);
+
+        }
+        [HttpPost]
+        public ActionResult delStudent()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string, String> ret = new Dictionary<string, string>();
+            try
+            {
+                int id = int.Parse(Request["id"]);
+                StudentModel model = new StudentModel();
+                int row = model.delStudentById(id);
+                if (row > 0)
+                {
+                    ret.Add("status", "success");
+                }
+                else
+                {
+                    ret.Add("status", "failed");
+                    ret.Add("error", "delete error!");
+                }
+            }
+            catch (Exception e)
+            {
+                ret.Add("status", "failed");
+                ret.Add("error", "bad param!");
+            }
+            return Json(ret);
+
+        }
+        [HttpPost]
+        public ActionResult delFile()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string, String> ret = new Dictionary<string, string>();
+            try
+            {
+                int id = int.Parse(Request["id"]);
+                exam_aspx.Models.FileModel model = new exam_aspx.Models.FileModel();
+                FileEntity file = model.getFileById(id);
+                if (file != null)
+                {
+                    if (System.IO.File.Exists(Server.MapPath(file.path)))
+                    {
+                        System.IO.File.Delete(Server.MapPath(file.path));
+                    }
+                }
+                int row = model.deleFile(id);
+                if (row > 0)
+                {
+                    ret.Add("status", "success");
+                    
+                }
+                else
+                {
+                    ret.Add("status", "failed");
+                    ret.Add("error","delete failed!");
+                }
+                
+            }
+            catch (Exception e)
+            {
+                ret.Add("status", "failed");
+                ret.Add("error", "bad param");
+            }
+            return Json(ret);
+        }
+        [HttpPost]
+        public ActionResult addFile()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string, String> ret = new Dictionary<string, string>();
+            HttpPostedFileBase file = Request.Files.Get("file");
+            string savepath = "~/upload/file";
+            if (file != null)
+            {
+                if (!Directory.Exists(Server.MapPath(savepath)))
+                {
+                    Directory.CreateDirectory(Server.MapPath(savepath));
+                }
+                file.SaveAs(Server.MapPath(string.Format("{0}/{1}", savepath, file.FileName)));
+                try
+                {
+                    exam_aspx.Models.FileModel model = new exam_aspx.Models.FileModel();
+                    model.addFile(file.FileName, string.Format("{0}/{1}", savepath, file.FileName), file.ContentLength);
+                    ret.Add("status", "success");
+                }
+                catch (Exception e)
+                {
+                    ret.Add("status", "failed");
+                    ret.Add("error", "insert error!");
+                }
+                
+                
+            }
+            else
+            {
+                ret.Add("status", "failed");
+                ret.Add("error", "no file!");
+            }
+            return Json(ret);
+        }
+        [HttpPost]
+        public ActionResult AddAnnouncement()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string, string> response = new Dictionary<string, string>();
+            AnnouncementModel model = new AnnouncementModel();
+            try
+            {
+                string title = Request["title"];
+                string content = Request["content"];
+                int i = model.addAnnouncement(title, content);
+                if (i > 0)
+                {
+                    response.Add("status", "success");
+                }
+                else{
+                    response.Add("status","failed");
+                    response.Add("error", "insert error");
+                }
+            }
+            catch
+            {
+                response.Add("status", "failed");
+                response.Add("error", "bad param");
+            }
+            return Json(response);
+        }
+        [HttpPost]
+        public ActionResult DelAnnouncement()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string, string> response = new Dictionary<string, string>();
+            AnnouncementModel model = new AnnouncementModel();
+            try
+            {
+                int id = int.Parse(Request["id"]);
+                int i = model.delAnnouncement(id);
+                if (i > 0)
+                {
+                    response.Add("status", "success");
+                }
+                else
+                {
+                    response.Add("status", "failed");
+                    response.Add("error", "delete error");
+                }
+            }
+            catch
+            {
+                response.Add("status", "failed");
+                response.Add("error", "bad param");
+            }
+            return Json(response);
+        }
+        [HttpPost]
+        public ActionResult UpdateAnnouncement()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string, string> response = new Dictionary<string, string>();
+            AnnouncementModel model = new AnnouncementModel();
+            try
+            {
+                int id = int.Parse(Request["id"]);
+                string title = Request["title"];
+                string content = Request["content"];
+                int i = model.updateAnnouncement(id,title,content);
+                if (i > 0)
+                {
+                    response.Add("status", "success");
+                }
+                else
+                {
+                    response.Add("status", "failed");
+                    response.Add("error", "update error");
+                }
+            }
+            catch
+            {
+                response.Add("status", "failed");
+                response.Add("error", "bad param");
+            }
+            return Json(response);
+        }
+        [HttpPost]
+        public ActionResult ModifyExamStatus()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string, string> response = new Dictionary<string, string>();
+            ExamModel examModel = new ExamModel();
+            int id, status;
+            try
+            {
+               id = int.Parse(Request["id"]);
+                status = int.Parse(Request["status"]);
+               int tmp = examModel.modifyStatus(id, status);
+                if (tmp > 0)
+                {
+                   response.Add("status", "success");
+ 
+               }
+                else
+                {
+                    response.Add("status", "failed");
+                    response.Add("error", "something wrong!");
+                }
+            }
+            catch
+            {
+                response.Add("status", "failed");
+                response.Add("error", "bad param!");
+            }
+            return Json(response);
+       }
+        [HttpPost]
+        public ActionResult DeleteExam()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string,string> response = new Dictionary<string,string>();
+            ExamModel examModel = new ExamModel();
+            QuestionModel questionModel = new QuestionModel();
+            int id;
+            try
+            {
+                id = int.Parse(Request["id"]);
+                if (Directory.Exists(Server.MapPath(string.Format("~/upload/{0}", id))))
+                {
+                    Directory.Delete(Server.MapPath(string.Format("~/upload/{0}", id)),true);
+                }
+                int questionCol = questionModel.deleteQuestionByExamId(id);
+                int examCol = examModel.deleteExam(id);
+                if (questionCol > 0 && examCol > 0)
+                {
+                    response.Add("status", "success");
+                }
+                else
+                {
+                    response.Add("status", "failed");
+                    response.Add("error", "something wrong when delete the record from database!");
+                }
+            }
+            catch 
+            {
+                response.Add("status", "failed");
+                response.Add("error", "bad id!");
+            }
+            return Json(response);
+        }
 
         [HttpPost]
         public ActionResult AddExam()
         {
-             Dictionary<string,String> ret = new Dictionary<string,string>();
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string,String> ret = new Dictionary<string,string>();
             HttpPostedFileBase file =  Request.Files.Get("doc");
             if (file != null)
             {
@@ -191,6 +593,20 @@ namespace exam_aspx.Controllers
             }
 
             return ret;
+        }
+
+        public bool loginStatus()
+        {
+            if (Session["teacher"] == null)
+                return false;
+            else
+            {
+                Session.Timeout = 60 * 5;
+                return true;
+            } 
+                
+
+        
         }
 
        

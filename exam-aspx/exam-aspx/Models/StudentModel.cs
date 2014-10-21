@@ -40,6 +40,27 @@ namespace exam_aspx.Models
             cmd.AddParam("sid", OdbcType.VarChar, sid);
             return cmd.ExecuteReader().HasRows;
         }
-
+        public List<StudentEntity> getAllStudents()
+        {
+            List<StudentEntity> list = new List<StudentEntity>();
+            var cmd = buildCommand("select * from student order by sid");
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                StudentEntity student = new StudentEntity();
+                student.id = reader.GetInt32(0);
+                student.sid = reader.GetString(1);
+                student.name = reader.GetString(2);
+                student.password = reader.GetString(3);
+                list.Add(student);
+            }
+            return list;
+        }
+        public int delStudentById(int id)
+        {
+            var cmd = buildCommand("delete from student where id=?");
+            cmd.AddIntParam("id", id);
+            return cmd.ExecuteNonQuery();
+        }
     }
 }

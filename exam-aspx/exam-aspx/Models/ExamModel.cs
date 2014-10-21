@@ -246,5 +246,35 @@ namespace exam_aspx.Models
             }
             return list;
         }
+
+        public int deleteExam(int id)
+        {
+            OdbcCommand command = new OdbcCommand("delete from examination where id=?", connection);
+            command.Parameters.Add(new OdbcParameter("id", OdbcType.Int)).Value = id;
+            command.Prepare();
+            return command.ExecuteNonQuery();
+        }
+        public ExamEntity getExamById(int id)
+        {
+            ExamEntity exam = null;
+            var cmd = buildCommand("select * from examination where id=?");
+            cmd.AddIntParam("id", id);
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                exam = new ExamEntity();
+                exam.id = reader.GetInt32(0);
+                exam.time = reader.GetInt32(1);
+                exam.sNumber = reader.GetInt32(2);
+                exam.mNumber = reader.GetInt32(3);
+                exam.tNumber = reader.GetInt32(4);
+                exam.sScore = reader.GetFloat(5);
+                exam.mScore = reader.GetFloat(6);
+                exam.tScore = reader.GetFloat(7);
+                exam.ready = reader.GetInt32(8);
+                exam.name = reader.GetString(9);
+            }
+            return exam;
+        }
     }
 }

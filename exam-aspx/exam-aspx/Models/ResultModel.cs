@@ -102,6 +102,27 @@ namespace exam_aspx.Models
             command.Parameters.Add(new OdbcParameter("id", OdbcType.Int)).Value = id;
             return command.ExecuteNonQuery();
         }
+
+        public List<ExamResultEntity> getExamResultByExamId(int examId)
+        {
+            List<ExamResultEntity> list = new List<ExamResultEntity>();
+            var cmd = buildCommand("select  student.`name`,student.sid,result.mSCore,result.mSCore,result.tScore from result,student where result.studentId=student.id and examinationId=?");
+            cmd.AddIntParam("examinationId", examId);
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                ExamResultEntity tmp = new ExamResultEntity();
+                tmp.name = reader.GetString(0);
+                tmp.sid = reader.GetString(1);
+                tmp.sScore = reader.GetDouble(2);
+                tmp.mScore = reader.GetDouble(3);
+                tmp.tfScore = reader.GetDouble(4);
+                tmp.totalScore = tmp.mScore + tmp.sScore + tmp.tfScore;
+                list.Add(tmp);
+            }
+            return list;
+
+        }
         
     }
 }

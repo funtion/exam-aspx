@@ -1,0 +1,110 @@
+﻿@{
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+    ViewBag.Title = "Result";
+}
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">教师中心</a>
+        </div>
+
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/Teacher/Index">考试管理</a></li>
+                <li><a href="/Teacher/Announcement">公告管理</a></li>
+                <li><a href="/Teacher/Student">学生管理</a></li>
+                <li><a href="/Teacher/File">文件管理</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/Teacher/Logout">退出登录</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        @if (ViewBag.examInfo != null) { 
+                             
+        <div class="col-md-3">考试名称:@ViewBag.examInfo.name</div>
+        <div class="col-md-2">考试时间:@ViewBag.examInfo.time 分钟</div>
+        <div class="col-md-5">题型分布：单选：@ViewBag.examInfo.sNumber 个，多选：@ViewBag.examInfo.mNumber 个，判断：@ViewBag.examInfo.tNumber 个</div>}
+    </div>
+    <div class="row" style="margin-top:10px">
+        <div class="col-md-12">
+            <div class="Product">
+                <table id="product_info">
+                    <thead>
+                        <tr>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>单选得分</th>
+                            <th>多选得分</th>
+                            <th>判断得分</th>
+                            <th>总分</th>
+                            <th>
+                                操作
+                                <button class="btn btn-primary btn-lg" onclick="javascript:alert(1)">
+                                    删除所有成绩
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in ViewBag.resultList)
+                        {
+                            <tr>
+                                <td class="center">@result.sid</td>
+                                <td class="center">@result.name</td>
+                                <td class="center">@Math.Round(result.sScore,1)</td>
+                                <td class="center">@Math.Round(result.mScore,1)</td>
+                                <td class="center">@Math.Round(result.tfScore,1)</td>
+                                <td class="center">@Math.Round(result.totalScore,1)</td>
+
+                                <td>
+
+                                    <a class="btn btn-danger" onclick="deleteFile(@result.sid)">
+                                        删除
+                                        <i class="halflings-icon white trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+
+	$(function(){
+		var oTable = $("#product_info").dataTable(
+		{
+"bProcessing" : true,//加载数据时候是否显示进度条
+
+"sPaginationType" : "full_numbers",
+"oLanguage" : { //主要用于设置各种提示文本
+"sProcessing" : "正在处理...", //设置进度条显示文本
+"sLengthMenu" : "每页_MENU_行",//显示每页多少条记录
+"sEmptyTable" : "没有找到记录",//没有记录时显示的文本
+"sZeroRecords" : "没有找到记录",//没有记录时显示的文本
+"sInfo" : "总数:_TOTAL_  当前:_START_至_END_",
+/* "sInfo" : "当前页  _START_/_END_" , */
+"sInfoEmpty" : "",//没记录时,关于记录数的显示文本
+"sSearch" : "search:",//搜索框前的文本设置
+"oPaginate" : {
+	"sFirst" : "First",
+	"sLast" : "Last",
+	"sNext" : "Next",
+	"sPrevious" : "Pre "
+}
+}//用于设置提示文本
+
+});
+oTable.css("font-size","12px");//设置文本的样式；
+})
+</script>

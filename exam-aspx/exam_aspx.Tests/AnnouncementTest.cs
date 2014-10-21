@@ -35,6 +35,12 @@ namespace exam_aspx.Tests
         {
             Assert.AreEqual(2, model.getNumberOfDisplayAnnouncement());
         }
+        [TestMethod]
+        public void TestUpdateAnnouncement()
+        {   
+            
+            Assert.AreEqual(1,model.updateAnnouncement(1,"test1","this is aa a test"));
+        }
 
     }
 }

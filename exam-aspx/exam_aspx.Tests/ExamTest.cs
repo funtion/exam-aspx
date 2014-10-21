@@ -4,6 +4,7 @@ using exam_aspx.Models;
 using exam_aspx.Entity;
 using System.Drawing;
 using System.Collections.Generic;
+using System.IO;
 namespace exam_aspx.Tests
 {
     [TestClass]
@@ -108,5 +109,19 @@ namespace exam_aspx.Tests
             Assert.AreEqual(60, res[0].time);
             Assert.AreEqual(1, res[0].id);
         }
+
+         [TestMethod]
+        public void TestDeleteExam()
+        {
+            ExamModel model = new ExamModel();
+            int i = model.deleteExam(17);
+            Assert.IsTrue(i == 1);
+
+        }
+        [TestMethod]
+         public void TestGetExamById()
+         {
+             Assert.IsNotNull(model.getExamById(19));
+         }
     }
 }

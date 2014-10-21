@@ -5,10 +5,10 @@ using System.Web;
 
 namespace exam_aspx.Entity
 {
-    public class FileEntity
+    public class TeacherEntity
     {
-        public string name, path;
-        public int size,id;
-        public DateTime time;
+        public int id;
+        public string username;
+        public string password;
     }
 }

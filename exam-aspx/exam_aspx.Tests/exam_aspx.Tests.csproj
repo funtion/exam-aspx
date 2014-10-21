@@ -107,6 +107,7 @@
     <Compile Include="AnnouncementTest.cs" />
     <Compile Include="FileTest.cs" />
     <Compile Include="QuestionTest.cs" />
+    <Compile Include="TeacherTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
