@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">教师中心</a>
+        </div>
+
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ><a href="/Teacher/Index">考试管理</a></li>
+                <li><a href="/Teacher/Announcement">公告管理</a></li>
+                <li class="active"><a href="/Teacher/Student">学生管理</a></li>
+                <li><a href="/Teacher/File">文件管理</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/Teacher/Logout">退出登录</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="Product">
+                <table id="product_info">
+                    <thead>
+                        <tr>
+                            <th>一卡通</th>
+                            <th>用户名</th>
+                            <th>密码</th>
+                            <th>
+                                操作
+                                <a class="btn btn-info" data-toggle="modal"
+                                   data-target="#myModal">
+                                    添加可注册账号
+                                    <i class="halflings-icon white edit"></i>
+                                </a>
+                               
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var student in ViewBag.studentList)
+                        {
+                            <tr>
+                                <td class="center">@student.sid</td>
+                                <td class="center">@student.name</td>
+                                <td class="center">@student.password    </td>
+                                <td>
+
+                                    <a class="btn btn-danger" onclick="delStudent(@student.id)">
+                                        删除
+                                        <i class="halflings-icon white trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    添加可注册账号
+                </h4>
+            </div>
+            <div class="modal-body">
+                <label>学号</label>
+                <input type="text" id="sid" name="sid"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="limitUser()">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- script for datatable -->
+<script type="text/javascript">
+
+	$(function(){
+		var oTable = $("#product_info").dataTable(
+		{
+"bProcessing" : true,//加载数据时候是否显示进度条
+
+"sPaginationType" : "full_numbers",
+"oLanguage" : { //主要用于设置各种提示文本
+"sProcessing" : "正在处理...", //设置进度条显示文本
+"sLengthMenu" : "每页_MENU_行",//显示每页多少条记录
+"sEmptyTable" : "没有找到记录",//没有记录时显示的文本
+"sZeroRecords" : "没有找到记录",//没有记录时显示的文本
+"sInfo" : "总数:_TOTAL_  当前:_START_至_END_",
+/* "sInfo" : "当前页  _START_/_END_" , */
+"sInfoEmpty" : "",//没记录时,关于记录数的显示文本
+"sSearch" : "search:",//搜索框前的文本设置
+"oPaginate" : {
+	"sFirst" : "First",
+	"sLast" : "Last",
+	"sNext" : "Next",
+	"sPrevious" : "Pre "
+}
+}//用于设置提示文本
+
+});
+oTable.css("font-size","12px");//设置文本的样式；
+})
+</script>
+<script>
+    function delStudent(id) {
+        $.post("delStudent",
+                "id="+id,
+                success = function (data) {
+                    if (data.status == "success") {
+                        alert("delete success!");
+                        location.reload();
+                    }
+                    else {
+                        alert("delete failed!" + data.error);
+                        location.reload();
+                    }
+            })
+    }
+</script>
+<script>
+    function limitUser() {
+        var sid = $("input#sid").val();
+        if (sid != '') {
+            $.post("AddLimitUser",
+                   "sid="+sid,
+                   success = function (data) {
+                       if (data.status == "success") {
+                           alert("add success!");
+                           location.reload();
+                       }
+                       else {
+                           alert("add failed!" + data.error);
+                           location.reload();
+
+                       }
+                   })
+
+            
+        }
+    }
+</script>

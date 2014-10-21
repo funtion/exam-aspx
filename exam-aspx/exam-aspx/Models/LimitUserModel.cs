@@ -14,6 +14,12 @@ namespace exam_aspx.Models
             cmd.AddParam("sid", System.Data.Odbc.OdbcType.VarChar, sid);
             return cmd.ExecuteReader().HasRows;
         }
+        public int addLimitUser(string sid)
+        {
+            var cmd = buildCommand("insert into limituser(sid) values(?)");
+            cmd.AddVarcharParam("sid", sid);
+            return cmd.ExecuteNonQuery();
+        }
 
     }
 }

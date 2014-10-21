@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">教师中心</a>
+        </div>
+
+
+       
+    </div>
+</nav>
+<form class="form-horizontal" role="form" method="post" action="CheckLogin">
+    <div class="form-group">
+        <label for="firstname" class="col-sm-2 control-label">username:</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="firstname" name="user"
+                   placeholder="username">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lastname" class="col-sm-2 control-label">password:</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="lastname" name="pass"
+                   placeholder="password">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> 请记住我
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">登录</button>
+        </div>
+    </div>
+</form>

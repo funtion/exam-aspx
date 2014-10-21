@@ -16,5 +16,11 @@ namespace exam_aspx.Tests
             Assert.IsTrue(modle.isAllowed("12345678"));
             Assert.IsFalse(modle.isAllowed("87654321"));
         }
+        [TestMethod]
+        public void TestAddLimitUser()
+        {
+            Assert.IsTrue(modle.addLimitUser("09012434")>0);
+            
+        }
     }
 }

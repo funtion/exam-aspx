@@ -145,6 +145,7 @@
     <Compile Include="Entity\QuestionEntity.cs" />
     <Compile Include="Entity\ResultEntity.cs" />
     <Compile Include="Entity\StudentEntity.cs" />
+    <Compile Include="Entity\TeacherEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -155,7 +156,8 @@
     <Compile Include="Models\LimitUserModel.cs" />
     <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
-    <Compile Include="obj\StudentModel.cs" />
+    <Compile Include="Models\StudentModel.cs" />
+    <Compile Include="Models\TeacherModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -299,6 +301,11 @@
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Shared\_TeacherLayout.cshtml" />
     <Content Include="Views\Shared\student_header.cshtml" />
+    <Content Include="Views\Teacher\Announcement.cshtml" />
+    <Content Include="Views\Teacher\File.cshtml" />
+    <Content Include="Views\Teacher\Login.cshtml" />
+    <Content Include="Views\Teacher\Result.cshtml" />
+    <Content Include="Views\Teacher\Student.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

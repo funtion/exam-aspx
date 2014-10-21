@@ -5,6 +5,7 @@ using exam_aspx.Entity;
 
 namespace exam_aspx.Tests
 {
+
     [TestClass]
     public class StudentTest
     {
@@ -31,6 +32,18 @@ namespace exam_aspx.Tests
             Assert.IsTrue(model.isRegisted("12345678"));
             Assert.IsFalse(model.isRegisted("987654321"));
         }
-        
+        [TestMethod]
+        public void TestGetAllUser()
+        {
+            Assert.IsTrue(model.getAllStudents().Count > 0);
+            
+        }
+        [TestMethod]
+        public void TestDelStudetnById()
+        {
+            Assert.IsTrue(model.delStudentById(10) > 0);
+
+        }
+     
     }
 }

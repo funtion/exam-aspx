@@ -29,6 +29,26 @@ namespace exam_aspx.Models
             return result.ToArray();
         }
 
+        public List<AnnouncementEntity> getAllAnnouncements()
+        {
+            var cmd = buildCommand("select * from announcement order by time desc");
+            var reader = cmd.ExecuteReader();
+            var result = new List<AnnouncementEntity>();
+            while (reader.Read())
+            {
+                AnnouncementEntity tmp = new AnnouncementEntity();
+                tmp.id = reader.GetInt32(0);
+                tmp.content = reader.GetString(1);
+                tmp.title = reader.GetString(2);
+                tmp.display = reader.GetInt32(3);
+                tmp.time = reader.GetDateTime(4);
+                result.Add(tmp);
+            }
+            return result;
+        }
+
+        
+
         public int getNumberOfDisplayAnnouncement()
         {
             var cmd = buildCommand("select count(*) from announcement where display = 1");
@@ -50,6 +70,14 @@ namespace exam_aspx.Models
         {
             var cmd = buildCommand("delete from announcement where id = ?");
             cmd.AddParam("id", System.Data.Odbc.OdbcType.Int,id);
+            return cmd.ExecuteNonQuery();
+        }
+        public int updateAnnouncement(int id, string title, string content)
+        {
+            var cmd = buildCommand("update announcement set title=?,content=? where id=?");
+            cmd.AddVarcharParam("title", title);
+            cmd.AddVarcharParam("content", content);
+            cmd.AddIntParam("id", id);
             return cmd.ExecuteNonQuery();
         }
         public AnnouncementEntity getAnnouncementByID(int id)

@@ -20,6 +20,7 @@ namespace exam_aspx.Models
             while(reader.Read())
             {
                 FileEntity tmp = new FileEntity();
+                tmp.id = reader.GetInt32(0);
                 tmp.name = reader.GetString(1);
                 tmp.path = reader.GetString(2);
                 tmp.time = reader.GetDateTime(3);
@@ -51,6 +52,24 @@ namespace exam_aspx.Models
             var reader = cmd.ExecuteReader();
             reader.Read();
             return reader.GetInt32(0);
+        }
+
+        public FileEntity getFileById(int id)
+        {
+            FileEntity file = null;
+            var cmd = buildCommand("select * from file where id=?");
+            cmd.AddIntParam("id", id);
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                file = new FileEntity();
+                file.id = reader.GetInt32(0);
+                file.name = reader.GetString(1);
+                file.path = reader.GetString(2);
+                file.time = reader.GetDateTime(3);
+                file.size = reader.GetInt32(4);
+            }
+           return file;
         }
     }
 }

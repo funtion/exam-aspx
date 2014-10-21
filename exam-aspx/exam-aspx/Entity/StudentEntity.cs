@@ -7,6 +7,7 @@ namespace exam_aspx.Entity
 {
     public class StudentEntity
     {
+        public int id;
         public string sid; 
         public string name;
         public string password;

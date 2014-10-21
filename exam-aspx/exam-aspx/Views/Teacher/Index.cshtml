@@ -14,8 +14,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/Teacher/Index">考试管理</a></li>
-                <li><a href="/Teacher/Exam">公告管理</a></li>
-                <li><a href="/Teacher/Result">学生管理</a></li>
+                <li><a href="/Teacher/Announcement">公告管理</a></li>
+                <li><a href="/Teacher/Student">学生管理</a></li>
                 <li><a href="/Teacher/File">文件管理</a></li>
 
             </ul>
@@ -44,7 +44,14 @@
                             <th>判断分数</th>
                             <th>考试时间</th>
                             <th>状态</th>
-                            <th>操作</th>
+                            <th>操作
+                                <a class="btn btn-info" data-toggle="modal"
+                                   data-target="#myModal">
+                                    添加考试
+                                    <i class="halflings-icon white edit"></i>
+                                </a>
+                                
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,16 +66,22 @@
                             <td class="center">@exam.tScore</td>
                             <td class="center">@exam.time</td>
                             @if(exam.ready==0){
-                                <td class="center">可见</td>}
+                                <td class="center">不可见</td>}
                              else
-                                {<td class="center">不可见</td>}
+                                {<td class="center">可见</td>}
                             <td>
-                                 <a class="btn btn-info">修改
-                                     <i class="halflings-icon white edit"></i>
-                                 </a>
-                                 <a class="btn btn-danger"> 删除
-                                     <i class="halflings-icon white trash"></i>
-                                 </a>
+                                <a class="btn btn-info" onclick="modifyStatus(@exam.id,@exam.ready)">
+                                    更改状态
+                                    <i class="halflings-icon white edit"></i>
+                                </a>
+                                <a class="btn btn-danger" onclick="deleteExam(@exam.id)">
+                                    删除
+                                    <i class="halflings-icon white trash"></i>
+                                </a>
+                                <a class="btn btn-danger" href="Result?exam=@exam.id">
+                                    成绩
+                                    <i class="halflings-icon white trash"></i>
+                                </a>
                             </td>
                         </tr>
                  }
@@ -82,6 +95,42 @@
         </div>
     </div>
 
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    添加考试
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="upload-form" method="post" action="AddExam">
+                    <label>选择一个docx文件</label><input type="file" name="doc">
+                </form>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="40"
+                         aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="UploadFile()">
+                    提交
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 <!-- script for datatable -->
 <script type="text/javascript">
@@ -115,6 +164,75 @@ oTable.css("font-size","12px");//设置文本的样式；
 </script>
 
 <script>
-    alert(1);
+       function UploadFile() {
+
+           $(".upload-form").ajaxSubmit({
+               url:"AddExam",
+               type:"post",
+               dataType:"json",
+               beforeSend:function(){
+                   
+               },
+               uploadProgress:function(event,position,total,percent){                         
+                   console.log(percent);
+                   $("div.progress-bar").css("width", percent + "%");
+               },
+               success:function(data){
+                   console.log(data);
+                   if(data.status!="success"){
+                       $("div.progress-bar").css("width",   "0%");;
+                       alert("upload failed."+data.error);
+                       location.reload();
+                   }
+                   else{
+                       
+                       alert("upload success.");                    
+                       location.reload();
+                   }
+
+               },
+               error:function(){
+                   
+                   alert("network error.");
+                   location.reload();
+               }
+           });
+          
+       }
+	
+       
+
+
+         
+       function modifyStatus(id,status){
+               var targetStatus = (status + 1) % 2;
+               $.post("ModifyExamStatus",
+                       "id=" + id+"&status="+targetStatus,
+                       success=function(data,textStatus,xhr){
+                               alert(data['status']);
+                                location.reload();
+                            }
+                          );
+           }
+        function deleteExam(id)
+           {
+                var b = confirm("This action will delete the record! Continue?");
+                if(b==true){
+                       $.post("DeleteExam",
+                               "id="+id,
+                               success=function(data){
+                
+                                        if(data['status']=="success"){
+                                                alert("You have delete the record!");
+                                               location.reload();
+                                            }
+                                        else{
+                                            alert("delete failed!"+data.error);
+                                            location.reload();
+                                        }
+                                });
+                }
+        }
 </script>
+
 
