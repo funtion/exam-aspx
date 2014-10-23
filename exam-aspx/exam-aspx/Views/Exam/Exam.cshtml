@@ -1,23 +1,98 @@
 ﻿@{
     ViewBag.Title = "Exam";
 }
-
-@{var num = 1;}
-@foreach (QuestionEntity q in ViewBag.questions){
-    <div>
-        <a>@num.</a>@{num++;}
-        <a>@q.type</a>
-        <a>@q.statement</a>
-        @if (q.type != "TF")
-        {
-            foreach (String c in q.choices)
-            {
-                <div>
-                    <a>@c</a>
-                </div>
-            }
-        }
-    </div>
-   
+@section css{
+    @Styles.Render("~/Content/css/layout.css")
 }
+@section js{
+    @Scripts.Render("~/Content/js/jquery.min.js")
+    <script type="text/javascript">
+        function concat(o,n){
+            return o.value+";"+n.value;
+        }
+        function submit() {
+            var ans = [];
+            var tot = @ViewBag.questions.Count;
+            for(var i=0;i<tot;i++){
+                var str = "input[name="+i+"]:checked";
+                var choice;
+                if($(str).length > 1){
+                   
+                   choice = $(str).toArray().reduce(concat);
+                }else{
+                    choice = $(str).val()
+                }
+                ans.push({"id":i,"choice":choice || ""});
+            }
+            console.dir(ans);
+            $.ajax({
+                url:"../Submit",
+                type:"POST",
+                data:{"data":JSON.stringify(ans)},
+                success:function(data){
+                    alert(data);
+                },
+                error:function(){
+                   alert("failed")
+                }
+            });
+
+        }
+    </script>
+    
+}
+@{var num = 0;}
+<div id="container">
+    @Html.Partial("student_header")
+    <div id="content">
+        <div style="padding-left:160px;padding-right:160px">
+            <div id="pad20">
+                <div class="cols3 column">
+                    @foreach (QuestionEntity q in ViewBag.questions)
+                    {
+                        <div>
+                            <a>@num.</a>
+                            <a>@q.type</a>
+                            <a>@q.statement</a>
+                            @if (q.type == "SC")
+                            {
+                                var x = 0;
+                                foreach (String c in q.choices)
+                                {
+
+                                    <p>
+                                        <input type="radio" name="@num" value="@x" />@c
+                                        @{x++;}
+                                    </p>
+                                }
+                            }
+                            else if(q.type == "TF")
+                            {
+                                <p>
+                                    <input type="radio" name="@num" value="T" />True
+                                    <input type="radio" name="@num" value="F" />False
+                                </p>
+                            }
+                            else
+                            {
+                                var x = 0;
+                                foreach (String c in q.choices)
+                                {
+
+                                    <p>
+                                        <input type="checkbox" name="@num" value="@x" />@c
+                                        @{x++;}
+                                    </p>
+                                }
+                            }
+                        </div>
+                            num++;
+
+                    }
+                </div>
+                <input type="button" value="submit" onclick="submit()"/>
+            </div>
+        </div>
+    </div>
+</div>
 

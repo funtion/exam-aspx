@@ -7,6 +7,8 @@ using System.Web.Script.Serialization;
 using exam_aspx.Controllers;
 using exam_aspx.Models;
 using System.Collections;
+using exam_aspx.Entity;
+
 
 namespace exam_aspx.Controllers
 {
@@ -58,6 +60,7 @@ namespace exam_aspx.Controllers
         [HttpPost]
         public ActionResult Submit()
         {
+            int score = 0;
             if (getSid() == -1)
             {
                 return Redirect("/Index/Index");
@@ -72,15 +75,42 @@ namespace exam_aspx.Controllers
             {
                 var data = Request.Params["data"];
                 var ans = new JavaScriptSerializer().Deserialize< ArrayList>(data);
+                var question = Session["exam"] as List<QuestionEntity>;
+                
+                foreach (Dictionary<String,Object> a in ans)
+                {
+                    int id = (int)a["id"];
+                    var correctAns = question[id].ans;
+                    var getAns = a["choice"] as String;
+                    if (question[id].type == "SC")
+                    {
+                        String tmp = ( (char)(Int32.Parse(getAns) + 'A')).ToString();
+                        if (tmp == correctAns)
+                        {
+                            score++;
+                        }
+                    }
+                    else if (question[id].type == "MC")
+                    {
+                        var l = from c in getAns.Split(';') orderby c select ( (char)(Int32.Parse(c) + 'A')).ToString() ;
+                        var tmp = String.Join("", l);
+                        if (tmp == correctAns)
+                        {
+                            score++;
+                        }
 
-
-
-
-
+                    }
+                    else
+                    {
+                        if (correctAns == getAns)
+                        {
+                            score++;
+                        }
+                    }
+                }
+                
             }
-
-
-            return View();
+            return Json(score);
         }
 
 
