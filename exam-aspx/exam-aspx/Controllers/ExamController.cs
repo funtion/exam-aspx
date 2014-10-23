@@ -54,6 +54,7 @@ namespace exam_aspx.Controllers
             var endTime = System.DateTime.Now.AddMinutes(exam.time);
             Session["end_time"] = endTime;
             ViewBag.questions = question;
+            ViewBag.exam = exam;
             return View();
         }
 

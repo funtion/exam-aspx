@@ -38,6 +38,19 @@
             });
 
         }
+        function count_down(){
+            var time = @ViewBag.exam.time * 60;
+            var tot = time;
+            setInterval(function(){
+                $("#time").text(parseInt( time/60)+":"+time%60);
+                $("#time_ui").attr("style","width:"+ parseInt(100-time*100/tot)+"%");
+                time--;
+                if(time <=0){
+                    alert("finished");
+                }
+            },1000)
+        }
+        (count_down())();
     </script>
     
 }
@@ -47,12 +60,16 @@
     <div id="content">
         <div style="padding-left:160px;padding-right:160px">
             <div id="pad20">
+                <div id="progressbar" class="ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40">
+                    <div id="time_ui" class="ui-progressbar-value ui-widget-header ui-corner-left" style="width: 40%;"></div>
+                </div>
+                Time Remain <a id="time"></a>
                 <div class="cols3 column">
+                    
                     @foreach (QuestionEntity q in ViewBag.questions)
                     {
                         <div>
                             <a>@num.</a>
-                            <a>@q.type</a>
                             <a>@q.statement</a>
                             @if (q.type == "SC")
                             {
