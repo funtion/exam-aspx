@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Exam";
+}
+
+@{var num = 1;}
+@foreach (QuestionEntity q in ViewBag.questions){
+    <div>
+        <a>@num.</a>@{num++;}
+        <a>@q.type</a>
+        <a>@q.statement</a>
+        @if (q.type != "TF")
+        {
+            foreach (String c in q.choices)
+            {
+                <div>
+                    <a>@c</a>
+                </div>
+            }
+        }
+    </div>
+   
+}
+

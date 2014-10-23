@@ -120,28 +120,32 @@ namespace exam_aspx.Models
                         }
                         else// SC &&　MC
                         {
-                            foreach (DocumentObject docObject in paragraph.ChildObjects)
+                            if (text.StartsWith("A：") && text.Split('；').Length >=4) //at least 4 choices
                             {
-                                if (docObject.DocumentObjectType == DocumentObjectType.TextRange)
+                                var choiceList = text.Split('；');
+                                currentQuestion.choices.AddRange(choiceList);
+                            }
+                            else
+                            {
+                                foreach (DocumentObject docObject in paragraph.ChildObjects)
                                 {
-                                    var info = (docObject as TextRange).Text;
-                                    if (info.StartsWith("A：")) 
+                                    if (docObject.DocumentObjectType == DocumentObjectType.TextRange)
                                     {
-                                        var choiceList = info.Split('；');
-                                        currentQuestion.choices.AddRange(choiceList);
-                                    }
-                                    else
-                                    {
+                                        var info = (docObject as TextRange).Text;
+
+
                                         currentQuestion.statement += info;
+
+
                                     }
-                                    
-                                }
-                                else if (docObject.DocumentObjectType == DocumentObjectType.Picture)
-                                {
-                                    DocPicture picture = docObject as DocPicture;
-                                    currentQuestion.image = picture.Image;
+                                    else if (docObject.DocumentObjectType == DocumentObjectType.Picture)
+                                    {
+                                        DocPicture picture = docObject as DocPicture;
+                                        currentQuestion.image = picture.Image;
+                                    }
                                 }
                             }
+                            
                         }
                     }
                 }
@@ -316,7 +320,6 @@ namespace exam_aspx.Models
             res.AddRange(tf);
             return res;
         }
-
 
     }
 }

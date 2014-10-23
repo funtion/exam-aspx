@@ -28,7 +28,7 @@ namespace exam_aspx.Controllers
             }
             var model = new  ExamModel();
             var exam = model.getExamById(id);
-            if(exam == null)
+            if(exam == null || exam.ready == 0)
                 return Redirect("/Index/Index");
 
             ViewBag.exam = exam;
@@ -45,12 +45,13 @@ namespace exam_aspx.Controllers
             }
             var model = new ExamModel();
             var exam = model.getExamById(id);
-            if (exam == null)
+            if (exam == null || exam.ready == 0)
                 return Redirect("/Index/Index");
             var question = model.genExam(id);
             Session["exam"] = question;
             var endTime = System.DateTime.Now.AddMinutes(exam.time);
             Session["end_time"] = endTime;
+            ViewBag.questions = question;
             return View();
         }
 
