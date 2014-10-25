@@ -100,12 +100,13 @@ namespace exam_aspx.Controllers
 
                     var tmp_dic = new Dictionary<string, string>();
                     tmp_dic["problem_id"] = String.Format("{0}",ans["id"]);
-                    tmp_dic["choice"] = (string)ans["choice"];
+                    
                     tmp_dic["ans"] = correctAns;
                     tmp_dic["is_correct"] = "false";
                     if (question[id].type == "SC")
                     {
                         String tmp = ( (char)(Int32.Parse(getAns) + 'A')).ToString();
+                        tmp_dic["choice"] = tmp;
                         if (tmp == correctAns)
                         {
                             scScore += exam_info.sScore;
@@ -118,6 +119,7 @@ namespace exam_aspx.Controllers
                     {
                         var l = from c in getAns.Split(';') orderby c select ( (char)(Int32.Parse(c) + 'A')).ToString() ;
                         var tmp = String.Join("", l);
+                        tmp_dic["choice"] = tmp;
                         if (tmp == correctAns)
                         {
                             mcScore +=exam_info.mScore;
@@ -128,7 +130,8 @@ namespace exam_aspx.Controllers
                     }
                     else
                     {
-                        if (correctAns.ToLower() == getAns.ToLower())
+                        tmp_dic["choice"] = getAns.ToUpper();
+                        if (correctAns.ToUpper() == getAns.ToUpper())
                         {
                             tfScore+=exam_info.tScore;
                             tmp_dic["is_correct"] = "true";
