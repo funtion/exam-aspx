@@ -7,6 +7,8 @@ using exam_aspx.Models;
 using exam_aspx.Entity;
 
 
+using System.Web.Script.Serialization;
+
 namespace exam_aspx.Controllers
 {
     public class StudentController : Controller
@@ -86,6 +88,10 @@ namespace exam_aspx.Controllers
             }
             var model = new ResultModel();
             var data = model.getResultById(id);
+            var decoder = new JavaScriptSerializer();
+            ViewBag.sQuestion = decoder.Deserialize< List< Dictionary<string,string> > >(data.sQuestion);
+            ViewBag.mQuestion = decoder.Deserialize<List<Dictionary<string, string>>>(data.mQuestion);
+            ViewBag.tQuestion = decoder.Deserialize<List<Dictionary<string, string>>>(data.tQuestion);
             ViewBag.data = data;
             return View();
         }

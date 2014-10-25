@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "考试结果";
+}
+@section css{
+    @Styles.Render("~/Content/css/layout.css")
+}
+@{
+    ResultEntity result = ViewBag.data;
+}
+@section js{
+
+    @Scripts.Render("~/Content/js/jquery.wysiwyg.js")
+    @Scripts.Render("~/Content/js/superfish.js")
+
+
+}
+
+<div id="container">
+    @Html.Partial("student_header")
+    <div id="content">
+        <div style="padding-left:160px;padding-right:160px">
+            <div id="pad20">
+                <div class="cols3 column">
+                    <table class="fullwidth" cellpadding="0" cellspacing="0" border="0">
+                        <thead>
+                            <tr>
+                                
+                                <td>单选</td>
+                                <td>多选</td>
+                                <td>判断</td>
+                                <td>总分</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @{
+                                    var tot = result.mScore + result.sScore + result.tScore;
+                                }
+                                
+                                <td> @result.sScore 分</td>
+                                <td> @result.mScore 分</td>
+                                <td> @result.tScore 分</td>
+                                <td> @tot 分</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="fullwidth" cellpadding="0" cellspacing="0" border="0" id="data">
+                        <thead>
+                            <tr>
+                                <td>题号</td>
+                                <td>正确答案</td>
+                                <td>你的答案</td>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            @{
+                                var questions = new List<Dictionary<string,string>>();
+                                questions.AddRange(ViewBag.sQuestion);
+                                questions.AddRange(ViewBag.mQuestion);
+                                questions.AddRange(ViewBag.tQuestion);
+                            }
+                            @foreach (Dictionary<string, string> data in questions)
+                            {
+                                <tr>
+                                    <td>
+                                        @data["problem_id"]
+                                    </td>
+                                    
+                                    <td>
+                                        @data["ans"]
+                                    </td>
+                                    <td>
+                                        @data["choice"]
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

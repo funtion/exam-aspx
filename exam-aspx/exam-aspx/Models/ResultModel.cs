@@ -78,14 +78,13 @@ namespace exam_aspx.Models
                 result.sScore = reader.GetDouble(6);
                 result.mScore = reader.GetDouble(7);
                 result.tScore = reader.GetDouble(8);
-                
             }
             return result;
         }
         
         public int insertResult(int studentId,int examinationId,string sQuestion,string mQuestion,string tQuestion,double sScore,double mScore,double tScore )
         {
-            OdbcCommand command = new OdbcCommand("insert into result(studentId,examinationId,sQuestion,mQuestion,tQuestion,sScore,mScore,tScore) values (?,?,?,?,?,?,?,?)", connection);
+            OdbcCommand command = new OdbcCommand("insert into result(studentId,examinationId,sQuestion,mQuestion,tQuestion,sScore,mScore,tScore,time) values (?,?,?,?,?,?,?,?,now())", connection);
             command.Parameters.Add(new OdbcParameter("studentId", OdbcType.Int)).Value = studentId;
             command.Parameters.Add(new OdbcParameter("examinationId", OdbcType.Int)).Value = examinationId;
             command.Parameters.Add(new OdbcParameter("sQuestion", OdbcType.VarChar)).Value = sQuestion;
