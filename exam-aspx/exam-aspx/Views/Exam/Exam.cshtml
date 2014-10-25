@@ -30,23 +30,34 @@
                 type:"POST",
                 data:{"data":JSON.stringify(ans)},
                 success:function(data){
-                    alert(data);
+                    eval("var res="+data);
+                    console.log(res);
+                    if( res['status'] == 'success'){
+                        window.location = res['redirct'];
+                    }else{
+                        alert(res['message']);
+                    }
+                    alert("提交成功")
+
                 },
                 error:function(){
-                   alert("failed")
+                   alert("提交失败")
                 }
             });
 
         }
+        function pad(x){
+            return (x+"").length == 2?x:"0"+x;
+        }
         function count_down(){
-            var time = @ViewBag.exam.time * 60;
+            var time = @ViewBag.reamin_time;
             var tot = time;
             setInterval(function(){
-                $("#time").text(parseInt( time/60)+":"+time%60);
+                $("#time").text(pad(parseInt( time/60))+":"+pad(time%60));
                 $("#time_ui").attr("style","width:"+ parseInt(100-time*100/tot)+"%");
                 time--;
                 if(time <=0){
-                    alert("finished");
+                    submit();
                 }
             },1000)
         }
@@ -61,9 +72,12 @@
         <div style="padding-left:160px;padding-right:160px">
             <div id="pad20">
                 <div id="progressbar" class="ui-progressbar ui-widget ui-widget-content ui-corner-all" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40">
-                    <div id="time_ui" class="ui-progressbar-value ui-widget-header ui-corner-left" style="width: 40%;"></div>
+                    <div id="time_ui" class="ui-progressbar-value ui-widget-header ui-corner-left" style="width: 0%;"></div>
                 </div>
-                Time Remain <a id="time"></a>
+                <h1>
+                    剩余时间 <a id="time"></a>
+                </h1>
+                
                 <div class="cols3 column">
                     
                     @foreach (QuestionEntity q in ViewBag.questions)

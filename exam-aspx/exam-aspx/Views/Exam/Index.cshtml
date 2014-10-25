@@ -1,8 +1,26 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-<h1>考试名称 @ViewBag.exam.name</h1>
-<h1>time @ViewBag.exam.time minnuts</h1>
-<h1> 开始后无法终止</h1>
-<a href ="/Exam/Exam/@ViewBag.exam.id">start</a>
+@section css{
+    @Styles.Render("~/Content/css/layout.css")
+}
+<div id="container">
+    @Html.Partial("student_header")
+    <div id="content">
+        <div style="padding-left:160px;padding-right:160px">
+            
+            <div id="pad20" >
+                <h1 align="center">考试名称: @ViewBag.exam.name</h1>
+                <h1 align="center">考试时间 @ViewBag.exam.time 分钟</h1>
+                <h1 align="center"> 开始后无法终止</h1>
+                <div style="text-align:center">
+                    <h1>
+                        <a href="/Exam/Exam/@ViewBag.exam.id">确认开始</a>
+                    </h1>
+                </div>
+               
 
+            </div>
+        </div>
+    </div>
+</div>

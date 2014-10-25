@@ -44,6 +44,7 @@ namespace exam_aspx.Models
             while (reader.Read())
             {
                 ResultEntity result = new ResultEntity();
+
                 result.id = reader.GetInt32(0);
                 result.studentId = reader.GetInt32(1);
                 result.examinationId = reader.GetInt32(2);
@@ -82,7 +83,7 @@ namespace exam_aspx.Models
             return result;
         }
         
-        public int insertResult(int studentId,int examinationId,string sQuestion,string mQuestion,string tQuestion,double sScore,double mScore,double tScore)
+        public int insertResult(int studentId,int examinationId,string sQuestion,string mQuestion,string tQuestion,double sScore,double mScore,double tScore )
         {
             OdbcCommand command = new OdbcCommand("insert into result(studentId,examinationId,sQuestion,mQuestion,tQuestion,sScore,mScore,tScore) values (?,?,?,?,?,?,?,?)", connection);
             command.Parameters.Add(new OdbcParameter("studentId", OdbcType.Int)).Value = studentId;
@@ -92,9 +93,15 @@ namespace exam_aspx.Models
             command.Parameters.Add(new OdbcParameter("tQuestion", OdbcType.VarChar)).Value = tQuestion;
             command.Parameters.Add(new OdbcParameter("sScore", OdbcType.Double)).Value = sScore;
             command.Parameters.Add(new OdbcParameter("mScore", OdbcType.Double)).Value = mScore;
-            command.Parameters.Add(new OdbcParameter("tScore", OdbcType.Double)).Value = tScore;
+            command.Parameters.Add(new OdbcParameter("tScore", OdbcType.Double)).Value = tScore;     
             return command.ExecuteNonQuery();
-
+        }
+        public int lastId()
+        {
+            var cmd = buildCommand("select max(id) from result");
+            var reader = cmd.ExecuteReader();
+            reader.Read();
+            return reader.GetInt32(0);
         }
         public int deleteResultById(int id)
         {
