@@ -17,12 +17,11 @@
                 var str = "input[name="+i+"]:checked";
                 var choice;
                 if($(str).length > 1){
-                   
                    choice = $(str).toArray().reduce(concat);
                 }else{
                     choice = $(str).val()
                 }
-                ans.push({"id":i,"choice":choice || ""});
+                ans.push({"id": i,"choice":choice || ""});
             }
             console.dir(ans);
             $.ajax({

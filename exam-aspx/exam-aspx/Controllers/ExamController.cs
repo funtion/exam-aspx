@@ -99,10 +99,11 @@ namespace exam_aspx.Controllers
                     var getAns = ans["choice"] as String;
 
                     var tmp_dic = new Dictionary<string, string>();
-                    tmp_dic["problem_id"] = String.Format("{0}",ans["id"]);
+                    //tmp_dic["problem_id"] = String.Format("{0}",ans["id"]);
                     
                     tmp_dic["ans"] = correctAns;
                     tmp_dic["is_correct"] = "false";
+                    tmp_dic["id"] = String.Format("{0}", question[id].id );
                     if (question[id].type == "SC")
                     {
                         String tmp = ( (char)(Int32.Parse(getAns) + 'A')).ToString();

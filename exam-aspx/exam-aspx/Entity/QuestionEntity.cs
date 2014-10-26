@@ -15,5 +15,6 @@ namespace exam_aspx.Entity
         public string type;
         public Image image;
         public String imageURL;
+        public int id;
     }
 }

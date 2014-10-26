@@ -51,6 +51,7 @@ namespace exam_aspx.Models
         public QuestionEntity read(OdbcDataReader reader)
         {
             var res = new QuestionEntity();
+            res.id = reader.GetInt32(0);
             res.ans = reader.GetString(2);
 
 
@@ -64,6 +65,15 @@ namespace exam_aspx.Models
 
             return res;
 
+        }
+
+        public QuestionEntity getQuestionByID(int id)
+        {
+            var cmd = buildCommand("select * from question where id = ? limit 1");
+            cmd.AddIntParam("id", id);
+            var reader = cmd.ExecuteReader();
+            reader.Read();
+            return read(reader);
         }
 
         public List<QuestionEntity> getQuestionByExamAndType(int examinationId,int type)

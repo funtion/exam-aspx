@@ -7,7 +7,7 @@
 @section js{
 
     @Scripts.Render("~/Content/js/jquery.wysiwyg.js")
-    @Scripts.Render("~/Content/js/superfish.js")
+
 }
 <div id="container">
     @Html.Partial("student_header")
@@ -29,7 +29,13 @@
                             @foreach (ResultEntity data in ViewBag.data)
                             {
                                 <tr>
-                                    <td>@data.id</td>
+                                    <td>
+                                        <a href="/Student/ResultDetail/@data.id">
+                                            @data.id
+                                        </a>
+                                        
+                                    
+                                    </td>
                                     <td>@Math.Round( @data.mScore,1) </td>
                                     <td>@Math.Round(@data.sScore,1)</td>
                                     <td>@Math.Round(@data.tScore,1)</td>

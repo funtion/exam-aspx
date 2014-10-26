@@ -10,9 +10,31 @@
 @section js{
 
     @Scripts.Render("~/Content/js/jquery.wysiwyg.js")
-    @Scripts.Render("~/Content/js/superfish.js")
+    <script>
+        function show_dialog(id){
+            $.ajax({
+                type: 'post',
+                url: '../GetProblemDetail/' + id,
+                success: function (data) {
+                    var st = "var info = " + data;
+                    eval(st);
+                    eval("var inf =" + info);
+                    var rd = ("" + Math.random()).substr(2);
+                    var choice = "";
+                    for(s in inf.choices){
+                        choice += inf.choices[s];
+                    }
+                    var str = "<div id='dia_"+rd +"' style='display:none'> " +
+                       "<div>" + inf.statement + "</div>" +
+                       "<div>" + choice +"<div>"+
 
-
+                        " </div>";
+                    $("body").append(str)
+                    $('#dia_'+rd).dialog()
+                }
+            });
+        }
+    </script>
 }
 
 <div id="container">
@@ -58,12 +80,22 @@
                                 questions.AddRange(ViewBag.sQuestion);
                                 questions.AddRange(ViewBag.mQuestion);
                                 questions.AddRange(ViewBag.tQuestion);
+                                var cnt = 0;
                             }
+
                             @foreach (Dictionary<string, string> data in questions)
                             {
-                                <tr>
+                                <tr onclick='show_dialog(@data["id"])' @if (@data["choice"] != @data["ans"])
+                                    {
+                                        var style = "style=background:#FFff00";
+                                        @style}
+                                              
+                                 >
                                     <td>
-                                        @data["problem_id"]
+                                        @{
+                                cnt++;
+                                        }
+                                        @cnt
                                     </td>
                                     
                                     <td>

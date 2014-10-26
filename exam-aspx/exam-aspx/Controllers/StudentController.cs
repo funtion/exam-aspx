@@ -95,6 +95,14 @@ namespace exam_aspx.Controllers
             ViewBag.data = data;
             return View();
         }
+        [HttpPost]
+        public ActionResult GetProblemDetail(int id)
+        {
+            var model = new QuestionModel();
+            var data = model.getQuestionByID(id);
+            var encoder = new JavaScriptSerializer();
+            return Json(encoder.Serialize(data));
+        }
         [HttpGet]
         public ActionResult File(int start=0,int size=10)
         {
