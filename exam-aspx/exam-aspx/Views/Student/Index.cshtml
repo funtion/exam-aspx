@@ -19,19 +19,23 @@
                     <hr />
                     <div>
                         <h1>notifacations</h1>
-                        <div id="accordion">
+                        <table class="fullwidth" cellpadding="0" cellspacing="0" border="0">
                             @foreach (AnnouncementEntity data in ViewBag.announcement)
                             {
 
-                                <div>
-                                    <h3><a href="#" title="@data.title" class="tooltip">@data.title</a></h3>
-                                    <div>
-                                        <p>@data.time</p>
-                                        <p>@data.content</p>
-                                    </div>
-                                </div>
+                                <tr>
+                                    <td>
+                                        <a href="#" title="@data.title" class="tooltip">@data.title</a>
+                                    </td>
+                                    
+                                    <td>
+                                        @data.time
+                                        
+                                    </td>
+
+                                </tr>
                             }
-                        </div>
+                        </table>
    
                         <input type="button" value="more" class="button" style="float:right">
 

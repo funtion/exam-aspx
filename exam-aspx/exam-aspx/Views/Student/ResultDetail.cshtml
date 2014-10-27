@@ -24,10 +24,12 @@
                     for(s in inf.choices){
                         choice += inf.choices[s];
                     }
+                    var img = inf.imageURL ? "<img src='" + inf.imageURL+"'/>" : "";
+                    
                     var str = "<div id='dia_"+rd +"' style='display:none'> " +
                        "<div>" + inf.statement + "</div>" +
+                       img+
                        "<div>" + choice +"<div>"+
-
                         " </div>";
                     $("body").append(str)
                     $('#dia_'+rd).dialog()

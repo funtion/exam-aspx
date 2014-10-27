@@ -84,6 +84,10 @@
                         <div>
                             <a>@num.</a>
                             <a>@q.statement</a>
+                            @if (q.imageURL != null && q.imageURL != "")
+                            {
+                                <img src="@q.imageURL" />
+                            }
                             @if (q.type == "SC")
                             {
                                 var x = 0;
