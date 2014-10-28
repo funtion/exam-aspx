@@ -230,7 +230,7 @@ namespace exam_aspx.Controllers
             }
             Dictionary<string, String> ret = new Dictionary<string, string>();
             HttpPostedFileBase file = Request.Files.Get("file");
-            string savepath = "~/upload/file";
+            string savepath = "/upload/file";
             if (file != null)
             {
                 if (!Directory.Exists(Server.MapPath(savepath)))
