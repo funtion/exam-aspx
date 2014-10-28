@@ -142,6 +142,7 @@
     <Compile Include="Entity\AnnouncementEntity.cs" />
     <Compile Include="Entity\ExamEntity.cs" />
     <Compile Include="Entity\FileEntity.cs" />
+    <Compile Include="Entity\LimitUserEntity.cs" />
     <Compile Include="Entity\QuestionEntity.cs" />
     <Compile Include="Entity\ResultEntity.cs" />
     <Compile Include="Entity\StudentEntity.cs" />
@@ -309,6 +310,7 @@
     <Content Include="Views\Exam\Index.cshtml" />
     <Content Include="Views\Exam\Exam.cshtml" />
     <Content Include="Views\Student\ResultDetail.cshtml" />
+    <Content Include="Views\Teacher\LimitUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

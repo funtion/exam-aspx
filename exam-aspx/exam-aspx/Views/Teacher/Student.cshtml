@@ -37,14 +37,20 @@
                             <th>用户名</th>
                             <th>密码</th>
                             <th>
-                                操作
+                                
                                 <a class="btn btn-info" data-toggle="modal"
                                    data-target="#myModal">
                                     添加可注册账号
                                     <i class="halflings-icon white edit"></i>
-                                </a>
-                               
+                                </a>             
+                                <a class="btn btn-info" href="LimitUser">
+                                    查看可注册账号
+                                    <i class="halflings-icon white edit"></i>
+                                </a>             
                             </th>
+                            
+                               
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -55,11 +61,6 @@
                                 <td class="center">@student.name</td>
                                 <td class="center">@student.password    </td>
                                 <td>
-
-                                    <a class="btn btn-danger" onclick="delStudent(@student.id)">
-                                        删除
-                                        <i class="halflings-icon white trash"></i>
-                                    </a>
                                 </td>
                             </tr>
                         }

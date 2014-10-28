@@ -1,7 +1,9 @@
 ﻿@{
+    ViewBag.Title = "LimitUser";
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
-    ViewBag.Title = "Result";
 }
+
+
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
 
@@ -25,13 +27,6 @@
     </div>
 </nav>
 <div class="container">
-    <div class="row">
-        @if (ViewBag.examInfo != null) { 
-                             
-        <div class="col-md-3">考试名称:@ViewBag.examInfo.name</div>
-        <div class="col-md-2">考试时间:@ViewBag.examInfo.time 分钟</div>
-        <div class="col-md-5">题型分布：单选：@ViewBag.examInfo.sNumber 个，多选：@ViewBag.examInfo.mNumber 个，判断：@ViewBag.examInfo.tNumber 个</div>}
-    </div>
     <div class="row" style="margin-top:10px">
         <div class="col-md-12">
             <div class="Product">
@@ -39,35 +34,24 @@
                     <thead>
                         <tr>
                             <th>学号</th>
-                            <th>姓名</th>
-                            <th>单选得分</th>
-                            <th>多选得分</th>
-                            <th>判断得分</th>
-                            <th>总分</th>
+    
                             <th>
-                               @if (ViewBag.examInfo != null) {
-                                <a class="btn btn-info" onclick="deleteResult(@ViewBag.examInfo.id)">
-                                    删除本次考试成绩
-                                    <i class="halflings-icon white edit"></i>
-                                </a>
-                               }
+                                操作
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var result in ViewBag.resultList)
+                        @foreach (var limituser in ViewBag.limituserList)
                         {
                             <tr>
-                                <td class="center">@result.sid</td>
-                                <td class="center">@result.name</td>
-                                <td class="center">@Math.Round(result.sScore,1)</td>
-                                <td class="center">@Math.Round(result.mScore,1)</td>
-                                <td class="center">@Math.Round(result.tfScore,1)</td>
-                                <td class="center">@Math.Round(result.totalScore,1)</td>
-
+                                <td class="center">@limituser.sid</td>
+                      
                                 <td>
 
-                                  
+                                    <a class="btn btn-danger" onclick="deleteLimitUser(@limituser.id)">
+                                        删除
+                                        <i class="halflings-icon white trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         }
@@ -108,22 +92,24 @@ oTable.css("font-size","12px");//设置文本的样式；
 })
 </script>
 <script>
-    function deleteResult(id) {
+    function deleteLimitUser(id) {
         var b = confirm("This action will delete the record! Continue?");
         if (b == true) {
             $.post(
-                "delResult",
+                "delLimitUser",
                 "id="+id,
-                   success = function (data) {
-                       if (data.status == "success") {
-                           alert("delete success!");
-                           location.reload();
-                       }
-                       else {
-                           alert("delete failed!" + data.error);
-                           location.reload();
-                       }
-                   })
+                success = function (data) {
+                    if (data.status == "success") {
+                        alert("delete success!");
+                        location.reload();
+                    }
+                    else {
+                        alert("delete failed!"+data.error);
+                        location.reload();
+                    }
+                }
+                )
+
         }
     }
 </script>

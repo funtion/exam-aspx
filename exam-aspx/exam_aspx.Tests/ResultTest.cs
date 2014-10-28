@@ -57,5 +57,10 @@ namespace exam_aspx.Tests
         {
             Assert.IsTrue(model.getExamResultByExamId(12).Count > 0);
         }
+        [TestMethod]
+        public void TestDelResultByExamId()
+        {
+            Assert.IsTrue(model.delResultByExamId(212) > 0);
+        }
     }
 }

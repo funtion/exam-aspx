@@ -97,9 +97,86 @@ namespace exam_aspx.Controllers
         [HttpGet]
         public ActionResult Logout()
         {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
             Session["teacher"] = null;
             return Redirect("Login");
         }
+
+        [HttpGet]
+        public ActionResult LimitUser()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            LimitUserModel model = new LimitUserModel();
+            ViewBag.limituserList = model.getAllLimitUser();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult delResult()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string, String> ret = new Dictionary<string, string>();
+            try
+            {
+                int id = int.Parse(Request["id"]);
+                ResultModel model = new ResultModel();
+                int row = model.delResultByExamId(id);
+                if (row > 0)
+                {
+                    ret.Add("status", "success");
+                }
+                else
+                {
+                    ret.Add("status", "failed");
+                    ret.Add("error", "delete error!");
+                }
+
+            }
+            catch
+            {
+                ret.Add("status", "failed");
+                ret.Add("error", "bad param!");
+            }
+            return Json(ret);
+        }
+        [HttpPost]
+        public ActionResult delLimitUser()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string, String> ret = new Dictionary<string, string>();
+            try
+            {
+                int id = int.Parse(Request["id"]);
+                LimitUserModel model = new LimitUserModel();
+                int row = model.delLimitUser(id);
+                if(row==1){
+                    ret.Add("status","success");
+                }
+                else{
+                    ret.Add("status","failed");
+                    ret.Add("error","delete error!");
+                }
+
+            }
+            catch{
+                ret.Add("status","failed");
+                ret.Add("error","bad param!");
+            }
+            return Json(ret);
+        }
+
         [HttpPost]
         public ActionResult CheckLogin()
         {
