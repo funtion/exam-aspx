@@ -129,6 +129,12 @@ namespace exam_aspx.Models
             return list;
 
         }
+        public int delResultByExamId(int examId){
+            var cmd = buildCommand("delete from result where examinationId=?");
+            cmd.AddIntParam("examinationId",examId);
+            return cmd.ExecuteNonQuery();
+
+        }
         
     }
 }

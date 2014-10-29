@@ -197,18 +197,22 @@
         });       
     }
     function delAnnouncement(id){
-        $.post(
-            "DelAnnouncement",
-            "id="+id,
-            success=function(data){
-                if(data.status=="success"){
-                    alert("delete success!");
-                    location.reload();
-                }
-                else{
-                    alert("delete failed!"+data.error);
-                    location.reload();
-                }
-            })
+        var b = confirm("This action will delete the record! Continue?");
+        if(b==true){
+
+            $.post(
+                "DelAnnouncement",
+                "id="+id,
+                success=function(data){
+                    if(data.status=="success"){
+                        alert("delete success!");
+                        location.reload();
+                    }
+                    else{
+                        alert("delete failed!"+data.error);
+                        location.reload();
+                    }
+                });
+        }
     }
 </script>

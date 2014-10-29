@@ -22,5 +22,15 @@ namespace exam_aspx.Tests
             Assert.IsTrue(modle.addLimitUser("09012434")>0);
             
         }
+        [TestMethod]
+        public void TestGetAllLimitUser()
+        {
+            Assert.IsTrue(modle.getAllLimitUser().Count > 0);
+        }
+        [TestMethod]
+        public void TestDelLimitUser()
+        {
+            Assert.IsTrue(modle.delLimitUser(1) ==1 );
+        }
     }
 }
