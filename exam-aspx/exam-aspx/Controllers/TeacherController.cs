@@ -461,6 +461,40 @@ namespace exam_aspx.Controllers
             }
             return Json(response);
        }
+
+        [HttpPost]
+        public ActionResult setExamName()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            Dictionary<string, string> response = new Dictionary<string, string>();
+            ExamModel model = new ExamModel();
+            try
+            {
+                int id = int.Parse(Request["id"]);
+                string name = Request["name"];
+                int row = model.setExamName(id, name);
+                if (row > 0)
+                {
+                    response.Add("status", "success");
+
+                }
+                else
+                {
+                    response.Add("status", "failed");
+                    response.Add("error", "update error!");
+                }
+            }
+            catch
+            {
+                response.Add("status", "failed");
+                response.Add("error", "bad param!");
+            }
+            return Json(response);
+        }
+
         [HttpPost]
         public ActionResult DeleteExam()
         {
@@ -519,7 +553,7 @@ namespace exam_aspx.Controllers
                     try
                     {
                         ExamEntity examEntity = examModel.praseFromDoc(Server.MapPath(docName));
-                        int examId = examModel.addExam(examEntity.time, examEntity.sNumber, examEntity.mNumber, examEntity.tNumber, examEntity.sScore, examEntity.mScore, examEntity.tScore);
+                        int examId = examModel.addExam(examEntity.time, examEntity.sNumber, examEntity.mNumber, examEntity.tNumber, examEntity.sScore, examEntity.mScore, examEntity.tScore,0,file.FileName.Substring(0,file.FileName.Length-5));
                         int type = -1;
                         int count = 1;
                         foreach (QuestionEntity q in examEntity.sc)

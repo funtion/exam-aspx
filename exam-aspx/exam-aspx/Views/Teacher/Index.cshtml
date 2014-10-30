@@ -70,18 +70,25 @@
                              else
                                 {<td class="center">可见</td>}
                             <td>
+
+                                <a class="btn btn-info" onclick="setExamName(@exam.id,'@HttpUtility.UrlEncode(exam.name)')">
+                                    修改名称
+                                    <i class=" halflings-icon white edit">
+                                    </i>
+                                </a>
                                 <a class="btn btn-info" onclick="modifyStatus(@exam.id,@exam.ready)">
                                     更改状态
+                                    <i class="halflings-icon white edit"></i>
+                                </a>
+                                <a class="btn btn-info" href="Result?exam=@exam.id">
+                                    成绩
                                     <i class="halflings-icon white edit"></i>
                                 </a>
                                 <a class="btn btn-danger" onclick="deleteExam(@exam.id)">
                                     删除
                                     <i class="halflings-icon white trash"></i>
                                 </a>
-                                <a class="btn btn-danger" href="Result?exam=@exam.id">
-                                    成绩
-                                    <i class="halflings-icon white trash"></i>
-                                </a>
+                                
                             </td>
                         </tr>
                  }
@@ -132,6 +139,41 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+
+
+<div class="modal fade" id="ExamName" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    更改考试名称
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <span>名称：</span><textarea id="ExamName" style="width:100%">
+                       
+                    </textarea>
+
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button id="exam_submit" type="button" class="btn btn-primary">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 <!-- script for datatable -->
 <script type="text/javascript">
 
@@ -164,6 +206,31 @@ oTable.css("font-size","12px");//设置文本的样式；
 </script>
 
 <script>
+        function setExamName(id,name){
+            $("#ExamName").modal();
+            $("textarea#ExamName").html(decodeURI(name));
+                   
+            $("button#exam_submit").click(function () {
+                var exam_name = $("textarea#ExamName").val();
+                
+                $.post(
+                    "setExamName",
+                    "id="+id+"&name="+exam_name,
+                    success=function(data){
+                        if(data.status=="success"){
+                            alert("success!");
+                            location.reload();
+                        }
+                        else{
+                            alert("failed!"+data.error);
+                            location.reload();
+
+                        }
+                    })    
+            });
+         }
+
+
        function UploadFile() {
 
            $(".upload-form").ajaxSubmit({
