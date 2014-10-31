@@ -106,7 +106,17 @@ namespace exam_aspx.Controllers
                     tmp_dic["id"] = String.Format("{0}", question[id].id );
                     if (question[id].type == "SC")
                     {
-                        String tmp = ( (char)(Int32.Parse(getAns) + 'A')).ToString();
+                        String tmp = "";
+                        try
+                        {
+                            tmp =  ( (char)(Int32.Parse(getAns) + 'A')).ToString();
+                        }
+                        catch (Exception e)
+                        {
+                            //ignore
+                        }
+
+                        
                         tmp_dic["choice"] = tmp;
                         if (tmp == correctAns)
                         {
