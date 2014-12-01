@@ -473,9 +473,19 @@ namespace exam_aspx.Controllers
             ExamModel model = new ExamModel();
             try
             {
+                //singleNum=" + singleNum + "&mutilNum=" + mutilNum + "&judgeNum=" + judgeNum + "&singleScore=" + singleScore + "&mutilScore=" + mutilScore + "&judgeScore=" + judgeScore + "&time=" + time,
                 int id = int.Parse(Request["id"]);
                 string name = Request["name"];
-                int row = model.setExamName(id, name);
+                int sNum = int.Parse(Request["singleNum"]);
+                int mNum = int.Parse(Request["mutilNum"]);
+                int tNum = int.Parse(Request["judgeNum"]);
+                double sScore = double.Parse(Request["singleScore"]);
+                double mScore = double.Parse(Request["mutilScore"]);
+                double tScore = double.Parse(Request["judgeScore"]);
+                int time = int.Parse(Request["time"]);
+
+               // int row = model.setExamName(id, name);
+                int row = model.setExamName(id, name, sNum, mNum, tNum, sScore, mScore, tScore, time);
                 if (row > 0)
                 {
                     response.Add("status", "success");

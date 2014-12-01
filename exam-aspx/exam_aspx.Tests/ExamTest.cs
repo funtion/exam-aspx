@@ -38,8 +38,17 @@ namespace exam_aspx.Tests
         public void TestSetExamName() //注，当更新的值一样时不会执行更新操作，所以此测试只能通过一次
         {
             ExamModel model = new ExamModel();
-            int i = model.setExamName(4, "第一单元测试");
+            int i = model.setExamName(1, "第一单元测试");
             Console.WriteLine(i);
+            Assert.IsTrue(i == 1);
+
+        }
+        [TestMethod]
+        public void TestSetExamName2() //注，当更新的值一样时不会执行更新操作，所以此测试只能通过一次
+        {
+            ExamModel model = new ExamModel();
+            int i = model.setExamName(1, "第一单元测试",2,2,2,2,2,2,90);
+            //Console.WriteLine(i);
             Assert.IsTrue(i == 1);
 
         }

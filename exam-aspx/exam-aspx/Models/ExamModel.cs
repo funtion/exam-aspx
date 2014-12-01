@@ -220,6 +220,23 @@ namespace exam_aspx.Models
             return command.ExecuteNonQuery();
 
         }
+        public int setExamName(int id, string name, int sNum, int mNum, int tNum, double sScore, double mScore, double tScore, int Time)
+        {
+            OdbcCommand command = new OdbcCommand("update examination set name=?,sNumber=?,mNumber=?,tNumber=?,sScore=?,mScore=?,tScore=?,time=? where id=?", connection);
+
+            command.Parameters.Add(new OdbcParameter("name", OdbcType.VarChar)).Value = name;
+            command.Parameters.Add(new OdbcParameter("sNumber", OdbcType.Int)).Value = sNum;
+            command.Parameters.Add(new OdbcParameter("mNumber", OdbcType.Int)).Value = mNum;
+            command.Parameters.Add(new OdbcParameter("tNumber", OdbcType.Int)).Value = tNum;
+            command.Parameters.Add(new OdbcParameter("sScore", OdbcType.Double)).Value = mScore;
+            command.Parameters.Add(new OdbcParameter("mScore", OdbcType.Double)).Value = sScore;
+            command.Parameters.Add(new OdbcParameter("tScore", OdbcType.Double)).Value = tScore;
+            command.Parameters.Add(new OdbcParameter("time", OdbcType.Int)).Value = Time;
+            command.Parameters.Add(new OdbcParameter("id", OdbcType.Int)).Value = id;
+            command.Prepare();
+            return command.ExecuteNonQuery();
+        }
+
 
         public int modifyStatus(int id, int status)
         {

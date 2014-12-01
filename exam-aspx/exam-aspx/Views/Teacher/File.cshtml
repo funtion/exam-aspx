@@ -7,20 +7,20 @@
     <div class="container-fluid">
 
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">教师中心</a>
+            <a class="navbar-brand" href="#">Teacher Center</a>
         </div>
 
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/Teacher/Index">考试管理</a></li>
-                <li><a href="/Teacher/Announcement">公告管理</a></li>
+                <li><a href="/Teacher/Index">Examination</a></li>
+                <li><a href="/Teacher/Announcement">Announcement</a></li>
                 <li><a href="/Teacher/Student">学生管理</a></li>
-                <li class="active"><a href="/Teacher/File">文件管理</a></li>
+                <li class="active"><a href="/Teacher/File">File</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/Teacher/Logout">退出登录</a></li>
+                <li><a href="/Teacher/Logout">Logout</a></li>
             </ul>
         </div>
     </div>
@@ -34,15 +34,15 @@
                 <table id="product_info">
                     <thead>
                         <tr>
-                            <th>time</th>
-                            <th>name</th>
-                            <th>path</th>
-                            <th>size</th>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Path</th>
+                            <th>Size</th>
                             <th>
-                                操作
+                                Operation
                                 <a class="btn btn-info" data-toggle="modal"
                                    data-target="#myModal">
-                                    上传文件
+                                    UploadFile
                                     <i class="halflings-icon white edit"></i>
                                 </a>
                                
@@ -62,7 +62,7 @@
                                 <td>
                                     
                                     <a class="btn btn-danger" onclick="deleteFile(@file.id)">
-                                        删除
+                                        Delete
                                         <i class="halflings-icon white trash"></i>
                                     </a>
                                 </td>
@@ -90,12 +90,12 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    上传文件
+                    Upload File
                 </h4>
             </div>
             <div class="modal-body">
                 <form class="upload-form" method="post">
-                    <label>选择一个文件</label><input type="file" name="file">
+                    <label>Choose a File</label><input type="file" name="file">
                 </form>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" aria-valuenow="40"
@@ -106,10 +106,10 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"
                         data-dismiss="modal">
-                    关闭
+                    Close
                 </button>
                 <button type="button" class="btn btn-primary" onclick="UploadFile()">
-                    提交
+                    Submit
                 </button>
             </div>
         </div><!-- /.modal-content -->
@@ -124,11 +124,11 @@
 
 		    "sPaginationType": "full_numbers",
 		    "oLanguage": { //主要用于设置各种提示文本
-		        "sProcessing": "正在处理...", //设置进度条显示文本
-		        "sLengthMenu": "每页_MENU_行",//显示每页多少条记录
-		        "sEmptyTable": "没有找到记录",//没有记录时显示的文本
-		        "sZeroRecords": "没有找到记录",//没有记录时显示的文本
-		        "sInfo": "总数:_TOTAL_  当前:_START_至_END_",
+		        "sProcessing": "Processing...", //设置进度条显示文本
+		        "sLengthMenu": "_MENU_ lines per page",//显示每页多少条记录
+		        "sEmptyTable": "No Record",//没有记录时显示的文本
+		        "sZeroRecords": "No Record",//没有记录时显示的文本
+		        "sInfo": "Total:_TOTAL_  Current:_START_ to _END_",
 		        /* "sInfo" : "当前页  _START_/_END_" , */
 		        "sInfoEmpty": "",//没记录时,关于记录数的显示文本
 		        "sSearch": "search:",//搜索框前的文本设置

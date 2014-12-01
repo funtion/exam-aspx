@@ -6,20 +6,20 @@
     <div class="container-fluid">
 
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">教师中心</a>
+            <a class="navbar-brand" href="#">Teacher Center</a>
         </div>
 
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/Teacher/Index">考试管理</a></li>
-                <li><a href="/Teacher/Announcement">公告管理</a></li>
+                <li><a href="/Teacher/Index">Examination</a></li>
+                <li><a href="/Teacher/Announcement">Announcement</a></li>
                 <li><a href="/Teacher/Student">学生管理</a></li>
-                <li><a href="/Teacher/File">文件管理</a></li>
+                <li><a href="/Teacher/File">File</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/Teacher/Logout">退出登录</a></li>
+                <li><a href="/Teacher/Logout">Logout</a></li>
             </ul>
         </div>
     </div>
@@ -28,9 +28,9 @@
     <div class="row">
         @if (ViewBag.examInfo != null) { 
                              
-        <div class="col-md-3">考试名称:@ViewBag.examInfo.name</div>
-        <div class="col-md-2">考试时间:@ViewBag.examInfo.time 分钟</div>
-        <div class="col-md-5">题型分布：单选：@ViewBag.examInfo.sNumber 个，多选：@ViewBag.examInfo.mNumber 个，判断：@ViewBag.examInfo.tNumber 个</div>}
+        <div class="col-md-3">Examination name:@ViewBag.examInfo.name</div>
+        <div class="col-md-2">Exam Time:@ViewBag.examInfo.time Minutes</div>
+        <div class="col-md-5">Distribution：Single：@ViewBag.examInfo.sNumber ，Multi：@ViewBag.examInfo.mNumber ，Judge：@ViewBag.examInfo.tNumber </div>}
     </div>
     <div class="row" style="margin-top:10px">
         <div class="col-md-12">
@@ -38,16 +38,16 @@
                 <table id="product_info">
                     <thead>
                         <tr>
-                            <th>学号</th>
-                            <th>姓名</th>
-                            <th>单选得分</th>
-                            <th>多选得分</th>
-                            <th>判断得分</th>
-                            <th>总分</th>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>SingleScore</th>
+                            <th>MultiScore</th>
+                            <th>JudgeScore</th>
+                            <th>Total</th>
                             <th>
                                @if (ViewBag.examInfo != null) {
                                 <a class="btn btn-info" onclick="deleteResult(@ViewBag.examInfo.id)">
-                                    删除本次考试成绩
+                                    Delete Grade For This Exam
                                     <i class="halflings-icon white edit"></i>
                                 </a>
                                }
@@ -82,27 +82,27 @@
 
 	$(function(){
 		var oTable = $("#product_info").dataTable(
-		{
-"bProcessing" : true,//加载数据时候是否显示进度条
+		{ "bProcessing": true,//加载数据时候是否显示进度条
 
-"sPaginationType" : "full_numbers",
-"oLanguage" : { //主要用于设置各种提示文本
-"sProcessing" : "正在处理...", //设置进度条显示文本
-"sLengthMenu" : "每页_MENU_行",//显示每页多少条记录
-"sEmptyTable" : "没有找到记录",//没有记录时显示的文本
-"sZeroRecords" : "没有找到记录",//没有记录时显示的文本
-"sInfo" : "总数:_TOTAL_  当前:_START_至_END_",
-/* "sInfo" : "当前页  _START_/_END_" , */
-"sInfoEmpty" : "",//没记录时,关于记录数的显示文本
-"sSearch" : "search:",//搜索框前的文本设置
-"oPaginate" : {
-	"sFirst" : "First",
-	"sLast" : "Last",
-	"sNext" : "Next",
-	"sPrevious" : "Pre "
-}
-}//用于设置提示文本
+		    "sPaginationType": "full_numbers",
+		    "oLanguage": { //主要用于设置各种提示文本
+		        "sProcessing": "Processing...", //设置进度条显示文本
+		        "sLengthMenu": "_MENU_ lines per page",//显示每页多少条记录
+		        "sEmptyTable": "No Record",//没有记录时显示的文本
+		        "sZeroRecords": "No Record",//没有记录时显示的文本
+		        "sInfo": "Total:_TOTAL_  Current:_START_ to _END_",
+		        /* "sInfo" : "当前页  _START_/_END_" , */
+		        "sInfoEmpty": "",//没记录时,关于记录数的显示文本
+		        "sSearch": "search:",//搜索框前的文本设置
+		        "oPaginate": {
+		            "sFirst": "First",
+		            "sLast": "Last",
+		            "sNext": "Next",
+		            "sPrevious": "Pre "
+		        }
+		    }//用于设置提示文本
 
+		
 });
 oTable.css("font-size","12px");//设置文本的样式；
 })
