@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "考试";
+    ViewBag.Title = "Exam";
 }
 @section css{
     @Styles.Render("~/Content/css/layout.css")
@@ -18,8 +18,8 @@
                     <table class="fullwidth" cellpadding="0" cellspacing="0" border="0">
                         <thead>
                             <tr>
-                                <td>Name</td>
-                                <td>time</td>
+                                <td>Paper name</td>
+                                <td>Time</td>
                                 <td></td>
                             </tr>
                         </thead>
@@ -29,7 +29,7 @@
                                 <tr>
                                     <td>@data.name</td>
                                     <td>@data.time minutes</td>
-                                    <td><a href="/Exam/Index/@data.id">start exam</a></td>
+                                    <td><a href="/Exam/Index/@data.id">Start Exam</a></td>
                                 </tr>
                             }
                         </tbody>
