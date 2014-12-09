@@ -46,6 +46,9 @@ namespace exam_aspx.Models
             return res.ToArray();
         }
 
+        
+
+
         public ProjectEntity[] getAllProject(string course, string year, string homework)
         {
             var sql = buildCommand("select * from project course=? and year=? and homework=?");
@@ -57,6 +60,7 @@ namespace exam_aspx.Models
             while (reader.Read())
             {
                 ProjectEntity tmp = new ProjectEntity { 
+                    id = reader.GetInt32(0),
                     course = reader.GetString(1),
                     year = reader.GetString(2),
                     homework = reader.GetString(3),

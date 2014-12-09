@@ -7,6 +7,7 @@ namespace exam_aspx.Entity
 {
     public class ProjectEntity
     {
+        public int id;
         public string course;
         public string year;
         public string homework;
