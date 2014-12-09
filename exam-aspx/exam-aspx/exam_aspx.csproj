@@ -149,6 +149,7 @@
     <Compile Include="Entity\ExamEntity.cs" />
     <Compile Include="Entity\FileEntity.cs" />
     <Compile Include="Entity\LimitUserEntity.cs" />
+    <Compile Include="Entity\ProjectEntity.cs" />
     <Compile Include="Entity\QuestionEntity.cs" />
     <Compile Include="Entity\ResultEntity.cs" />
     <Compile Include="Entity\StudentEntity.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Models\ExamModel.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\LimitUserModel.cs" />
+    <Compile Include="Models\ProjectModel.cs" />
     <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StudentModel.cs" />
