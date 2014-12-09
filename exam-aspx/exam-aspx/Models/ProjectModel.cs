@@ -49,7 +49,7 @@ namespace exam_aspx.Models
 
         public string[] getAllProjectStudent(string course, string year, string homework)
         {
-            var sql = buildCommand("select * from project course=? and year=? and homework=?");
+            var sql = buildCommand("select * from project where course=? and year=? and homework=?");
             sql.AddVarcharParam("course", course);
             sql.AddVarcharParam("year", year);
             sql.AddVarcharParam("homework", homework);
@@ -65,12 +65,15 @@ namespace exam_aspx.Models
 
         public ProjectEntity getAllProject(string course, string year, string homework,string student)
         {
-            var sql = buildCommand("select * from project course=? and year=? and homework=? and student=?");
+            var sql = buildCommand("select * from project where course=? and year=? and homework=? and student=?");
+
             sql.AddVarcharParam("course", course);
             sql.AddVarcharParam("year", year);
             sql.AddVarcharParam("homework", homework);
+            sql.AddVarcharParam("student",student);
             var reader = sql.ExecuteReader();
-            
+            reader.Read();
+
             ProjectEntity res = new ProjectEntity { 
 
                 id = reader.GetInt32(ID),
@@ -79,8 +82,9 @@ namespace exam_aspx.Models
                 homework = reader.GetString(HOMEWORK),
                 imgUrl = reader.GetString(IMG_URL),
                 description = reader.GetString(DESCRIPTION),
-                classFileUrl = reader.GetString(CODE),
-                code = reader.GetString(CODE)
+                classFileUrl = reader.GetString(CLASS_FILE_URL),
+                code = reader.GetString(CODE),
+                student = reader.GetString(STUDENT)
             };
 
             return res;

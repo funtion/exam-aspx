@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Past Project";
+}
+@section css{
+    @Styles.Render("~/Content/css/layout.css")
+}
+@section js{
+
+    @Scripts.Render("~/Content/js/jquery.wysiwyg.js")
+
+}
+
+<div id="container">
+    @Html.Partial("student_header")
+    <div id="content">
+        <div style="padding-left:160px;padding-right:160px">
+            <div id="pad20">
+                <div class="cols3 column">
+                   <a>@ViewBag.data.student</a>
+                   <a>@ViewBag.data.description</a>
+                    <iframe src="@ViewBag.data.code"></iframe>
+
+                   <applet code="@ViewBag.data.classFileUrl">
+
+                   </applet>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

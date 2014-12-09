@@ -38,9 +38,6 @@ namespace exam_aspx.Models
         {
             return new OdbcCommand(sql, connection);
         }
-        ~BaseModel()
-        {
-            connection.Close();
-        }
+
     }
 }

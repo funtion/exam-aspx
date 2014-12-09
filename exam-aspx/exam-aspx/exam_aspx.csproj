@@ -143,6 +143,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ExamController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Entity\AnnouncementEntity.cs" />
@@ -375,6 +376,8 @@
     <Content Include="Views\Exam\Exam.cshtml" />
     <Content Include="Views\Student\ResultDetail.cshtml" />
     <Content Include="Views\Teacher\LimitUser.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Project\Info.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
