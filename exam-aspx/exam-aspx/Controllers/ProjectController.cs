@@ -64,6 +64,9 @@ namespace exam_aspx.Controllers
             string homeork = Request.Params[HOMEWORK];
             string student = Request.Params[STUDENT];
             ViewBag.data = model.getAllProject(course, year, homeork, student);
+            string jar = ViewBag.data.classFileUrl;
+            var mainClass = jar.Split('.');
+            ViewBag.MainClass = mainClass[mainClass.Length - 2];
             return View();
         }
     }

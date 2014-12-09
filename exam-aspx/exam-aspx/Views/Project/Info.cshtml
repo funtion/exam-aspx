@@ -20,10 +20,11 @@
                    <a>@ViewBag.data.description</a>
                     <iframe src="@ViewBag.data.code"></iframe>
 
-                   <applet code="@ViewBag.data.classFileUrl">
 
-                   </applet>
-                </div>
+                    <applet archive="@ViewBag.data.classFileUrl" code="@ViewBag.MainClass">
+
+                    </applet>
+
             </div>
         </div>
     </div>
