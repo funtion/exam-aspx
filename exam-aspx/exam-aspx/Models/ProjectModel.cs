@@ -8,6 +8,7 @@ namespace exam_aspx.Models
 {
     public class ProjectModel :BaseModel
     {
+        const int ID = 0, COURSE = 1, YEAR = 2, HOMEWORK = 3, IMG_URL = 4, DESCRIPTION = 5, CLASS_FILE_URL=6,CODE = 7, STUDENT = 8;
         public string[] getAllCources()
         {
             var sql = buildCommand("select distinct course from project ");
@@ -46,32 +47,44 @@ namespace exam_aspx.Models
             return res.ToArray();
         }
 
-        
-
-
-        public ProjectEntity[] getAllProject(string course, string year, string homework)
+        public string[] getAllProjectStudent(string course, string year, string homework)
         {
             var sql = buildCommand("select * from project course=? and year=? and homework=?");
             sql.AddVarcharParam("course", course);
             sql.AddVarcharParam("year", year);
             sql.AddVarcharParam("homework", homework);
             var reader = sql.ExecuteReader();
-            var res = new List<ProjectEntity>();
+            var res = new List<string>();
             while (reader.Read())
             {
-                ProjectEntity tmp = new ProjectEntity { 
-                    id = reader.GetInt32(0),
-                    course = reader.GetString(1),
-                    year = reader.GetString(2),
-                    homework = reader.GetString(3),
-                    imgUrl = reader.GetString(4),
-                    description = reader.GetString(5),
-                    classFileUrl = reader.GetString(6),
-                    code = reader.GetString(7)
-                };
-                res.Add(tmp);
+                res.Add(reader.GetString(STUDENT));
             }
             return res.ToArray();
+        }
+
+
+        public ProjectEntity getAllProject(string course, string year, string homework,string student)
+        {
+            var sql = buildCommand("select * from project course=? and year=? and homework=? and student=?");
+            sql.AddVarcharParam("course", course);
+            sql.AddVarcharParam("year", year);
+            sql.AddVarcharParam("homework", homework);
+            var reader = sql.ExecuteReader();
+            
+            ProjectEntity res = new ProjectEntity { 
+
+                id = reader.GetInt32(ID),
+                course = reader.GetString(COURSE),
+                year = reader.GetString(YEAR),
+                homework = reader.GetString(HOMEWORK),
+                imgUrl = reader.GetString(IMG_URL),
+                description = reader.GetString(DESCRIPTION),
+                classFileUrl = reader.GetString(CODE),
+                code = reader.GetString(CODE)
+            };
+
+            return res;
+
         }
 
 
