@@ -9,14 +9,15 @@ using exam_aspx.Models;
 
 namespace exam_aspx.Controllers
 {
-    public class IndexController : Controller
+    public class IndexController : BaseController
     {
         //
         // GET: /Index/
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            return Redirect("/Student/");
+            //return View();
         }
         [HttpPost]
         public ActionResult Login()

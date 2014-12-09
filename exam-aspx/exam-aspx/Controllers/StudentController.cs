@@ -11,14 +11,9 @@ using System.Web.Script.Serialization;
 
 namespace exam_aspx.Controllers
 {
-    public class StudentController : Controller
+    public class StudentController : BaseController
     {
-        private int getSid()
-        {
-            if (Session["student"] == null)
-                return -1;
-            return (int)Session["student"];
-        }
+        
 
         [HttpGet]
         public ActionResult Index()
@@ -50,7 +45,13 @@ namespace exam_aspx.Controllers
             return View();
         }
 
-
+        [HttpGet]
+        public ActionResult AnnouncementDetail(int id)
+        {
+            AnnouncementModel model = new AnnouncementModel();
+            ViewBag.data = new AnnouncementEntity[] { model.getAnnouncementByID(id) };
+            return View("~/Views/Student/Announcement.cshtml");
+        }
 
         [HttpGet]
         public ActionResult Exam()

@@ -12,14 +12,8 @@ using exam_aspx.Entity;
 
 namespace exam_aspx.Controllers
 {
-    public class ExamController : Controller
+    public class ExamController : BaseController
     {
-        private int getSid()
-        {
-            if (Session["student"] == null)
-                return -1;
-            return (int)Session["student"];
-        }
 
         [HttpGet]
         public ActionResult Index(int id)

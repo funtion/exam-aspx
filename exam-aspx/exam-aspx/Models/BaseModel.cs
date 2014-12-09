@@ -38,5 +38,6 @@ namespace exam_aspx.Models
         {
             return new OdbcCommand(sql, connection);
         }
+
     }
 }
