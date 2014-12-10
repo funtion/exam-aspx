@@ -72,20 +72,25 @@ namespace exam_aspx.Models
             sql.AddVarcharParam("homework", homework);
             sql.AddVarcharParam("student",student);
             var reader = sql.ExecuteReader();
-            reader.Read();
+            ProjectEntity res = new ProjectEntity();
+            if (reader.HasRows)
+            {
+                reader.Read();
+                 res = new ProjectEntity
+                {
 
-            ProjectEntity res = new ProjectEntity { 
-
-                id = reader.GetInt32(ID),
-                course = reader.GetString(COURSE),
-                year = reader.GetString(YEAR),
-                homework = reader.GetString(HOMEWORK),
-                imgUrl = reader.GetString(IMG_URL),
-                description = reader.GetString(DESCRIPTION),
-                classFileUrl = reader.GetString(CLASS_FILE_URL),
-                code = reader.GetString(CODE),
-                student = reader.GetString(STUDENT)
-            };
+                    id = reader.GetInt32(ID),
+                    course = reader.GetString(COURSE),
+                    year = reader.GetString(YEAR),
+                    homework = reader.GetString(HOMEWORK),
+                    imgUrl = reader.GetString(IMG_URL),
+                    description = reader.GetString(DESCRIPTION),
+                    classFileUrl = reader.GetString(CLASS_FILE_URL),
+                    code = reader.GetString(CODE),
+                    student = reader.GetString(STUDENT)
+                };
+            }
+            
 
             return res;
 
