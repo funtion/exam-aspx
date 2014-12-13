@@ -15,11 +15,31 @@
     <div id="content">
         <div style="padding-left:160px;padding-right:160px">
             <div id="pad20">
-                <div class="cols3 column">
-                    @foreach(string name in ViewBag.data){
-                        <a href="@ViewBag.href@name">@name</a>
-                    }
+                <div class="cols3 column" style="min-height:428px">
+
+
+                    <table cellspacing="0" cellpadding="0" border="0" class="fullwidth">
+                        <thead>
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (string name in ViewBag.data)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@ViewBag.href@name">@name</a>
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+
                 </div>
+
             </div>
         </div>
     </div>

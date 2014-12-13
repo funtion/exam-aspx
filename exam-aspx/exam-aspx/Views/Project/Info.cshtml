@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Past Project";
+    ViewBag.Title = "Past Project Detail";
 }
 @section css{
     @Styles.Render("~/Content/css/layout.css")
@@ -15,16 +15,30 @@
     <div id="content">
         <div style="padding-left:160px;padding-right:160px">
             <div id="pad20">
-                <div class="cols3 column">
-                   <a>@ViewBag.data.student</a>
-                   <a>@ViewBag.data.description</a>
-                    <iframe src="@ViewBag.data.code"></iframe>
-
-                   <applet code="@ViewBag.data.classFileUrl">
-
-                   </applet>
+                <div class="cols3 column" style="min-height:500px">
+                  
+                    
+                    <div id="accordion" class="ui-accordion ui-widget ui-helper-reset" role="tablist">
+                        <div>
+                            <h3 class="ui-accordion-header ui-helper-reset ui-state-active ui-corner-top" role="tab" aria-expanded="true" tabindex="0">
+                                
+                                <a class="tooltip" title="First slide"  tabindex="-1">@ViewBag.data.student</a>
+                            </h3>
+                            <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 181px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
+                                <h1>@ViewBag.data.description</h1>
+                            </div>
+                            <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 181px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
+                                <iframe src="@{@ViewBag.data.code}.txt"></iframe>
+                            </div>
+                            <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 222px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
+                                <applet archive="@ViewBag.data.classFileUrl" code="@ViewBag.MainClass" ></applet>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
-            </div>
+
+                </div>
         </div>
     </div>
 </div>
