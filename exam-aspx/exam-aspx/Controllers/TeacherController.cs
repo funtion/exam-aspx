@@ -85,14 +85,127 @@ namespace exam_aspx.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public ActionResult Project()
+        {
+            
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GetProjectDetail()
+        {
+            var response = new Dictionary<string,string>();
+            var model = new ProjectModel();
+            string course = Request.Params["course"];
+            string year = Request.Params["year"];
+            string homework = Request.Params["homework"];
+            string student = Request.Params["student"];
+            var data = model.getAllProject(course, year, homework, student);
+            if (data != null)
+            {
+                response.Add("name", data.student);
+                response.Add("description", data.description);
+                response.Add("image", data.imgUrl);
+                response.Add("programa", data.classFileUrl);
+                response.Add("code", data.code);
+                response.Add("status", "success");
+            }
+            else
+            {
+                response.Add("status", "failed");
+            }
+            return Json(response);
+              
+        }
 
+        [HttpPost]
+        public ActionResult GetProject()
+        {
+            var root = new Dictionary<string, object>();
+            var id = Request["id"];
+            
+            if (id == null)
+            {
+                return Json(root);
+            }
+            var dataArray = id.Split('_');
+            var model = new ProjectModel();
+            var list = new List<Dictionary<string, object>>();
+            if (dataArray.Length == 1) //get course
+            {
+                
+                var course = model.getAllCources();
+                foreach (var c in course)
+                {
+
+                    Dictionary<string, object> node = new Dictionary<string, object>();
+                    node.Add("text", c);
+                    node.Add("id", string.Format("course_{0}",c));
+                    node.Add("children",true);
+                    list.Add(node);
+                }
+                root.Add("text", "PROJECT");
+                root.Add("children", list);
+                
+
+            }
+            else if (dataArray.Length == 2)//get year by course
+            {
+               var years =  model.getAllYears(dataArray[1]);
+               foreach (var y in years)
+               {
+                   Dictionary<string, object> node = new Dictionary<string, object>();
+                    node.Add("text", y);
+                    node.Add("id", string.Format("course_{0}_{1}",dataArray[1],y));
+                    node.Add("children",true);
+                    list.Add(node);
+               }
+               return Json(list);
+            }
+            else if (dataArray.Length == 3)//get homework by course and year
+            {
+                var homeworks = model.getAllHomeWork(dataArray[1], dataArray[2]);
+                foreach (var h in homeworks)
+                {
+                    Dictionary<string, object> node = new Dictionary<string, object>();
+                    node.Add("text", h);
+                    node.Add("id", string.Format("course_{0}_{1}_{2}", dataArray[1],dataArray[2], h));
+                    node.Add("children", true);
+                    list.Add(node);
+                    
+                }
+                return Json(list);
+
+            }
+            else if(dataArray.Length==4)//get 
+            {
+                var students = model.getAllProjectStudent(dataArray[1], dataArray[2], dataArray[3]);
+                foreach (var s in students)
+                {
+                    Dictionary<string, object> node = new Dictionary<string, object>();
+                    node.Add("text", s);
+                    node.Add("id", string.Format("course_{0}_{1}_{2}_{3}", dataArray[1], dataArray[2],dataArray[3], s));
+                    //node.Add("children", true);
+                    list.Add(node);
+
+                }
+                return Json(list);
+
+
+            }
+
+
+
+            return Json(root);
+            
+        }
+        
         [HttpGet]
         public ActionResult Login()
         {
-           
+                     
              return View();
-           
-            
+       
         }
         [HttpGet]
         public ActionResult Logout()

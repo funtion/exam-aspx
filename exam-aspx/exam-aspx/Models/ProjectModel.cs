@@ -21,6 +21,8 @@ namespace exam_aspx.Models
             return res.ToArray();
 
         }
+      
+        
         public string[] getAllYears(string course)
         {
             var sql = buildCommand("select distinct year from project where course=?");

@@ -1,0 +1,167 @@
+﻿@{
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+    ViewBag.Title = "Project";
+}
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Teacher Center</a>
+        </div>
+
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/Teacher/Index">Examination</a></li>
+                <li><a href="/Teacher/Announcement">Announcement</a></li>
+                @*<li><a href="/Teacher/Student">学生管理</a></li>*@
+                <li><a href="/Teacher/File">File</a></li>
+                <li class="active"><a href="/Teacher/Project">Project</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/Teacher/Logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div id="evts" class="demo jstree jstree-7 jstree-default" role="tree" tabindex="0" aria-activedescendant="1" aria-busy="false">
+            </div>
+        </div>
+        <div class="col-md-3 ">
+            <form>
+                <div>
+                    <select onchange="setValue('Course',this.value)">
+                        <option>test1</option>
+                        <option>test2</option>
+                    </select><input type="text" id="Course" />
+                </div>
+                <div>
+                    <select onchange="setValue('Year',this.value)">
+                        <option>test1</option>
+                        <option>test2</option>
+                    </select><input style="margin-left:5px" id="Year" />
+                </div>
+                <div>
+                    <select onchange="setValue('Project',this.value)">
+                        <option>test1</option>
+                        <option>test2</option>
+                    </select><input id="Project"/>
+                </div>
+                <div>
+                    <span id="uploadImg">
+                        <input type="file" id="file" size="1">                   
+                    </span>
+                <div>
+                 <div>
+
+                 </div>
+                <div>
+                    <button type="submit" class="btn btn-default">Sign in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function setValue(id, value) {
+        $("input#" + id)[0].value = value;
+    }
+
+$('#evts')
+    .on("changed.jstree", function (e, data) {
+      //console.log(data);
+      if(data.selected.length) {
+          console.log('The selected node is: ' + data.instance.get_node(data.selected[0]).text);
+          console.log(data.selected[0]);
+      }
+      var arr = data.selected[0].split('_');
+      if (arr.length == 5) {
+          
+          $.post("GetProjectDetail",
+              "course="+arr[1]+"&year="+arr[2]+"&homework="+arr[3]+"&student="+arr[4],
+              success = function (data) {
+                  
+                  if (data.status == 'success') {
+                      $("#myModal").modal();
+                      $("#student_name").empty();
+                      $("#student_image").empty();
+                      $("#student_programa").empty();
+                      $("#student_code").empty();
+                      $("#student_description").empty();
+                      $("#student_name").append("Name   :     "+data.name);
+                      $("#student_description").append("<div>description</div>  :  <textarea>"+data.description+"</textarea>");
+                      $("#student_image").append("<img src='" + data.image + "'>");
+                      $("#student_programa").append("<a href='" + data.programa + "'>" + "运行程序" + "</a>");
+                      $("#student_code").append("<a href='" + data.code + "'>" + "查看代码" + "</a>");
+                  }
+                  else {
+                      alert("error!");
+                  }
+              }
+              )
+          
+      }
+    })
+    .jstree({
+      'core' : {
+      'data' : {
+          "url": "GetProject",
+          "method":"post",
+          "data" : function (node) {
+          return { "id" : node.id };
+        }
+      }
+    }
+    });
+ </script>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Upload File
+                </h4>
+            </div>
+            <div class="modal-body">  
+                <div class="row">              
+                    <div class="col-md-6">
+                        <div id="student_image">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="student_name">
+                        </div>
+                        <div id="student_description">
+                        </div>
+                        <div id="student_programa">
+                        </div>
+                        <div id="student_code">
+                        </div>
+                    </div>  
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>

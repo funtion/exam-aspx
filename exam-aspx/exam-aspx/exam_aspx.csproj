@@ -378,6 +378,7 @@
     <Content Include="Views\Teacher\LimitUser.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\Info.cshtml" />
+    <Content Include="Views\Teacher\Project.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
