@@ -24,5 +24,13 @@ namespace exam_aspx.Models
             }
             return null;
         }
+        public int ChangePass(string oldname,string newname, string newpass)
+        {
+            var cmd = buildCommand("update teacher set password=?,user=? where user=? ");
+            cmd.AddVarcharParam("password", newpass);
+            cmd.AddVarcharParam("user", newname);
+            cmd.AddVarcharParam("user", oldname);
+            return cmd.ExecuteNonQuery();
+        }
     }
 }

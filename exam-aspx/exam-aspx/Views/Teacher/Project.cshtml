@@ -17,6 +17,7 @@
                 @*<li><a href="/Teacher/Student">学生管理</a></li>*@
                 <li><a href="/Teacher/File">File</a></li>
                 <li class="active"><a href="/Teacher/Project">Project</a></li>
+                <li><a href="/Teacher/Profile">Profile</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -28,40 +29,69 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-7">
             <div id="evts" class="demo jstree jstree-7 jstree-default" role="tree" tabindex="0" aria-activedescendant="1" aria-busy="false">
             </div>
         </div>
-        <div class="col-md-3 ">
-            <form>
+        <div class="col-md-5">
+            <form class="upload-form"  enctype="multipart/form-data">
                 <div>
+                    <span class="col-md-3">Course:</span><input type="text" id="Course" />
                     <select onchange="setValue('Course',this.value)">
-                        <option>test1</option>
-                        <option>test2</option>
-                    </select><input type="text" id="Course" />
-                </div>
-                <div>
-                    <select onchange="setValue('Year',this.value)">
-                        <option>test1</option>
-                        <option>test2</option>
-                    </select><input style="margin-left:5px" id="Year" />
-                </div>
-                <div>
-                    <select onchange="setValue('Project',this.value)">
-                        <option>test1</option>
-                        <option>test2</option>
-                    </select><input id="Project"/>
-                </div>
-                <div>
-                    <span id="uploadImg">
-                        <input type="file" id="file" size="1">                   
-                    </span>
-                <div>
-                 <div>
 
-                 </div>
+                        @foreach (var c in ViewBag.Course)
+                        {
+                            <option>@c</option>
+                        }
+                    </select>
+                </div>
                 <div>
-                    <button type="submit" class="btn btn-default">Sign in</button>
+                    <span class="col-md-3">Year:</span><input id="Year" />
+                    <select onchange="setValue('Year',this.value)">
+
+                        @foreach (var y in ViewBag.Years)
+                        {
+                            <option>@y</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <span class="col-md-3">Homework:</span><input id="Homework" />
+                    <select onchange="setValue('Homework', this.value)">
+
+                        @foreach (var h in ViewBag.Homeworks)
+                        {
+                            <option>@h</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <span class="col-md-3">Student:</span><input id="Student" />
+                </div>
+                <div>
+                    <span class="col-md-3">Description:</span><input id="Description" />
+                </div>
+                <div>
+                    <span class="col-md-3">Visible:</span>
+                    <select id="Visible">
+                        <option>Visible</option>
+                        <option>Invisible</option>
+                    </select>
+                </div>
+                <div>
+               
+                        <span class="col-md-3">Jave File:</span><input type="file" name="java" size="1" style="float:right">
+                   
+                </div>
+                
+                <div>
+                
+                        <span class="col-md-3">Image File:</span><input type="file" name="image" size="1" style="float:right">
+                    
+
+                </div>
+                <div class="col-md-2">
+                    <button onclick="AddProject()" class="btn btn-default">Submit</button>
                 </div>
             </form>
         </div>
@@ -69,10 +99,108 @@
 </div>
 
 <script>
+    function AddProject() {
+        var course = $("#Course").get(0).value;
+        var year = $("#Year").get(0).value;
+        var homework = $("#Homework").get(0).value;
+        var student = $("#Student").get(0).value;
+        var description = $("#Description").get(0).value;
+        var tmp = $("#Visible").get(0).value;
+        var visible = 0;
+        if (tmp == "Visible") {
+            visible = 1;
+        }
+        if (course == "" || year == "" || homework == "" || student == "") {
+            alert("info can't be null");
+            return;
+        }
+        $(".upload-form").ajaxSubmit({
+            url: "AddProject",
+            data:{
+                "course": course,
+                "year": year,
+                "homework": homework,
+                "student": student,
+                "description": description,
+                "visible":visible
+            },
+            type: "post",
+            dataType: "json",
+            beforeSend:function(){
+                $("#ProgressModal").modal();
+            },
+            uploadProgress:function(event, position, total, percent) {
+                console.log(percent);
+                //$("div.progress-bar").css("width", percent + "%");
+               
+            },
+            success : function(data){
+                console.log(data);
+                if (data.status != "success") {
+                    alert("error! "+data.error);
+                    //alert("upload failed." + data.error);
+                    location.href="Project";
+                 
+                }
+                else {
+                    alert("upload success.");
+                    location.href = "Project";
+                }
 
+            },
+            error: function () {
+
+                alert("network error.");
+                location.reload();
+            }
+        });
+
+    }
     function setValue(id, value) {
         $("input#" + id)[0].value = value;
     }
+    function Delete() {
+        var Id = $("#HiddenId").get(0).value;
+        if (Id != "" && confirm("This action will delete the project,coninue?")) {
+            var data = Id.split('_');
+            $.post("DelProject",
+                "course="+data[0]+"&year="+data[1]+"&homework="+data[2]+"&student="+data[3],
+                success = function (data) {
+                    if (data.status == "success") {
+                        alert("success!");
+                        location.reload();
+                    }
+                    else {
+                        alert("error! " + data.error);
+                        location.reload();
+                    }
+                })
+        }
+    }
+    function ModifyStatus() {
+        var Id = $("#HiddenId").get(0).value;
+        if (Id.length > 0) {
+            var data = Id.split('_');
+            var visible = 1;
+            if ($("#student_visible").html().split(':')[1] == "Visible") {
+                visible = 0;
+            }
+            $.post("ModifyProject",
+                   "course="+data[0]+"&year="+data[1]+"&homework="+data[2]+"&student="+data[3]+"&visible="+visible,
+                   success = function (data) {
+                       if (data.sstatus = "success") {
+                           alert("success!");
+                           location.reload();
+                       }
+                       else {
+                           alert("error! " + data.error);
+                           location.reload();
+                       }
+                   })
+        }
+    }
+
+
 
 $('#evts')
     .on("changed.jstree", function (e, data) {
@@ -89,17 +217,26 @@ $('#evts')
               success = function (data) {
                   
                   if (data.status == 'success') {
+                      $("#HiddenId").get(0).value = arr[1] + "_" + arr[2] + "_" + arr[3] + "_" + arr[4];
                       $("#myModal").modal();
                       $("#student_name").empty();
                       $("#student_image").empty();
                       $("#student_programa").empty();
                       $("#student_code").empty();
                       $("#student_description").empty();
-                      $("#student_name").append("Name   :     "+data.name);
-                      $("#student_description").append("<div>description</div>  :  <textarea>"+data.description+"</textarea>");
+                      $("#student_visible").empty();
+                      $("#student_name").append("Name:"+data.name);
+                      $("#student_description").append("<div>description:</div><textarea>"+data.description+"</textarea>");
                       $("#student_image").append("<img src='" + data.image + "'>");
-                      $("#student_programa").append("<a href='" + data.programa + "'>" + "运行程序" + "</a>");
-                      $("#student_code").append("<a href='" + data.code + "'>" + "查看代码" + "</a>");
+                      //$("#student_programa").append("<a href='" + data.programa + "'>" + "运行程序" + "</a>");
+                      //$("#student_code").append("<a href='/" + data.code + "'>" + "查看代码" + "</a>");
+                      $("#student_programa").append("<a href='/Project/Info?course=" +arr[1]+"&year="+arr[2]+ "&homework="+arr[3]+"&student="+arr[4]+ "'>" + "运行程序" + "</a>");
+                      $("#student_code").append("<a href='/Project/Info?course=" + arr[1] + "&year=" + arr[2] + "&homework=" + arr[3] + "&student=" + arr[4] + "'>" + "查看代码" + "</a>");
+                      if (data.visible == 1) {
+                          $("#student_visible").append("Status:Visible" );
+                      } else {
+                          $("#student_visible").append("Status:Invisible");
+                      }
                   }
                   else {
                       alert("error!");
@@ -123,6 +260,31 @@ $('#evts')
  </script>
 
 
+
+<div class="modal fade" id="ProgressModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Progress
+                </h4>
+            </div>
+            <div class="modal-body">
+                <img src="/Content/images/yuya_load.gif">   Uploading....
+            </div>
+            <div class="modal-footer">
+        
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -133,14 +295,15 @@ $('#evts')
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    Upload File
+                    Homework Info
                 </h4>
             </div>
             <div class="modal-body">  
                 <div class="row">              
                     <div class="col-md-6">
-                        <div id="student_image">
+                        <div id="student_image" >
                         </div>
+                        <input type="hidden" id="HiddenId"/>
                     </div>
                     <div class="col-md-6">
                         <div id="student_name">
@@ -151,11 +314,20 @@ $('#evts')
                         </div>
                         <div id="student_code">
                         </div>
+                        <div id="student_visible">
+                        </div>
                     </div>  
                     
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="Delete()">
+                    Delete
+                </button>
+
+                <button type="button" class="btn btn-default" onclick="ModifyStatus()">
+                    ModifyStatus
+                </button>
                 <button type="button" class="btn btn-default"
                         data-dismiss="modal">
                     Close

@@ -142,6 +142,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ExamController.cs" />
+    <Compile Include="Controllers\Function.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -379,6 +380,7 @@
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\Info.cshtml" />
     <Content Include="Views\Teacher\Project.cshtml" />
+    <Content Include="Views\Teacher\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

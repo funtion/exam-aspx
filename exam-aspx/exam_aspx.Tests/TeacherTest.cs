@@ -13,5 +13,10 @@ namespace exam_aspx.Tests
         {
             Assert.IsNotNull(model.getTeacher("admin", "admin"));
         }
+        [TestMethod]
+        public void TestChangePass()
+        {
+            Assert.IsTrue(model.ChangePass("a","admin","admin")==1);
+        }
     }
 }

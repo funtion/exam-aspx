@@ -108,6 +108,8 @@
     <Compile Include="FileTest.cs" />
     <Compile Include="QuestionTest.cs" />
     <Compile Include="TeacherTest.cs" />
+    <Compile Include="FunctionTest.cs" />
+    <Compile Include="ProjectTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

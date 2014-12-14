@@ -16,5 +16,6 @@ namespace exam_aspx.Entity
         public string classFileUrl;
         public string code;
         public string student;
+        public int visible;
     }
 }

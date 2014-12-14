@@ -88,12 +88,257 @@ namespace exam_aspx.Controllers
         [HttpGet]
         public ActionResult Project()
         {
-            
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            var model = new ProjectModel();
+            ViewBag.Course = model.getAllCources();
+            ViewBag.Years = model.getDistinctYears();
+            ViewBag.Homeworks = model.getDistinctHomeWork();
             return View();
+        }
+        [HttpGet]
+        public ActionResult Profile()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            TeacherEntity teacher = (TeacherEntity)Session["teacher"];
+            ViewBag.user = teacher.username;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ModifyProfile()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            var response = new Dictionary<string, string>();
+            var username = Request.Params["username"];
+            var oldpass = Request.Params["oldpass"];
+            var newpass = Request.Params["newpass"];
+            if (username == null || oldpass == null || newpass == null)
+            {
+                response.Add("status", "failed");
+                response.Add("error", "bad param");
+            }
+            var model = new TeacherModel();
+            TeacherEntity OldTeacher = (TeacherEntity)Session["teacher"];
+            var teacher = model.getTeacher(OldTeacher.username, oldpass);
+            if (teacher == null)
+            {
+                response.Add("status", "failed");
+                response.Add("error", "wrong oldpass");
+                return Json(response);
+            }
+            int row = model.ChangePass(OldTeacher.username, username, newpass);
+            if (row != 1)
+            {
+                response.Add("status", "failed");
+                response.Add("error", "update error");
+                return Json(response);
+            }
+            if (OldTeacher.username != username)
+            {
+                Logout();
+            }
+            response.Add("status", "success");
+            return Json(response);
+        }
+
+        [HttpPost]
+        public ActionResult AddProject()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            var response = new Dictionary<string, string>();
+            HttpPostedFileBase file = Request.Files.Get("java");
+            var baseSavePath = "~/upload/project";
+            var savePath = "";
+            if (file != null)
+            {
+                HttpPostedFileBase image = Request.Files.Get("image");
+                if (image!=null&&!checkFileExt(image.FileName, "jpg"))
+                {//检查图片后缀
+                    response.Add("status", "failed");
+                    response.Add("error", "only jpg allowed!");
+                    return Json(response);
+                }
+                if (checkFileExt(file.FileName, "java"))
+                {
+                    var course = Request.Params["course"];
+                    var year = Request.Params["year"];
+                    var homework = Request.Params["homework"];
+                    var student = Request.Params["student"];
+                    var description = Request.Params["description"];
+                    var visible = Request.Params["visible"];
+                    if (course != null && year != null && homework != null&&student!=null)
+                    {
+                        savePath = string.Format("{0}/{1}/{2}/{3}/{4}", baseSavePath, course, year, homework,student);
+                        
+
+
+
+                        if (Directory.Exists(Server.MapPath(savePath)))//检查目录是否存在，存在则递归删除目录
+                        {
+                            var model = new ProjectModel();
+                            var project = model.getAllProject(course,year,homework,student);
+                            if (project.id > 0)  //数据库中存在则删除数据
+                            {
+                                model.DelProject(course, year, homework, student);
+                            }
+                            Directory.Delete(Server.MapPath(savePath), true);
+                        }
+                        Directory.CreateDirectory(Server.MapPath(savePath));
+                        //储存图片文件
+                        
+                        var img_url = "";
+                        if (image != null)
+                        { //是否存在图片，存在则保存图片
+                            img_url = string.Format("{0}/{1}", savePath, image.FileName);
+                            
+                            image.SaveAs(Server.MapPath(img_url));
+                        }
+
+                        //储存java文件
+                        file.SaveAs(Server.MapPath(string.Format("{0}/{1}", savePath, file.FileName)));
+                        try
+                        {
+                                var err = "";
+                                //编译java文件
+                                var buildClass = string.Format("javac {0}/*.java", Server.MapPath(savePath));
+                                err += Function.Execute(buildClass);
+                                //打包class文件
+                                var buildJar = string.Format("jar cf {0}/{1}.jar {0}/*.class", Server.MapPath(savePath), file.FileName, Server.MapPath(savePath));
+                                err += Function.Execute(buildJar);
+                                if (err != "")
+                                {
+                                    Directory.Delete(Server.MapPath(savePath), true);
+                                    response.Add("status", "failed");
+                                    response.Add("error", "some thing wrong with your code");
+                                    return Json(response);
+                                }
+                                
+                                int defaultVisible = 1;
+                                if(visible!=null){
+                                    defaultVisible = int.Parse(visible);
+                                }
+                                
+                                var model = new ProjectModel();
+                                var jar_url = string.Format("{0}/{1}.jar",savePath,file.FileName);
+                                var row = model.AddProject(course, year, homework, student, file.FileName, jar_url, img_url, description, defaultVisible);
+                                if (row != 1)
+                                {
+                                    response.Add("status", "failed");
+                                    response.Add("error", "insert error");
+                                }
+                                
+                                
+                        }
+                        catch (Exception e)
+                        {
+                            response.Add("status", "failed");
+                            response.Add("error", "some thing wrong with your code");
+                            return Json(response);
+                        }
+
+
+                        response.Add("status", "success");
+                        
+                    }
+                    else
+                    {
+                        response.Add("status", "failed");
+                        response.Add("error", "course,year,homework can't be null");
+                    }
+                }
+                else
+                {
+                    response.Add("status", "failed");
+                    response.Add("error", "only  *.java allowed");
+                }
+                
+            }
+            else
+            {
+                response.Add("status", "failed");
+                response.Add("error", "no file");
+            }
+            return Json(response);
+        }
+        [HttpPost]
+        public ActionResult DelProject()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            var response = new Dictionary<string,string>();
+            var course = Request.Params["course"];
+            var year = Request.Params["year"];
+            var homework = Request.Params["homework"];
+            var student = Request.Params["student"];
+            if (course == null || year == null || homework == null || student == null)
+            {
+                response.Add("status", "failed");
+                response.Add("error", "bad param");
+            }
+            var model = new ProjectModel();
+            int row = model.DelProject(course, year, homework, student);
+            if (row == 0)
+            {
+                response.Add("status", "failed");
+                response.Add("error", "delete error");
+            }
+            Directory.Delete(Server.MapPath(string.Format("~/upload/project/{0}/{1}/{2}/{3}",course,year,homework,student)), true);
+            response.Add("status", "success");
+
+            return Json(response);
+        }
+
+        public ActionResult ModifyProject()
+        {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
+            var response = new Dictionary<string, string>();
+           
+            var course = Request.Params["course"];
+            var year = Request.Params["year"];
+            var homework = Request.Params["homework"];
+            var student = Request.Params["student"];
+            var visible = Request.Params["visible"];
+            if (course == null || year == null || homework == null || student == null || visible==null)
+            {
+                response.Add("status", "failed");
+                response.Add("error", "bad param");
+                return Json(response);
+            }
+            var model = new ProjectModel();
+            int row = model.ModifyProjectStatus(course, year, homework, student, int.Parse(visible));
+            if (row == 0)
+            {
+                response.Add("status", "failed");
+                response.Add("error", "update failed");
+                return Json(response);
+            }
+            response.Add("status", "success");
+            return Json(response);
         }
         [HttpPost]
         public ActionResult GetProjectDetail()
         {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
             var response = new Dictionary<string,string>();
             var model = new ProjectModel();
             string course = Request.Params["course"];
@@ -105,9 +350,10 @@ namespace exam_aspx.Controllers
             {
                 response.Add("name", data.student);
                 response.Add("description", data.description);
-                response.Add("image", data.imgUrl);
-                response.Add("programa", data.classFileUrl);
-                response.Add("code", data.code);
+                response.Add("image", data.imgUrl.Split('~')[1]);
+                response.Add("programa", data.classFileUrl.Split('~')[1]);
+                response.Add("code", string.Format("upload/project/{0}/{1}/{2}/{3}/{4}",course,year,homework,student,data.code));
+                response.Add("visible",string.Format("{0}",data.visible));
                 response.Add("status", "success");
             }
             else
@@ -121,6 +367,10 @@ namespace exam_aspx.Controllers
         [HttpPost]
         public ActionResult GetProject()
         {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
             var root = new Dictionary<string, object>();
             var id = Request["id"];
             
@@ -812,7 +1062,7 @@ namespace exam_aspx.Controllers
             }
            
         }
-        public bool checkFileExt(string filename)
+        public bool checkFileExt(string filename,string valid="docx")
         {
             bool ret = false;
             
@@ -820,7 +1070,7 @@ namespace exam_aspx.Controllers
             {
                var  ext = filename.Substring(filename.LastIndexOf(".") + 1, filename.Length - 1 -filename.LastIndexOf("."));
                
-               if (ext == "docx")
+               if (ext == valid)
                {
                    ret = true;
                }
@@ -839,8 +1089,6 @@ namespace exam_aspx.Controllers
                 return true;
             } 
                 
-
-        
         }
 
        
