@@ -27,9 +27,14 @@
                             <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 181px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
                                 <h1>@ViewBag.data.description</h1>
                             </div>
-                            @if (@ViewBag.data.visible) { 
+                            @if (@ViewBag.data.imgUrl != null && @ViewBag.data.imgUrl != "") { 
                             <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 181px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
-                                <iframe src="@{@ViewBag.data.code}"></iframe>
+                                <img src="@ViewBag.data.imgUrl"/>
+                            </div>
+                            }
+                            @if (@ViewBag.data.visible == 1) { 
+                            <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 181px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
+                                <pre>@ViewBag.data.codetext</pre>
                             </div>
                             }
                             <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 222px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">

@@ -92,6 +92,7 @@ namespace exam_aspx.Models
         {
             var sql = buildCommand("select * from project where course=? and year=? and homework=? and student=?");
 
+
             sql.AddVarcharParam("course", course);
             sql.AddVarcharParam("year", year);
             sql.AddVarcharParam("homework", homework);
@@ -112,9 +113,12 @@ namespace exam_aspx.Models
                     description = reader.GetString(DESCRIPTION),
                     classFileUrl = reader.GetString(CLASS_FILE_URL),
                     code = reader.GetString(CODE),
+                    
                     student = reader.GetString(STUDENT),
                     visible = reader.GetInt32(VISIBLE)
                 };
+
+                 res.codetext = System.IO.File.ReadAllText(res.code);
             }
             
 
