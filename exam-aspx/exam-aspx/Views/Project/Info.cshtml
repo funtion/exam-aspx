@@ -27,9 +27,11 @@
                             <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 181px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
                                 <h1>@ViewBag.data.description</h1>
                             </div>
+                            @if (@ViewBag.data.visible) { 
                             <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 181px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
-                                <iframe src="@{@ViewBag.data.code}.txt"></iframe>
+                                <iframe src="@{@ViewBag.data.code}"></iframe>
                             </div>
+                            }
                             <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 222px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
                                 <applet archive="@ViewBag.data.classFileUrl" code="@ViewBag.MainClass" ></applet>
                             </div>
