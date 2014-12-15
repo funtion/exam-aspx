@@ -37,8 +37,8 @@
             <form class="upload-form"  enctype="multipart/form-data">
                 <div class="row">
                     <span class="col-md-3">Course:</span><input type="text" id="Course" />
-                    <select onchange="setValue('Course',this.value)">
-
+                    <select onchange="setValue('Course',this.value)" id="select_course">
+                        
                         @foreach (var c in ViewBag.Course)
                         {
                             <option>@c</option>
@@ -47,8 +47,8 @@
                 </div>
                 <div class="row">
                     <span class="col-md-3">Year:</span><input id="Year" />
-                    <select onchange="setValue('Year',this.value)">
-
+                    <select onchange="setValue('Year',this.value)" id="select_year">
+                        
                         @foreach (var y in ViewBag.Years)
                         {
                             <option>@y</option>
@@ -57,8 +57,8 @@
                 </div>
                 <div class="row">
                     <span class="col-md-3">Homework:</span><input id="Homework" />
-                    <select onchange="setValue('Homework', this.value)">
-
+                    <select onchange="setValue('Homework', this.value)" id="select_homework">
+                        
                         @foreach (var h in ViewBag.Homeworks)
                         {
                             <option>@h</option>
@@ -100,6 +100,21 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        //alert(1);
+        try{
+            var value = $("#select_course").get(0).options[0].value;
+            $("input#Course")[0].value = value;
+            $("#select_year").get(0).options[0].value;
+            $("input#Year")[0].value = value;
+            $("#select_homework").get(0).options[0].value;
+            $("input#Homework")[0].value = value;
+
+        }
+        catch(e){
+
+        }
+    });
     function AddProject() {
         var course = $("#Course").get(0).value;
         var year = $("#Year").get(0).value;
@@ -228,7 +243,7 @@ $('#evts')
                       $("#student_visible").empty();
                       $("#student_name").append("Name:"+data.name);
                       $("#student_description").append("<div>description:</div><textarea>"+data.description+"</textarea>");
-                      $("#student_image").append("<img src='" + data.image + "'>");
+                      $("#student_image").append("<img src='" + data.image + "' style='width:40%;height:100%'>");
                       //$("#student_programa").append("<a href='" + data.programa + "'>" + "运行程序" + "</a>");
                       //$("#student_code").append("<a href='/" + data.code + "'>" + "查看代码" + "</a>");
                       $("#student_programa").append("<a href='/Project/Info?course=" +arr[1]+"&year="+arr[2]+ "&homework="+arr[3]+"&student="+arr[4]+ "'>" + "运行程序" + "</a>");
