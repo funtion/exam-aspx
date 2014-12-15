@@ -241,20 +241,28 @@ namespace exam_aspx.Controllers
                                
                                 process.StartInfo.RedirectStandardInput = true;    
                                 process.StartInfo.RedirectStandardError = true;
+                                process.StartInfo.RedirectStandardOutput = true;
                                 process.StartInfo.WorkingDirectory = Server.MapPath(savePath);
                                 process.StartInfo.FileName = "cmd";
                                 process.StartInfo.UseShellExecute = false;
+
                                 process.Start();
-                                process.StandardInput.WriteLine("dir > dir.txt");
+                                
                                 process.StandardInput.WriteLine("javac *.java");
                                 
                                 process.StandardInput.WriteLine(string.Format("jar cf {0}.jar *.class",javafilename));
 
                                 process.StandardInput.WriteLine("exit");
+                                
                                 try
                                 {
                                     if (!process.StandardError.EndOfStream)
-                                        err += process.StandardError.ReadToEnd();
+                                    {
+                                        err += "\nstderr\n" + process.StandardError.ReadToEnd();
+                                        if (!process.StandardOutput.EndOfStream)
+                                            err += "\nstdout\n" + process.StandardOutput.ReadToEnd();
+                                    }
+                                      
 
                                 }
                                 catch (Exception e)
@@ -276,7 +284,7 @@ namespace exam_aspx.Controllers
                                 {
                                     Directory.Delete(Server.MapPath(savePath), true);
                                     response.Add("status", "failed");
-                                    response.Add("error", "some thing wrong with your code");
+                                    response.Add("error", "some thing wrong with your code"+err);
                                     return Json(response);
                                 }
                                 
@@ -300,7 +308,7 @@ namespace exam_aspx.Controllers
                         catch (Exception e)
                         {
                             response.Add("status", "failed");
-                            response.Add("error", "some thing wrong with your code");
+                            response.Add("error", "some thing wrong with your code:"+e.Message);
                             return Json(response);
                         }
 

@@ -166,5 +166,11 @@ namespace exam_aspx.Controllers
                 return View("~/Views/Index/Register.cshtml");
             }
         }
+
+        [HttpGet]
+        public ActionResult AboutUs()
+        {
+            return View();
+        }
     }
 }

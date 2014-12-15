@@ -231,9 +231,13 @@
     <Content Include="Content\cityu logo\images %281%29.jpg" />
     <Content Include="Content\cityu logo\images.jpg" />
     <Content Include="Content\cityu logo\logo12.png" />
+    <Content Include="Content\css\32px.png" />
+    <Content Include="Content\css\40px.png" />
     <Content Include="Content\css\bootstrap-theme.css" />
+    <Content Include="Content\css\bootstrap-theme.css.map" />
     <Content Include="Content\css\bootstrap-theme.min.css" />
     <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.css.map" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\core.css" />
     <Content Include="Content\css\css3.css" />
@@ -241,11 +245,14 @@
     <Content Include="Content\css\images\ui-bg_glass_55_fbf9ee_1x400.html" />
     <Content Include="Content\css\images\ui-bg_glass_95_fef1ec_1x400.html" />
     <Content Include="Content\css\jquery.dataTables.css" />
+    <Content Include="Content\css\jstree.min.css" />
     <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\login.css" />
+    <Content Include="Content\css\Modata.ttf" />
     <Content Include="Content\css\plugins.css" />
     <Content Include="Content\css\skin_clean.css" />
     <Content Include="Content\css\smoothness\jquery-ui-1.7.2.custom.html" />
+    <Content Include="Content\css\throbber.gif" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\js\bootstrap.js" />
     <Content Include="Content\js\bootstrap.min.js" />
@@ -257,10 +264,12 @@
     <Content Include="Content\js\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="Content\js\jquery.dataTables.js" />
     <Content Include="Content\js\jquery.dataTables.min.js" />
+    <Content Include="Content\js\jquery.form.js" />
     <Content Include="Content\js\jquery.form.min.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\jquery.simplemodal-1.4.4.js" />
     <Content Include="Content\js\jquery.wysiwyg.js" />
+    <Content Include="Content\js\jstree.js" />
     <Content Include="Content\js\superfish.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -322,9 +331,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="bin\exam_aspx.dll.config" />
-    <Content Include="Content\css\bootstrap-theme.css.map" />
-    <Content Include="Content\css\bootstrap.css.map" />
-    <Content Include="Content\css\Modata.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
@@ -381,6 +387,7 @@
     <Content Include="Views\Project\Info.cshtml" />
     <Content Include="Views\Teacher\Project.cshtml" />
     <Content Include="Views\Teacher\Profile.cshtml" />
+    <Content Include="Views\Student\AboutUs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
