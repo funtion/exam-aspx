@@ -8,6 +8,7 @@ using exam_aspx.Models;
 using exam_aspx.Entity;
 using System.Drawing;
 using System.IO;
+using System.Diagnostics;
 
 namespace exam_aspx.Controllers
 {
@@ -212,11 +213,43 @@ namespace exam_aspx.Controllers
                         {
                                 var err = "";
                                 //编译java文件
-                                var buildClass = string.Format("javac {0}/*.java", Server.MapPath(savePath));
-                                err += Function.Execute(buildClass);
+                                //var buildClass = string.Format("javac {0}/*.java", Server.MapPath(savePath));
+                                Process process = new Process();
+                                process.StartInfo = new ProcessStartInfo();
+                               
+                                process.StartInfo.RedirectStandardInput = true;    
+                                process.StartInfo.RedirectStandardError = true;
+                                process.StartInfo.WorkingDirectory = Server.MapPath(savePath);
+                                process.StartInfo.FileName = "cmd";
+                                process.StartInfo.UseShellExecute = false;
+                                process.Start();
+                                process.StandardInput.WriteLine("dir > dir.txt");
+                                process.StandardInput.WriteLine("javac *.java");
+                                
+                                process.StandardInput.WriteLine(string.Format("jar cf {0}.jar *.class",file.FileName));
+
+                                process.StandardInput.WriteLine("exit");
+                                try
+                                {
+                                    if (!process.StandardError.EndOfStream)
+                                        err += process.StandardError.ReadToEnd();
+
+                                }
+                                catch (Exception e)
+                                {
+                                    //ignore it 
+                                }
+
+                                // += Function.Execute(buildClass);
                                 //打包class文件
-                                var buildJar = string.Format("jar cf {0}/{1}.jar {0}/*.class", Server.MapPath(savePath), file.FileName, Server.MapPath(savePath));
-                                err += Function.Execute(buildJar);
+                               // var buildJar = string.Format("jar cf {0}/{1}.jar {0}/*.class", Server.MapPath(savePath), file.FileName, Server.MapPath(savePath));
+
+                               // err += Function.Execute(buildJar);
+
+
+                                
+                                
+
                                 if (err != "")
                                 {
                                     Directory.Delete(Server.MapPath(savePath), true);
@@ -232,7 +265,8 @@ namespace exam_aspx.Controllers
                                 
                                 var model = new ProjectModel();
                                 var jar_url = string.Format("{0}/{1}.jar",savePath,file.FileName);
-                                var row = model.AddProject(course, year, homework, student, file.FileName, jar_url, img_url, description, defaultVisible);
+                                var code_url = string.Format("{0}/{1}", savePath, file.FileName);
+                                var row = model.AddProject(course, year, homework, student, code_url, jar_url, img_url, description, defaultVisible);
                                 if (row != 1)
                                 {
                                     response.Add("status", "failed");

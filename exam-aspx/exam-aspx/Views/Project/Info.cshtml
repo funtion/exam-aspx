@@ -33,12 +33,15 @@
                             </div>
                             }
                             @if (@ViewBag.data.visible == 1) { 
-                            <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 181px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
-                                <pre>@ViewBag.data.codetext</pre>
+                            <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 100%; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
+
+                                <pre >@ViewBag.data.codetext</pre>
                             </div>
                             }
                             <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" style="height: 222px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;" role="tabpanel">
-                                <applet archive="@ViewBag.data.classFileUrl" code="@ViewBag.MainClass" ></applet>
+                               
+                                <applet archive="@ViewBag.data.classFileUrl.Substring(1)" code="@ViewBag.MainClass" >APPLET FAILED</applet>
+                                
                             </div>
                         </div>
                         
