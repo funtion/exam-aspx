@@ -63,7 +63,15 @@ namespace exam_aspx.Controllers
             string year = Request.Params[YEAR];
             string homeork = Request.Params[HOMEWORK];
             string student = Request.Params[STUDENT];
-            ViewBag.data = model.getAllProject(course, year, homeork, student);
+            
+            var project  = model.getAllProject(course, year, homeork, student);
+            if (project.imgUrl.LastIndexOf('~')!=-1)
+            {
+                var tmp = project.imgUrl.Split('~');
+                project.imgUrl = tmp[tmp.Length - 1];
+
+            }
+            ViewBag.data = project;
             string jar = ViewBag.data.classFileUrl;
 
             var mainClass = jar.Split('/');
