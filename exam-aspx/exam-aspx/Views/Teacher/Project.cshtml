@@ -35,7 +35,7 @@
         </div>
         <div class="col-md-5">
             <form class="upload-form"  enctype="multipart/form-data">
-                <div>
+                <div class="row">
                     <span class="col-md-3">Course:</span><input type="text" id="Course" />
                     <select onchange="setValue('Course',this.value)">
 
@@ -45,7 +45,7 @@
                         }
                     </select>
                 </div>
-                <div>
+                <div class="row">
                     <span class="col-md-3">Year:</span><input id="Year" />
                     <select onchange="setValue('Year',this.value)">
 
@@ -55,7 +55,7 @@
                         }
                     </select>
                 </div>
-                <div>
+                <div class="row">
                     <span class="col-md-3">Homework:</span><input id="Homework" />
                     <select onchange="setValue('Homework', this.value)">
 
@@ -65,33 +65,34 @@
                         }
                     </select>
                 </div>
-                <div>
+                <div class="row">
                     <span class="col-md-3">Student:</span><input id="Student" />
                 </div>
-                <div>
+                <div class="row">
                     <span class="col-md-3">Description:</span><input id="Description" />
                 </div>
-                <div>
+                <div class="row">
                     <span class="col-md-3">Visible:</span>
                     <select id="Visible">
                         <option>Visible</option>
                         <option>Invisible</option>
                     </select>
                 </div>
-                <div>
-               
-                        <span class="col-md-3">Jave File:</span><input type="file" name="java" size="1" style="float:right">
+                <div class="row">
                    
+                        <span class="col-md-3">Jave File:</span><input type="file" name="java" size="1">
+
+                    
                 </div>
                 
-                <div>
-                
-                        <span class="col-md-3">Image File:</span><input type="file" name="image" size="1" style="float:right">
-                    
+                <div class="row">
+
+                    <span class="col-md-3">Image File:</span><input type="file" name="image" size="1">
+
 
                 </div>
-                <div class="col-md-2">
-                    <button onclick="AddProject()" class="btn btn-default">Submit</button>
+                <div >
+                    <button onclick="AddProject()" class="btn btn-default col-md-3">Submit</button>
                 </div>
             </form>
         </div>
@@ -126,8 +127,8 @@
             },
             type: "post",
             dataType: "json",
-            beforeSend:function(){
-                $("#ProgressModal").modal();
+            beforeSubmit: function (arr, $form, option) {
+               // $("#ProgressModal").modal();
             },
             uploadProgress:function(event, position, total, percent) {
                 console.log(percent);
@@ -139,19 +140,19 @@
                 if (data.status != "success") {
                     alert("error! "+data.error);
                     //alert("upload failed." + data.error);
-                    location.href="Project";
+                    //location.href="Project";
                  
                 }
                 else {
                     alert("upload success.");
-                    location.href = "Project";
+                    // location.href = "Project";
                 }
 
             },
             error: function () {
 
                 alert("network error.");
-                location.reload();
+                //location.reload();
             }
         });
 

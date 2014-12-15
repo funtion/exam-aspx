@@ -161,6 +161,8 @@ namespace exam_aspx.Controllers
             HttpPostedFileBase file = Request.Files.Get("java");
             var baseSavePath = "~/upload/project";
             var savePath = "";
+            var imgfilename = "";
+            var javafilename = "";
             if (file != null)
             {
                 HttpPostedFileBase image = Request.Files.Get("image");
@@ -201,22 +203,47 @@ namespace exam_aspx.Controllers
                         var img_url = "";
                         if (image != null)
                         { //是否存在图片，存在则保存图片
-                            img_url = string.Format("{0}/{1}", savePath, image.FileName);
-                            
+                            if (image.FileName.LastIndexOf('\\') != -1)  //IE文件获取文件名
+                            {
+                                imgfilename = image.FileName.Substring(image.FileName.LastIndexOf('\\') + 1, image.FileName.Length - 1 - image.FileName.LastIndexOf('\\'));
+                            }
+                            else
+                            {
+                                imgfilename = image.FileName;
+                            }
+                            img_url = string.Format("{0}/{1}", savePath,imgfilename);
                             image.SaveAs(Server.MapPath(img_url));
                         }
 
                         //储存java文件
-                        file.SaveAs(Server.MapPath(string.Format("{0}/{1}", savePath, file.FileName)));
+                        if (file.FileName.LastIndexOf('\\') != -1) //IE文件获取文件名
+                        {
+                            
+                            javafilename = file.FileName.Substring(file.FileName.LastIndexOf('\\')+1, file.FileName.Length - 1 - file.FileName.LastIndexOf('\\'));
+
+                        }
+                        else
+                        {
+                            javafilename = file.FileName;
+                        }
+                        file.SaveAs(Server.MapPath(string.Format("{0}/{1}", savePath, javafilename)));
                         try
                         {
                                 var err = "";
+                                
                                 //编译java文件
                                 var buildClass = string.Format("javac {0}/*.java", Server.MapPath(savePath));
-                                err += Function.Execute(buildClass);
+                               err += Function.Execute(buildClass);
+                            //    err += cmd.Execute(buildClass);
                                 //打包class文件
-                                var buildJar = string.Format("jar cf {0}/{1}.jar {0}/*.class", Server.MapPath(savePath), file.FileName, Server.MapPath(savePath));
-                                err += Function.Execute(buildJar);
+                                //var cdDirector = string.Format("cd {0}", Server.MapPath(savePath));
+                              //  err += cmd.Execute(cdDirector);
+                               // var buildJar = string.Format("jar cf {0}/{1}.jar {0}/*.class", Server.MapPath(savePath), javafilename, Server.MapPath(savePath));
+                                var buildJar = string.Format("jar cf {0}.jar  *.class", javafilename.Split('.')[0]);
+                                err += Function.Execute(Server.MapPath(savePath), buildJar);
+                                //err += Function.Execute(buildClass+" && "+cdDirector+ " && " + buildJar);
+                               
+                                //err += Function.Execute(cdDirector + buildJar);
                                 if (err != "")
                                 {
                                     Directory.Delete(Server.MapPath(savePath), true);
@@ -231,8 +258,8 @@ namespace exam_aspx.Controllers
                                 }
                                 
                                 var model = new ProjectModel();
-                                var jar_url = string.Format("{0}/{1}.jar",savePath,file.FileName);
-                                var row = model.AddProject(course, year, homework, student, file.FileName, jar_url, img_url, description, defaultVisible);
+                                var jar_url = string.Format("{0}/{1}.jar",savePath,javafilename);
+                                var row = model.AddProject(course, year, homework, student, string.Format("{0}/{1}",savePath,javafilename.Split('.')[0]), jar_url, img_url, description, defaultVisible);
                                 if (row != 1)
                                 {
                                     response.Add("status", "failed");
@@ -350,7 +377,10 @@ namespace exam_aspx.Controllers
             {
                 response.Add("name", data.student);
                 response.Add("description", data.description);
-                response.Add("image", data.imgUrl.Split('~')[1]);
+                if (data.imgUrl != "" && data.imgUrl != null)
+                {
+                    response.Add("image", data.imgUrl.Split('~')[1]);
+                }
                 response.Add("programa", data.classFileUrl.Split('~')[1]);
                 response.Add("code", string.Format("upload/project/{0}/{1}/{2}/{3}/{4}",course,year,homework,student,data.code));
                 response.Add("visible",string.Format("{0}",data.visible));
@@ -671,17 +701,27 @@ namespace exam_aspx.Controllers
             Dictionary<string, String> ret = new Dictionary<string, string>();
             HttpPostedFileBase file = Request.Files.Get("file");
             string savepath = "/upload/file";
+            var tmpfilename = "";
             if (file != null)
             {
                 if (!Directory.Exists(Server.MapPath(savepath)))
                 {
                     Directory.CreateDirectory(Server.MapPath(savepath));
                 }
-                file.SaveAs(Server.MapPath(string.Format("{0}/{1}", savepath, file.FileName)));
+                if (file.FileName.LastIndexOf('\\') != -1)
+                {
+                    tmpfilename = file.FileName.Substring(file.FileName.LastIndexOf('\\') + 1, file.FileName.Length - 1 - file.FileName.LastIndexOf('\\'));
+                }
+                else
+                {
+                    tmpfilename = file.FileName;
+                }
+
+                file.SaveAs(Server.MapPath(string.Format("{0}/{1}", savepath, tmpfilename)));
                 try
                 {
                     exam_aspx.Models.FileModel model = new exam_aspx.Models.FileModel();
-                    model.addFile(file.FileName, string.Format("{0}/{1}", savepath, file.FileName), file.ContentLength);
+                    model.addFile(tmpfilename, string.Format("{0}/{1}", savepath, tmpfilename), file.ContentLength);
                     ret.Add("status", "success");
                 }
                 catch (Exception e)
@@ -922,11 +962,20 @@ namespace exam_aspx.Controllers
                     ExamModel examModel= new ExamModel();
                     QuestionModel questionModel = new QuestionModel();
                     var docName = "~/upload/tmp.docx";
+                    var examname = "";
                     file.SaveAs(Server.MapPath(docName));
                     try
                     {
                         ExamEntity examEntity = examModel.praseFromDoc(Server.MapPath(docName));
-                        int examId = examModel.addExam(examEntity.time, examEntity.sNumber, examEntity.mNumber, examEntity.tNumber, examEntity.sScore, examEntity.mScore, examEntity.tScore,0,file.FileName.Substring(0,file.FileName.Length-5));
+                        if (file.FileName.LastIndexOf('\\') != -1)
+                        {
+                            examname = file.FileName.Substring(file.FileName.LastIndexOf('\\') + 1, file.FileName.Length - 1 - file.FileName.LastIndexOf('\\'));
+                        }
+                        else
+                        {
+                            examname = file.FileName;
+                        }
+                        int examId = examModel.addExam(examEntity.time, examEntity.sNumber, examEntity.mNumber, examEntity.tNumber, examEntity.sScore, examEntity.mScore, examEntity.tScore,0,examname.Substring(0,examname.Length-5));
                         int type = -1;
                         int count = 1;
                         foreach (QuestionEntity q in examEntity.sc)
