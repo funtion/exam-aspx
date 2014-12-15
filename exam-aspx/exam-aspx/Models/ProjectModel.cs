@@ -117,8 +117,9 @@ namespace exam_aspx.Models
                     student = reader.GetString(STUDENT),
                     visible = reader.GetInt32(VISIBLE)
                 };
-
-                 res.codetext = System.IO.File.ReadAllText(res.code);
+                
+                
+                
             }
             
 
