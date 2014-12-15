@@ -65,8 +65,19 @@ namespace exam_aspx.Controllers
             string student = Request.Params[STUDENT];
             ViewBag.data = model.getAllProject(course, year, homeork, student);
             string jar = ViewBag.data.classFileUrl;
-            var mainClass = jar.Split('.');
-            ViewBag.MainClass = mainClass[mainClass.Length - 2]+".class";
+
+            var mainClass = jar.Split('/');
+            var actualName = mainClass[mainClass.Length - 1];
+            ViewBag.MainClass = actualName.Split('.')[0];
+
+            //ViewBag.MainClass = jar.Substring(0, jar.Length - 3) + "class";
+            
+            string codepath = ViewBag.data.code;
+            codepath = Server.MapPath(codepath);
+
+            ViewBag.data.codetext = System.IO.File.ReadAllText(codepath);
+            //ViewBag.MainClass = codepath.Replace(".java","").Replace(@"\", ".");
+
             return View();
         }
     }
