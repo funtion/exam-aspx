@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "About Us";
+}
+@section css{
+    @Styles.Render("~/Content/css/layout.css")
+}
+@section js{
+
+    @Scripts.Render("~/Content/js/jquery.wysiwyg.js")
+    @Scripts.Render("~/Content/js/superfish.js")
+}
+
+<div id="container">
+    @Html.Partial("student_header")
+    <div id="content">
+        <div style="padding-left:160px;padding-right:160px">
+            <div id="pad20">
+                
+                <div class="cols3 column" style="min-height:428px">
+                        <table cellspacing=" 0" cellpadding="0" border="0" class="fullwidth">
+                    <thead>
+                        <tr>
+                            <td>
+                                About this site
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                This website is developed by Dr. Shi-Yu Xu, sponsored by City University of Hong Kong through the TSG project, “Creating a Discussion-Friendly Classroom and an e-Learning Environment through the Employment of Interactive Digital Learning Database”
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                This website was developed by JavaScript and C#.
+                                JavaScript is classified as a prototype-based scripting language with dynamic typing and first-class functions. This mix of features makes it a multi-paradigm language, supporting object-oriented, imperative, and functional programming styles. It is most commonly used as part of web browsers, whose implementations allow client-side scripts to interact with the user, control the browser, communicate asynchronously, and alter the document content that is displayed.
+                                C#(pronounced as see sharp) is a multi-paradigm programming language encompassing strong typing, imperative, declarative, functional, generic, object-oriented (class-based), and component-oriented programming disciplines. It was developed by Microsoft within its .NET initiative and later approved as a standard by Ecma (ECMA-334) and ISO (ISO/IEC 23270:2006). C# is one of the programming languages designed for the Common Language Infrastructure.
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
+
+                </div>
+                </div>
+    </div>

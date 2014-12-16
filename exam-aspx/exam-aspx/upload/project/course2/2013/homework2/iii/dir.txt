@@ -1,0 +1,11 @@
+ 驱动器 D 中的卷是 新加卷
+ 卷的序列号是 440D-AA4F
+
+ D:\GitHub\exam-aspx\exam-aspx\exam-aspx\upload\project\course2\2013\homework2\iii 的目录
+
+12/15/2014  07:44 PM    <DIR>          .
+12/15/2014  07:44 PM    <DIR>          ..
+12/15/2014  07:44 PM               518 A.java
+12/15/2014  07:44 PM                 0 dir.txt
+               2 个文件            518 字节
+               2 个目录 37,765,718,016 可用字节

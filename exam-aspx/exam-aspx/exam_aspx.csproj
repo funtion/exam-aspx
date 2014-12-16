@@ -254,6 +254,10 @@
     <Content Include="Content\css\smoothness\jquery-ui-1.7.2.custom.html" />
     <Content Include="Content\css\throbber.gif" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\sort_asc.png" />
+    <Content Include="Content\images\sort_both.png" />
+    <Content Include="Content\images\sort_desc.png" />
+    <Content Include="Content\images\yuya_load.gif" />
     <Content Include="Content\js\bootstrap.js" />
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\js\custom.js" />
