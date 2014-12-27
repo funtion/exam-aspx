@@ -30,6 +30,7 @@ namespace exam_aspx.Controllers
             ViewBag.announcement = announceModel.getAnnouncements(0, 3);
             ViewBag.exam = examModel.getAvailableExam().Take(3);
             ViewBag.file = fileModel.getFiles(0, 3);
+            assignTitle();
             return View();
         }
         [HttpGet]
@@ -42,6 +43,7 @@ namespace exam_aspx.Controllers
             }
             AnnouncementModel model = new AnnouncementModel();
             ViewBag.data = model.getAnnouncements(0, model.getNumberOfDisplayAnnouncement()); //get all
+            assignTitle();
             return View();
         }
 
@@ -50,6 +52,7 @@ namespace exam_aspx.Controllers
         {
             AnnouncementModel model = new AnnouncementModel();
             ViewBag.data = new AnnouncementEntity[] { model.getAnnouncementByID(id) };
+            assignTitle();
             return View("~/Views/Student/Announcement.cshtml");
         }
 
@@ -63,7 +66,7 @@ namespace exam_aspx.Controllers
             }
             ExamModel model = new ExamModel();
             ViewBag.data = model.getAvailableExam();
-
+            assignTitle();
             return View();
         }
         [HttpGet]
@@ -77,6 +80,7 @@ namespace exam_aspx.Controllers
             var model = new ResultModel();
             var data = model.getResultByStudentId(sid);
             ViewBag.data = data;
+            assignTitle();
             return View();
         }
         [HttpGet]
@@ -94,6 +98,7 @@ namespace exam_aspx.Controllers
             ViewBag.mQuestion = decoder.Deserialize<List<Dictionary<string, string>>>(data.mQuestion);
             ViewBag.tQuestion = decoder.Deserialize<List<Dictionary<string, string>>>(data.tQuestion);
             ViewBag.data = data;
+            assignTitle();
             return View();
         }
         [HttpPost]
@@ -116,7 +121,7 @@ namespace exam_aspx.Controllers
             ViewBag.count = model.getTheNumberOfFile();
             ViewBag.data = model.getFiles(0, ViewBag.count);
             ViewBag.size = size;
-
+            assignTitle();
             return View();
         }
         [HttpGet]
@@ -170,6 +175,7 @@ namespace exam_aspx.Controllers
         [HttpGet]
         public ActionResult AboutUs()
         {
+            assignTitle();
             return View();
         }
     }
