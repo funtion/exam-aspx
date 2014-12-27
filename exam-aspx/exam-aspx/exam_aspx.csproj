@@ -156,6 +156,7 @@
     <Compile Include="Entity\ResultEntity.cs" />
     <Compile Include="Entity\StudentEntity.cs" />
     <Compile Include="Entity\TeacherEntity.cs" />
+    <Compile Include="Entity\TitleEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -169,6 +170,7 @@
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\StudentModel.cs" />
     <Compile Include="Models\TeacherModel.cs" />
+    <Compile Include="Models\TitleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
