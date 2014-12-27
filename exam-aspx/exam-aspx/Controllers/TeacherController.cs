@@ -110,6 +110,29 @@ namespace exam_aspx.Controllers
             ViewBag.user = teacher.username;
             return View();
         }
+        [HttpPost]
+        public ActionResult AddTitleAndSubtitle()
+        {
+            var response = new Dictionary<string, string>();
+            var title = Request.Params["title"];
+            var subtitle = Request.Params["subtitle"];
+            if (title == null || subtitle == null)
+            {
+                response.Add("status", "failed");
+                response.Add("error", "bad param");
+                return Json(response); 
+            }
+            var model = new TitleModel();
+           int row =  model.setTitle(title, subtitle);
+           if (row < 1)
+           {
+               response.Add("status", "failed");
+               response.Add("error", "insert error");
+               return Json(response);
+           }
+           response.Add("status", "success");
+           return Json(response); 
+        }
 
         [HttpPost]
         public ActionResult ModifyProfile()
@@ -387,7 +410,7 @@ namespace exam_aspx.Controllers
              //   response.Add("image", img_url[img_url.Length-1]);
                // var jar_url = data.classFileUrl.Split('~');
                 var jar_url = data.htmlUrl.Split('~');
-                response.Add("programa", jar_url[jar_url.Length-1]);
+                response.Add("programa  ", jar_url[jar_url.Length-1]);
              //   response.Add("code", string.Format("upload/project/{0}/{1}/{2}/{3}/{4}",course,year,homework,student,data.code));
                 response.Add("visible",string.Format("{0}",data.visible));
                 response.Add("status", "success");
