@@ -17,6 +17,7 @@ namespace exam_aspx.Entity
         public string code;
         public string student;
         public int visible;
+        public string htmlUrl;
         public string codetext;
     }
 }

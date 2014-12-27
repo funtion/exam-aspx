@@ -80,7 +80,7 @@
                 </div>
                 <div class="row">
                    
-                        <span class="col-md-3">Jave File:</span><input type="file" name="java" size="1">
+                        <span class="col-md-3">Jar File:</span><input type="file" name="jar" size="1">
 
                     
                 </div>
@@ -88,6 +88,12 @@
                 <div class="row">
 
                     <span class="col-md-3">Image File:</span><input type="file" name="image" size="1">
+
+
+                </div>
+                <div class="row">
+
+                    <span class="col-md-3">Html File:</span><input type="file" name="html" size="1">
 
 
                 </div>
@@ -142,8 +148,8 @@
             },
             type: "post",
             dataType: "json",
-            beforeSubmit: function (arr, $form, option) {
-               // $("#ProgressModal").modal();
+            beforeSubmit: function () {
+               $("#ProgressModal").modal();
             },
             uploadProgress:function(event, position, total, percent) {
                 console.log(percent);
@@ -153,14 +159,14 @@
             success : function(data){
                 console.log(data);
                 if (data.status != "success") {
-                    alert("error! "+data.error);
-                    //alert("upload failed." + data.error);
-                    //location.href="Project";
+                    //alert("error! "+data.error);
+                    alert("upload failed." + data.error);
+                    location.href="Project";
                  
                 }
                 else {
                     alert("upload success.");
-                    // location.href = "Project";
+                     location.href = "Project";
                 }
 
             },
@@ -236,18 +242,18 @@ $('#evts')
                       $("#HiddenId").get(0).value = arr[1] + "_" + arr[2] + "_" + arr[3] + "_" + arr[4];
                       $("#myModal").modal();
                       $("#student_name").empty();
-                      $("#student_image").empty();
+                    //  $("#student_image").empty();
                       $("#student_programa").empty();
                       $("#student_code").empty();
                       $("#student_description").empty();
                       $("#student_visible").empty();
                       $("#student_name").append("Name:"+data.name);
                       $("#student_description").append("<div>description:</div><textarea>"+data.description+"</textarea>");
-                      $("#student_image").append("<img src='" + data.image + "' style='width:40%;height:100%'>");
+                    //  $("#student_image").append("<img src='" + data.image + "' style='width:40%;height:100%'>");
                       //$("#student_programa").append("<a href='" + data.programa + "'>" + "运行程序" + "</a>");
                       //$("#student_code").append("<a href='/" + data.code + "'>" + "查看代码" + "</a>");
-                      $("#student_programa").append("<a href='/Project/Info?course=" +arr[1]+"&year="+arr[2]+ "&homework="+arr[3]+"&student="+arr[4]+ "'>" + "运行程序" + "</a>");
-                      $("#student_code").append("<a href='/Project/Info?course=" + arr[1] + "&year=" + arr[2] + "&homework=" + arr[3] + "&student=" + arr[4] + "'>" + "查看代码" + "</a>");
+                      $("#student_programa").append("<a href='" + data.programa + "'>" + "运行程序" + "</a>");
+                   //   $("#student_code").append("<a href='/Project/Info?course=" + arr[1] + "&year=" + arr[2] + "&homework=" + arr[3] + "&student=" + arr[4] + "'>" + "查看代码" + "</a>");
                       if (data.visible == 1) {
                           $("#student_visible").append("Status:Visible" );
                       } else {
@@ -319,12 +325,12 @@ $('#evts')
                     <div class="col-md-6">
                         <div id="student_image" >
                         </div>
+                        <div id="student_description">
+                        </div>
                         <input type="hidden" id="HiddenId"/>
                     </div>
                     <div class="col-md-6">
                         <div id="student_name">
-                        </div>
-                        <div id="student_description">
                         </div>
                         <div id="student_programa">
                         </div>

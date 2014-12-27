@@ -22,5 +22,12 @@ namespace exam_aspx.Tests
             var project = model.getAllProject("course1", "2014", "homework1", "x");
             Assert.IsTrue(project.id > 0);
         }
+        [TestMethod]
+        public void TestPrint()
+        {
+            var s = "test";
+            var t = s.Split(',');
+            Console.WriteLine(t[0]);
+        }
     }
 }

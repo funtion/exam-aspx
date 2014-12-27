@@ -159,21 +159,35 @@ namespace exam_aspx.Controllers
                 return Redirect("Login");
             }
             var response = new Dictionary<string, string>();
-            HttpPostedFileBase file = Request.Files.Get("java");
+            HttpPostedFileBase jar = Request.Files.Get("jar");
+            HttpPostedFileBase html = Request.Files.Get("html");
             var baseSavePath = "~/upload/project";
             var savePath = "";
             var imgfilename = "";
-            var javafilename = "";
-            if (file != null)
+            var jarfilename = "";
+            var htmlname = "";
+            var img_url = "";
+            var html_url = "";
+            var jar_url = "";
+            if (html != null)
             {
+                var model = new ProjectModel();
                 HttpPostedFileBase image = Request.Files.Get("image");
-                if (image!=null&&!checkFileExt(image.FileName, "jpg"))
+                if (image!=null&&!checkFileExt(image.FileName, "jpg,gif,png,bmp"))
                 {//检查图片后缀
                     response.Add("status", "failed");
-                    response.Add("error", "only jpg allowed!");
+                    response.Add("error", "only jpg,gif,png,bmp allowed!");
                     return Json(response);
                 }
-                if (checkFileExt(file.FileName, "java"))
+                if (jar != null && !checkFileExt(jar.FileName, "jar"))
+                {//检测jar后缀
+                    response.Add("status", "failed");
+                    response.Add("error", "only jar file allowed!");
+                    return Json(response);
+                }
+
+
+                if (checkFileExt(html.FileName, "html,htm"))
                 {
                     var course = Request.Params["course"];
                     var year = Request.Params["year"];
@@ -184,13 +198,11 @@ namespace exam_aspx.Controllers
                     if (course != null && year != null && homework != null&&student!=null)
                     {
                         savePath = string.Format("{0}/{1}/{2}/{3}/{4}", baseSavePath, course, year, homework,student);
-                        
-
-
+                  
 
                         if (Directory.Exists(Server.MapPath(savePath)))//检查目录是否存在，存在则递归删除目录
                         {
-                            var model = new ProjectModel();
+                            
                             var project = model.getAllProject(course,year,homework,student);
                             if (project.id > 0)  //数据库中存在则删除数据
                             {
@@ -201,7 +213,7 @@ namespace exam_aspx.Controllers
                         Directory.CreateDirectory(Server.MapPath(savePath));
                         //储存图片文件
                         
-                        var img_url = "";
+                       
                         if (image != null)
                         { //是否存在图片，存在则保存图片
                             //img_url = string.Format("{0}/{1}", savePath, image.FileName);
@@ -218,100 +230,56 @@ namespace exam_aspx.Controllers
                             //image.SaveAs(Server.MapPath(img_url));
                         }
 
-                        //储存java文件
-                        if (file.FileName.LastIndexOf('\\') != -1) //IE文件获取文件名
+                        //储存jar文件
+                        
+                        if (jar.FileName.LastIndexOf('\\') != -1) //IE文件获取文件名
                         {
-                            
-                            javafilename = file.FileName.Substring(file.FileName.LastIndexOf('\\')+1, file.FileName.Length - 1 - file.FileName.LastIndexOf('\\'));
+
+                            jarfilename = jar.FileName.Substring(jar.FileName.LastIndexOf('\\') + 1, jar.FileName.Length - 1 - jar.FileName.LastIndexOf('\\'));
 
                         }
                         else
                         {
-                            javafilename = file.FileName;
+                            jarfilename = jar.FileName;
                         }
-                        file.SaveAs(Server.MapPath(string.Format("{0}/{1}", savePath, javafilename)));
-                        //file.SaveAs(Server.MapPath(string.Format("{0}/{1}", savePath, file.FileName)));
-                        try
+                        jar_url = string.Format("{0}/{1}", savePath, jarfilename);
+                        jar.SaveAs(Server.MapPath(jar_url));
+                        
+                       //存储html文件
+                       
+                        if (html.FileName.LastIndexOf('\\') != -1)  //IE文件获取文件名
                         {
-                                var err = "";
-                                //编译java文件
-                                //var buildClass = string.Format("javac {0}/*.java", Server.MapPath(savePath));
-                                Process process = new Process();
-                                process.StartInfo = new ProcessStartInfo();
-                               
-                                process.StartInfo.RedirectStandardInput = true;    
-                                process.StartInfo.RedirectStandardError = true;
-                                process.StartInfo.RedirectStandardOutput = true;
-                                process.StartInfo.WorkingDirectory = Server.MapPath(savePath);
-                                process.StartInfo.FileName = "cmd";
-                                process.StartInfo.UseShellExecute = false;
-
-                                process.Start();
-                                
-                                process.StandardInput.WriteLine("javac *.java");
-                                
-                                process.StandardInput.WriteLine(string.Format("jar cf {0}.jar *.class",javafilename));
-
-                                process.StandardInput.WriteLine("exit");
-                                
-                                try
-                                {
-                                    if (!process.StandardError.EndOfStream)
-                                    {
-                                        err += "\nstderr\n" + process.StandardError.ReadToEnd();
-                                        if (!process.StandardOutput.EndOfStream)
-                                            err += "\nstdout\n" + process.StandardOutput.ReadToEnd();
-                                    }
-                                      
-
-                                }
-                                catch (Exception e)
-                                {
-                                    //ignore it 
-                                }
-
-                                // += Function.Execute(buildClass);
-                                //打包class文件
-                               // var buildJar = string.Format("jar cf {0}/{1}.jar {0}/*.class", Server.MapPath(savePath), file.FileName, Server.MapPath(savePath));
-
-                               // err += Function.Execute(buildJar);
-
-
-                                
-                                
-
-                                if (err != "")
-                                {
-                                    Directory.Delete(Server.MapPath(savePath), true);
-                                    response.Add("status", "failed");
-                                    response.Add("error", "some thing wrong with your code"+err);
-                                    return Json(response);
-                                }
-                                
-                                int defaultVisible = 1;
-                                if(visible!=null){
-                                    defaultVisible = int.Parse(visible);
-                                }
-                                
-                                var model = new ProjectModel();
-                                var jar_url = string.Format("{0}/{1}.jar", savePath, javafilename);
-                                var code_url = string.Format("{0}/{1}", savePath, javafilename);
-                                var row = model.AddProject(course, year, homework, student, code_url, jar_url, img_url, description, defaultVisible);
-                                if (row != 1)
-                                {
-                                    response.Add("status", "failed");
-                                    response.Add("error", "insert error");
-                                }
-                                
-                                
+                            htmlname = html.FileName.Substring(html.FileName.LastIndexOf('\\') + 1, html.FileName.Length - 1 - html.FileName.LastIndexOf('\\'));
                         }
-                        catch (Exception e)
+                        else
                         {
-                            response.Add("status", "failed");
-                            response.Add("error", "some thing wrong with your code:"+e.Message);
-                            return Json(response);
+                            htmlname = html.FileName;
+                        }
+                        html_url = string.Format("{0}/{1}", savePath, htmlname);
+                        html.SaveAs(Server.MapPath(html_url));
+                        
+                        if (visible != null && visible=="0")
+                        {
+                          var row =  model.AddProject(course, year, homework, student, html_url, jar_url, img_url, description,0);
+                          if (row < 1)
+                          {
+                              response.Add("status", "failed");
+                              response.Add("error", "insert error");
+                              return Json(response);
+                          }
+                        }
+                        else
+                        {
+                          var  row = model.AddProject(course, year, homework, student, html_url, jar_url, img_url, description);
+                          if (row < 1)
+                          {
+                              response.Add("status", "failed");
+                              response.Add("error", "insert error");
+                              return Json(response);
+                          }
                         }
 
+                        
 
                         response.Add("status", "success");
                         
@@ -319,7 +287,8 @@ namespace exam_aspx.Controllers
                     else
                     {
                         response.Add("status", "failed");
-                        response.Add("error", "course,year,homework can't be null");
+                        //response.Add("error", "course,year,homework can't be null");
+                        response.Add("error", "only html,htm allowed!");
                     }
                 }
                 else
@@ -332,7 +301,7 @@ namespace exam_aspx.Controllers
             else
             {
                 response.Add("status", "failed");
-                response.Add("error", "no file");
+                response.Add("error", "no html");
             }
             return Json(response);
         }
@@ -414,11 +383,12 @@ namespace exam_aspx.Controllers
             {
                 response.Add("name", data.student);
                 response.Add("description", data.description);
-                var img_url = data.imgUrl.Split('~');
-                response.Add("image", img_url[img_url.Length-1]);
-                var jar_url = data.classFileUrl.Split('~');
+             //   var img_url = data.imgUrl.Split('~');
+             //   response.Add("image", img_url[img_url.Length-1]);
+               // var jar_url = data.classFileUrl.Split('~');
+                var jar_url = data.htmlUrl.Split('~');
                 response.Add("programa", jar_url[jar_url.Length-1]);
-                response.Add("code", string.Format("upload/project/{0}/{1}/{2}/{3}/{4}",course,year,homework,student,data.code));
+             //   response.Add("code", string.Format("upload/project/{0}/{1}/{2}/{3}/{4}",course,year,homework,student,data.code));
                 response.Add("visible",string.Format("{0}",data.visible));
                 response.Add("status", "success");
             }
@@ -1150,14 +1120,21 @@ namespace exam_aspx.Controllers
         public bool checkFileExt(string filename,string valid="docx")
         {
             bool ret = false;
-            
+            var check = valid.Split(',');
             if (filename.LastIndexOf(".") > 0 && filename.LastIndexOf(".") < filename.Length-1)
             {
                var  ext = filename.Substring(filename.LastIndexOf(".") + 1, filename.Length - 1 -filename.LastIndexOf("."));
-               
-               if (ext == valid)
+
+               //if (ext == valid)
+               //{
+               //    ret = true;
+               //}
+               for (int i = 0; i < check.Length; i++)
                {
-                   ret = true;
+                   if (ext == check[i])
+                   {
+                       ret = true;
+                   }
                }
             }
 

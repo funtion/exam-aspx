@@ -8,7 +8,7 @@ namespace exam_aspx.Models
 {
     public class ProjectModel :BaseModel
     {
-        const int ID = 0, COURSE = 1, YEAR = 2, HOMEWORK = 3, IMG_URL = 4, DESCRIPTION = 5, CLASS_FILE_URL=6,CODE = 7, STUDENT = 8,VISIBLE = 9;
+        const int ID = 0, COURSE = 1, YEAR = 2, HOMEWORK = 3, IMG_URL = 4, DESCRIPTION = 5, CLASS_FILE_URL=6, STUDENT = 7,VISIBLE = 8,HTML_URL = 9;
         public string[] getAllCources()
         {
             var sql = buildCommand("select distinct course from project ");
@@ -112,10 +112,10 @@ namespace exam_aspx.Models
                     imgUrl = reader.GetString(IMG_URL),
                     description = reader.GetString(DESCRIPTION),
                     classFileUrl = reader.GetString(CLASS_FILE_URL),
-                    code = reader.GetString(CODE),
-                    
+                    //code = reader.GetString(CODE),
                     student = reader.GetString(STUDENT),
-                    visible = reader.GetInt32(VISIBLE)
+                    visible = reader.GetInt32(VISIBLE),
+                    htmlUrl = reader.GetString(HTML_URL)
                 };
                 
                 
@@ -145,15 +145,15 @@ namespace exam_aspx.Models
             return sql.ExecuteNonQuery();
         }
 
-        public int AddProject(string course,string year,string homework,string student,string code,string class_file_url,string img_url,string description,int visible=1)
+        public int AddProject(string course,string year,string homework,string student,string html_url,string class_file_url,string img_url,string description,int visible=1)
         {
             int ret = -1;
-            var sql = buildCommand("insert into  project(course,year,homework,student,code,class_file_url,img_url,description,visible) values (?,?,?,?,?,?,?,?,?)");
+            var sql = buildCommand("insert into  project(course,year,homework,student,html_url,class_file_url,img_url,description,visible) values (?,?,?,?,?,?,?,?,?)");
             sql.AddVarcharParam("course", course);
             sql.AddVarcharParam("year", year);
             sql.AddVarcharParam("homework", homework);
             sql.AddVarcharParam("student", student);
-            sql.AddVarcharParam("code", code);
+            sql.AddVarcharParam("html_url", html_url);
             sql.AddVarcharParam("class_file_url", class_file_url);
             sql.AddVarcharParam("img_url", img_url);
             sql.AddVarcharParam("description", description);
