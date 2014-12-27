@@ -113,6 +113,10 @@ namespace exam_aspx.Controllers
         [HttpPost]
         public ActionResult AddTitleAndSubtitle()
         {
+            if (loginStatus() == false)
+            {
+                return Redirect("Login");
+            }
             var response = new Dictionary<string, string>();
             var title = Request.Params["title"];
             var subtitle = Request.Params["subtitle"];
@@ -254,19 +258,21 @@ namespace exam_aspx.Controllers
                         }
 
                         //储存jar文件
-                        
-                        if (jar.FileName.LastIndexOf('\\') != -1) //IE文件获取文件名
+                        if (jar != null)
                         {
+                            if (jar.FileName.LastIndexOf('\\') != -1) //IE文件获取文件名
+                            {
 
-                            jarfilename = jar.FileName.Substring(jar.FileName.LastIndexOf('\\') + 1, jar.FileName.Length - 1 - jar.FileName.LastIndexOf('\\'));
+                                jarfilename = jar.FileName.Substring(jar.FileName.LastIndexOf('\\') + 1, jar.FileName.Length - 1 - jar.FileName.LastIndexOf('\\'));
 
+                            }
+                            else
+                            {
+                                jarfilename = jar.FileName;
+                            }
+                            jar_url = string.Format("{0}/{1}", savePath, jarfilename);
+                            jar.SaveAs(Server.MapPath(jar_url));
                         }
-                        else
-                        {
-                            jarfilename = jar.FileName;
-                        }
-                        jar_url = string.Format("{0}/{1}", savePath, jarfilename);
-                        jar.SaveAs(Server.MapPath(jar_url));
                         
                        //存储html文件
                        
@@ -410,7 +416,7 @@ namespace exam_aspx.Controllers
              //   response.Add("image", img_url[img_url.Length-1]);
                // var jar_url = data.classFileUrl.Split('~');
                 var jar_url = data.htmlUrl.Split('~');
-                response.Add("programa  ", jar_url[jar_url.Length-1]);
+                response.Add("programa", jar_url[jar_url.Length-1]);
              //   response.Add("code", string.Format("upload/project/{0}/{1}/{2}/{3}/{4}",course,year,homework,student,data.code));
                 response.Add("visible",string.Format("{0}",data.visible));
                 response.Add("status", "success");
