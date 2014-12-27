@@ -17,15 +17,16 @@
             <div id="pad20">
                 <div class="cols3 column">
                     <hr />
+
                     <div>
-                        <h1>Course Description</h1>
+                        <h1><a href="/Student/Announcement">Course Description</a></h1>
                         <table class="fullwidth" cellpadding="0" cellspacing="0" border="0">
                             @foreach (AnnouncementEntity data in ViewBag.announcement)
                             {
 
                                 <tr>
                                     <td>
-                                        <a href="/Student/AnnouncementDetail/@data.id" title="@data.title" class="tooltip">@data.title</a>
+                                        <p href="/Student/AnnouncementDetail/@data.id" title="@data.title" class="tooltip">@data.title</p>
                                     </td>
                                     
                                     <td>
@@ -37,12 +38,15 @@
                             }
                         </table>
    
-                        <input type="button" value="more" class="button" style="float:right">
+                        @*<input type="button" value="more" class="button" style="float:right">*@
+
 
                     </div>
+
+
                     <hr />
                     <div>
-                        <h1>Available Exams</h1>
+                        <h1><a href="/Student/Exam">Available Exams</a></h1>
                         <table class="fullwidth" cellpadding="0" cellspacing="0" border="0">
                             <thead>
                                 <tr>
@@ -61,11 +65,13 @@
                                 }
                             </tbody>
                         </table>
-                        <input type="button" value="more" class="button" style="float:right">
+                        @*<input type="button" value="more" class="button" style="float:right">*@
                     </div>
+
+
                     <hr />
                     <div>
-                        <h1>Available Documents</h1>
+                        <h1><a href="/Student/File">Available Documents</a></h1>
                         <table class="fullwidth" cellpadding="0" cellspacing="0" border="0">
 
                             <thead>
@@ -87,7 +93,7 @@
                                 }
                             </tbody>
                         </table>
-                        <input type="button" value="more" class="button" style="float:right">
+                        @*<input type="button" value="more" class="button" style="float:right">*@
                     </div>
                     <hr />
                 </div>
