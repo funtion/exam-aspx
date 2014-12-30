@@ -65,28 +65,33 @@ namespace exam_aspx.Controllers
             string student = Request.Params[STUDENT];
             
             var project  = model.getAllProject(course, year, homeork, student);
-            if (project.imgUrl.LastIndexOf('~')!=-1)
-            {
-                var tmp = project.imgUrl.Split('~');
-                project.imgUrl = tmp[tmp.Length - 1];
-
-            }
-            ViewBag.data = project;
-            string jar = ViewBag.data.classFileUrl;
-
-            var mainClass = jar.Split('/');
-            var actualName = mainClass[mainClass.Length - 1];
-            ViewBag.MainClass = actualName.Split('.')[0];
-
-            //ViewBag.MainClass = jar.Substring(0, jar.Length - 3) + "class";
-            
-            string codepath = ViewBag.data.code;
-            codepath = Server.MapPath(codepath);
-
-            ViewBag.data.codetext = System.IO.File.ReadAllText(codepath);
-            //ViewBag.MainClass = codepath.Replace(".java","").Replace(@"\", ".");
-
+            var url = project.htmlUrl;
+            ViewBag.url = url;
             return View();
+            //return Redirect(url);
+
+            //if (project.imgUrl.LastIndexOf('~')!=-1)
+            //{
+            //    var tmp = project.imgUrl.Split('~');
+            //    project.imgUrl = tmp[tmp.Length - 1];
+
+            //}
+            //ViewBag.data = project;
+            //string jar = ViewBag.data.classFileUrl;
+
+            //var mainClass = jar.Split('/');
+            //var actualName = mainClass[mainClass.Length - 1];
+            //ViewBag.MainClass = actualName.Split('.')[0];
+
+            ////ViewBag.MainClass = jar.Substring(0, jar.Length - 3) + "class";
+            
+            //string codepath = ViewBag.data.code;
+            //codepath = Server.MapPath(codepath);
+
+            //ViewBag.data.codetext = System.IO.File.ReadAllText(codepath);
+            ////ViewBag.MainClass = codepath.Replace(".java","").Replace(@"\", ".");
+
+            //return View();
         }
     }
 }
